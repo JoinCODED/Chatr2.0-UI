@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
+import { withRouter } from "react-router-dom";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +19,10 @@ class AuthButton extends Component {
 
     if (authStore.isLoggedIn) {
       buttons = (
-        <li className="nav-item">
+        <li
+          className="nav-item"
+          onClick={() => this.props.history.push("/welcome")}
+        >
           <a
             className="nav-link"
             data-toggle="modal"
@@ -56,4 +60,4 @@ class AuthButton extends Component {
   }
 }
 
-export default observer(AuthButton);
+export default withRouter(observer(AuthButton));

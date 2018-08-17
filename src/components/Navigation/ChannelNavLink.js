@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
+import channelStore from "../../stores/channelStore";
 
 class ChannelNavLink extends Component {
   render() {

@@ -1,11 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { observer } from "mobx-react";
 
 // Components
 import SideNav from "./SideNav";
 import AuthButton from "./AuthButton";
 
+import authStore from "../../stores/authStore";
+
 class NavBar extends Component {
+  isLoggedIn() {
+    if (authStore.isLoggedIn) {
+      return <SideNav />;
+    }
+  }
   render() {
     return (
       <nav
@@ -27,7 +35,7 @@ class NavBar extends Component {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="navbarResponsive">
-          <SideNav />
+          {this.isLoggedIn()}
           <AuthButton />
         </div>
       </nav>
@@ -35,4 +43,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default observer(NavBar);
