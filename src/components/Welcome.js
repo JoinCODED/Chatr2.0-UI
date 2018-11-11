@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 class Welcome extends Component {
   render() {
+    if (this.props.user) {
+      return <Redirect to="/private" />;
+    }
     return (
       <header className="masthead d-flex">
         <div className="container text-center my-auto z-1">
@@ -20,4 +24,8 @@ class Welcome extends Component {
   }
 }
 
-export default Welcome;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps)(Welcome);
