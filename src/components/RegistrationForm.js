@@ -15,7 +15,14 @@ class RegistationForm extends Component {
     this.changeHandler = this.changeHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
   }
-
+  componentWillUnmount() {
+    this.props.setErrors();
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params !== prevProps.match.params) {
+      this.props.setErrors();
+    }
+  }
   changeHandler(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -28,7 +35,7 @@ class RegistationForm extends Component {
   }
 
   render() {
-    const { username, password } = this.state;
+    // const { username, password } = this.state;
 
     const type = this.props.match.url.substring(1);
     if (this.props.user) {
@@ -109,7 +116,8 @@ const mapDispatchToProps = dispatch => {
   return {
     login: (form, history) => dispatch(actionCreators.login(form, history)),
     signup: (form, history) => dispatch(actionCreators.signup(form, history)),
-    checkToken: () => dispatch(actionCreators.checkForExpiredToken())
+    checkToken: () => dispatch(actionCreators.checkForExpiredToken()),
+    setErrors: () => dispatch(actionCreators.setErrors())
   };
 };
 export default connect(

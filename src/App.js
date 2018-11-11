@@ -11,9 +11,6 @@ import SuperSecretPage from "./components/SuperSecretPage";
 import * as actionCreators from "./store/actions/index";
 import { connect } from "react-redux";
 class App extends Component {
-  componentDidMount() {
-    this.props.checkToken();
-  }
   render() {
     return (
       <div className="content-wrapper">
