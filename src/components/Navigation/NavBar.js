@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { connect } from "react-redux";
 // Components
 import SideNav from "./SideNav";
 import AuthButton from "./AuthButton";
@@ -27,12 +27,15 @@ class NavBar extends Component {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="navbarResponsive">
-          <SideNav />
+          {this.props.user && <SideNav />}
           <AuthButton />
         </div>
       </nav>
     );
   }
 }
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
 
-export default NavBar;
+export default connect(mapStateToProps)(NavBar);
