@@ -9,10 +9,17 @@ import {
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
 
+
+import { connect } from "react-redux";
+
+import * as actionCreators from "../../store/actions/index";
+
+
 class AuthButton extends Component {
   render() {
-    // const { user } = this.props;
-    const user = { username: "Mr Potato" };
+    const { user } = this.props;
+    console.log("zerodebug => user logged in: ", user)
+    // const user = { username: "Mr Potato" };
     let buttons = (
       <li className="nav-item">
         <span className="nav-link">
@@ -38,11 +45,26 @@ class AuthButton extends Component {
 
     return (
       <ul className="navbar-nav ml-auto">
-        <span className="navbar-text">{user.username}</span>
+        <span className="navbar-text">{user ? user.username : ""}</span>
         {buttons}
       </ul>
     );
   }
 }
 
-export default AuthButton;
+
+
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+
+// const mapDispatchToProps = dispatch => {
+//   return {};
+// };
+
+export default connect(
+  mapStateToProps
+)(AuthButton);
