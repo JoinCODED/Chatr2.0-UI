@@ -1,32 +1,44 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import * as actionCreators from "../store/actions";
+import { connect } from "react-redux";
 
 class RegistationForm extends Component {
   state = {
     username: "",
     password: ""
   };
+  componentDidMount() {
+    if (this.props.user) {
+      this.props.history.push("/welcome")
+    }
+  }
 
   changeHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  submitHandler = e => {
+  submitHandler = (e, type) => {
     e.preventDefault();
-    alert("I don't work yet");
+    if (type === "signup") {
+      this.props.signup(this.state, this.props.history);
+    } else {
+      this.props.login(this.state, this.props.history);
+    }
   };
 
   render() {
     const type = this.props.match.url.substring(1);
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
-        <div className="card-body">
+        <div className="card-body" >
+
           <h5 className="card-title mb-4">
             {type === "login"
               ? "Login to send messages"
               : "Register an account"}
           </h5>
-          <form onSubmit={this.submitHandler}>
+          <form onSubmit={event => this.submitHandler(event, type)}>
             <div className="form-group">
               <input
                 className="form-control"
@@ -66,5 +78,17 @@ class RegistationForm extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => ({
+  login: (userData, history) =>
+    dispatch(actionCreators.login(userData, history)),
+  signup: (userData, history) =>
+    dispatch(actionCreators.signup(userData, history))
+});
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
 
-export default RegistationForm;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegistationForm);

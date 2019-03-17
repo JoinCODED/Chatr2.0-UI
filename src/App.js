@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { checkForExpiredToken } from "./store/actions/authentication";
+import * as actionCreators from "./store/actions";
+import { connect } from "react-redux";
+
 
 // Scripts
 import main from "./assets/js/main";
@@ -32,5 +36,16 @@ class App extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken()),
+  };
+};
 
-export default App;
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(App)
+);
+
