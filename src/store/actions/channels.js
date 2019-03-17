@@ -73,3 +73,29 @@ export const postChannel = (newCh) => {
 		}
 	}
 };
+
+
+export const postMsg = (msg, chID) => {
+	console.log(msg)
+	return async dispatch => {
+		try {
+			console.log("New msg sent: ", msg)
+			console.log("chID: ", chID)
+
+			let response = await instance.post(`/channels/${chID}/send/`, msg);
+			
+			let newMsg = response.data;
+
+			dispatch({
+				type: actionTypes.POST_MSG,
+				payload: newMsg,
+			})
+
+			dispatch(getChannel(chID))
+
+		} catch (error) {
+			dispatch(setErrors(error))
+			console.error(error.response.data);
+		}
+	}
+};

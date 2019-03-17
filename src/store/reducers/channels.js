@@ -2,7 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   channelsObj: [],
-  chObj: []
+  chObj: [],
+  msg: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,10 +20,16 @@ const reducer = (state = initialState, action) => {
         channelsObj: [...state.channelsObj, action.payload]
       }
 
-      case actionTypes.GET_CHANNEL:
+    case actionTypes.GET_CHANNEL:
       return {
         ...state,
         chObj: action.payload
+      }
+
+    case actionTypes.POST_MSG:
+      return {
+        ...state,
+        msg: action.payload
       }
 
     default:

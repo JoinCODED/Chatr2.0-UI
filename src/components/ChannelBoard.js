@@ -7,26 +7,54 @@ const ColoredLine = color => (
 		style={{
 			color: color,
 			backgroundColor: color,
-			height: 5
+			height: 5,
+			borderRadius: "20px",
 		}}
 	/>
 );
 
 class ChannelBoard extends Component {
+	state = {
+		message: ""
+	} 
+
+
+	currentChID = this.props.match.params.channelID;
+
 	componentDidMount() {
-		let chID = this.props.match.params.channelID;
-		this.props.getChannel(chID);
+		// let chID = this.props.match.params.channelID;
+		this.props.getChannel(this.currentChID);
 	}
+	
 	componentDidUpdate(prevState) {
-		let currentChID = this.props.match.params.channelID;
-		if (prevState.match.params.channelID !== currentChID) {
-			this.props.getChannel(currentChID);
+		// let this.currentChID = this.props.match.params.channelID;
+		if (prevState.match.params.channelID !== this.currentChID) {
+			this.props.getChannel(this.currentChID);
 		}
 	}
+
+	componentWillMount() {
+		console.log("ChannelBoard => componentWillMount")
+	}
+
+	textChangeHandler = event => {
+		this.setState({ message: event.target.value });
+	}
+
+	submitMsg = (event) => {
+		event.preventDefault();
+		console.log("zerodebug => submitMsg: ", this.state.message)
+		console.log("zerodebug => this.currentChID: ", this.currentChID)
+		this.props.postMsg(this.state, this.currentChID)
+		this.setState({message: ""})
+	} 
 	render() {
+
+		let msgs = <p> No messages yet... </p>;
+
 		if (this.props.chObj.length !== 0) {
 			let chObj = this.props.chObj;
-			let msgs = chObj.map(msg => {
+			msgs = chObj.map(msg => {
 				return (
 					<div className="mx-4" key={msg.id}>
 						<h4>
@@ -35,17 +63,63 @@ class ChannelBoard extends Component {
 						<p>
 							{msg.message}
 							<br />
-							<small>{msg.timestamp}</small>
+							<small className="border-bottom">
+								{msg.timestamp}
+							</small>
 						</p>
-						{ColoredLine("black")}
+						{ColoredLine("#AE4432")}
 					</div>
 				);
 			});
 
-			return <div>{msgs}</div>;
-		} else {
-			return <p> No messages yet... </p>;
 		}
+
+		return (
+
+			<div className="container">
+				{msgs}
+
+				<form
+				className="my-5" 
+				onSubmit={this.submitMsg}>
+					
+					{/* handling error (impl later)
+						!!errors.length && (
+						<div className="alert alert-danger" role="alert">
+							{errors.map(error => (
+								<p key={error}>{error}</p>
+							))}
+						</div>
+					)*/}
+
+					<div className="input-group mb-3 my-4">
+					  <input
+					  	type="text" 
+					  	className="form-control" 
+					  	placeholder="Your message..." 
+					  	name="message"
+					  	value={this.state.message}
+						onChange={this.textChangeHandler}
+						/>
+
+					  <div className="input-group-append">
+					    <button 
+					    className="btn btn-outline-secondary" 
+					    type="button" 
+					    id="button-addon2"
+					    onClick={this.submitMsg}>
+					    	Send
+					    </button>
+					  </div>
+					
+					</div>
+					{
+						//<input type="submit" />
+					}
+				</form>
+			</div>
+		)
+
 	}
 }
 
@@ -57,7 +131,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		getChannel: ch => dispatch(actionCreators.getChannel(ch))
+		getChannel: chID => dispatch(actionCreators.getChannel(chID)),
+		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
 	};
 };
 
