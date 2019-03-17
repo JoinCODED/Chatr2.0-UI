@@ -22,10 +22,11 @@ class App extends Component {
   componentDidMount() {
     main();
     this.props.checkForExpiredToken()
+    this.props.getAllChannels()
   }
 
   render() {
-    
+
     return (
       <div className="content-wrapper">
         <NavBar />
@@ -43,7 +44,8 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken())
+    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken()),
+    getAllChannels: () => dispatch(actionCreators.getAllChannels()),
   };
 };
 
