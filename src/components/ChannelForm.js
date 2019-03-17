@@ -1,82 +1,78 @@
 import React, { Component } from "react";
+import logo from "../assets/images/logo.png";
+
+// Fontawesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 
 import * as actionCreators from "../store/actions/index";
 
-
 class ChannelForm extends Component {
-	state = {
-		name: "",
-		image_url: "",
-	};
+  state = {
+    name: "",
+    image_url: ""
+  };
 
-	textChangeHandler = event => {
-		this.setState({ [event.target.name]: event.target.value });
-	}
+  textChangeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-	submitChannel = event => {
-		event.preventDefault();
-		console.log("zerodebug => submitChannel: ", this.state)
-		this.props.postChannel(this.state);
-	};
+  submitChannel = event => {
+    event.preventDefault();
+    console.log("zerodebug => submitChannel: ", this.state);
+    this.props.postChannel(this.state);
+  };
 
-	render() {
-		// const errors = this.props.errors;
+  render() {
+    // const errors = this.props.errors;
 
-		return (
-			<div className="mt-5 p-2">
-				<form onSubmit={this.submitChannel}>
-					
-					{/* handling error (impl later)
-						!!errors.length && (
-						<div className="alert alert-danger" role="alert">
-							{errors.map(error => (
-								<p key={error}>{error}</p>
-							))}
-						</div>
-					)*/}
+    return (
+      <div className="row my-4">
+        <div className="col-12 text-center">
+          <h4>Create a new channel</h4>
 
-					<div className="input-group mb-3">
-						<div className="input-group-prepend">
-							<span className="input-group-text">
-								Channel Name
-							</span>
-						</div>
-						<input
-							type="text"
-							className="form-control"
-							name="name"
-							onChange={this.textChangeHandler}
-						/>
-					</div>
-
-					<div className="input-group mb-3">
-						<div className="input-group-prepend">
-							<span className="input-group-text">
-								Image URL
-							</span>
-						</div>
-						<input
-							type="text"
-							className="form-control"
-							name="image_url"
-							onChange={this.textChangeHandler}
-						/>
-					</div>
-
-					<input type="submit" />
-				</form>
-			</div>
-		);
-	}
+          <div className="card mx-auto p-0 mt-5 form-format">
+            <div className="card-body my-3">
+              <form onSubmit={this.submitChannel}>
+                <div className="form-group">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Channel Name"
+                    name="name"
+                    onChange={this.textChangeHandler}
+                  />
+                  <i class="sicon-user text-muted text-bottom" />
+                </div>
+                <div className="form-group my-4 ">
+                  <input
+                    className="form-control form-field-format"
+                    type="text"
+                    placeholder="Image URL"
+                    name="image_url"
+                    onChange={this.textChangeHandler}
+                  />
+                </div>
+                <input
+                  className="btn btn-light btn-block button-color"
+                  type="submit"
+                  value="Create"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
-
 
 const mapDispatchToProps = dispatch => {
   return {
     postChannel: newCh => dispatch(actionCreators.postChannel(newCh))
-  }
+  };
 };
 
 export default connect(

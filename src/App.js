@@ -18,30 +18,29 @@ import { connect } from "react-redux";
 
 import * as actionCreators from "./store/actions/index";
 
-
-
 class App extends Component {
   componentDidMount() {
     main();
-    this.props.checkForExpiredToken()
-    this.props.getAllChannels()
+    this.props.checkForExpiredToken();
+    this.props.getAllChannels();
   }
 
   render() {
-
     return (
-      <div className="content-wrapper">
-        <NavBar />
-        <Switch>
-          <Route path="/welcome" component={Welcome} />
-          <Route path="/(login|signup)" component={RegistrationForm} />
-          <PrivateRoute path="/private" component={SuperSecretPage} />
-          <PrivateRoute 
-          path="/channels/:name"
-          component={ChannelBoard} />
-          <PrivateRoute path="/createChannel" component={ChannelForm} />
-          <Redirect to="/welcome" />
-        </Switch>
+      <div className="container">
+        <div className="row my-4">
+          <NavBar />
+          <div className="col-8 content">
+            <Switch>
+              <Route path="/welcome" component={Welcome} />
+              <Route path="/(login|signup)" component={RegistrationForm} />
+              <PrivateRoute path="/private" component={SuperSecretPage} />
+              <PrivateRoute path="/channels/:name" component={ChannelBoard} />
+              <PrivateRoute path="/createChannel" component={ChannelForm} />
+              <Redirect to="/login" />
+            </Switch>
+          </div>
+        </div>
         <Footer />
       </div>
     );
@@ -51,7 +50,7 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken()),
-    getAllChannels: () => dispatch(actionCreators.getAllChannels()),
+    getAllChannels: () => dispatch(actionCreators.getAllChannels())
   };
 };
 
@@ -61,4 +60,3 @@ export default withRouter(
     mapDispatchToProps
   )(App)
 );
-
