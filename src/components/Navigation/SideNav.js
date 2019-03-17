@@ -8,22 +8,28 @@ import {
   faAngleDoubleRight,
   faPlusCircle
 } from "@fortawesome/free-solid-svg-icons";
+import { connect } from "react-redux";
+
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
 
 class SideNav extends React.Component {
   state = { collapsed: false };
-
-  render() {
-    const channelLinks = [{ name: "all" }].map(channel => (
+  gitChannels = () => {
+    if (this.props.user){
+    return this.props.channels.map(channel => (
       <ChannelNavLink key={channel.name} channel={channel} />
     ));
+    }
+  }
+  render() {
+    const channelLinks = this.gitChannels()
     return (
       <div>
         <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
           <li className="nav-item" data-toggle="tooltip" data-placement="right">
-            <Link className="nav-link heading" to="/createChannel">
+            <Link className="nav-link heading" to="/CreateChannelForm">
               <span className="nav-link-text mr-2">Channels</span>
               <span style={{fontSize: '23px'}}><FontAwesomeIcon icon={faPlusCircle} /></span>
             </Link>
@@ -51,6 +57,11 @@ class SideNav extends React.Component {
     );
   }
 }
-
-export default SideNav;
+const mapStateToProps = state => {
+  return { 
+    channels: state.channels.channels,
+    user: state.auth.user
+  };
+};
+export default connect(mapStateToProps)(SideNav);
 

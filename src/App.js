@@ -13,10 +13,14 @@ import PrivateRoute from "./components/PrivateRoute";
 import Welcome from "./components/Welcome";
 import RegistrationForm from "./components/RegistrationForm";
 import SuperSecretPage from "./components/SuperSecretPage";
+import Channel from "./components/Channel";
+import Messages from "./components/Messages";
+import CreateChannelForm from "./components/ChannelForm"
 
 class App extends Component {
   componentDidMount() {
     this.props.checkForExpiredToken();
+    this.props.fetchChannels()
     main();
   }
 
@@ -27,8 +31,11 @@ class App extends Component {
         <Switch>
           <Route path="/welcome" component={Welcome} />
           <Route path="/(login|signup)" component={RegistrationForm} />
+          <Route path="/channel/:channel" component={Channel}/>
+          <Route path="/channel/:channelId/messages" component={Messages}/>
+          <Route path="/CreateChannelForm" component={CreateChannelForm}/>
           <PrivateRoute path="/private" component={SuperSecretPage} />
-          <Redirect to="/welcome" />
+          <Redirect to="/login" />
         </Switch>
         <Footer />
       </div>
@@ -37,7 +44,8 @@ class App extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken())
+    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken()),
+    fetchChannels: () => dispatch(actionCreators.fetchChannels()),
   };
 };
 export default withRouter(

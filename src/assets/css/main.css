@@ -73,6 +73,7 @@ body.fixed-nav {
 }
 #mainNav .navbar-sidenav{
     background-color: #008B8B !important; 
+    overflow: scroll !important;
 
 }
 .navbar-sidenav{
@@ -697,3 +698,4 @@ footer.sticky-footer {
     width: calc(100% - 55px);
   }
 }
+

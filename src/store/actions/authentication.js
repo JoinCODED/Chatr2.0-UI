@@ -3,10 +3,9 @@ import jwt_decode from "jwt-decode";
 
 import * as actionTypes from "./actionTypes";
 
-import { setErrors } from "./errors";
 
 const instance = axios.create({
-  baseURL: "https://api-chatr.herokuapp.com/"
+  baseURL: "http://private-chatr.herokuapp.com"
 });
 
 const setAuthToken = token => {
