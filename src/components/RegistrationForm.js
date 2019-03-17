@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import { connect } from "react-redux";
+
+import * as actionCreators from "../store/actions/index";
+
+
+
 class RegistationForm extends Component {
   state = {
     username: "",
@@ -11,18 +17,25 @@ class RegistationForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+
   submitHandler = e => {
+    const urlType = this.props.match.url.substring(1); 
     e.preventDefault();
-    alert("I don't work yet");
+    if (urlType === "login") {
+      return this.props.login(this.state, this.props.history)
+    }
+    this.props.signup(this.state, this.props.history)
   };
 
+  
   render() {
-    const type = this.props.match.url.substring(1);
+    const urlType = this.props.match.url.substring(1); 
+
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">
           <h5 className="card-title mb-4">
-            {type === "login"
+            {urlType === "login"
               ? "Login to send messages"
               : "Register an account"}
           </h5>
@@ -48,16 +61,16 @@ class RegistationForm extends Component {
             <input
               className="btn btn-primary"
               type="submit"
-              value={type.replace(/^\w/, c => c.toUpperCase())}
+              value={urlType.replace(/^\w/, c => c.toUpperCase())}
             />
           </form>
         </div>
         <div className="card-footer">
           <Link
-            to={type === "login" ? "/signup" : "/login"}
+            to={urlType === "login" ? "/signup" : "/login"}
             className="btn btn-small btn-link"
           >
-            {type === "login"
+            {urlType === "login"
               ? "register an account"
               : "login with an existing account"}
           </Link>
@@ -67,4 +80,16 @@ class RegistationForm extends Component {
   }
 }
 
-export default RegistationForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (userData, history) =>
+      dispatch(actionCreators.login(userData, history)),
+    signup: (userData, history) =>
+      dispatch(actionCreators.signup(userData, history)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(RegistationForm);
