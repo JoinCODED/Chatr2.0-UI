@@ -28,3 +28,25 @@ export const getAllChannels = () => {
 		}
 	}
 };
+
+
+export const postChannel = (newCh) => {
+	return async dispatch => {
+		try {
+			console.log("New channel obj: ", newCh)
+			let response = await instance.post("/channels/create/", newCh);
+			
+			let newChObj = response.data;
+
+			console.log("zerodebug => channels action => postChannel => res.data: ", newChObj)
+			dispatch({
+				type: actionTypes.POST_CHANNEL,
+				payload: newChObj,
+			})
+
+		} catch (error) {
+			dispatch(setErrors(error))
+			console.error(error.response.data);
+		}
+	}
+};
