@@ -13,7 +13,7 @@ class NavBar extends Component {
         id="mainNav"
       >
         <Link className="navbar-brand" to="/welcome">
-          Chatr2.0
+          Chat Project
         </Link>
         <button
           className="navbar-toggler navbar-toggler-right"
