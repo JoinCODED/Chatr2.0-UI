@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngleLeft,
-  faAngleRight,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
   faPlusCircle
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,7 +25,7 @@ class SideNav extends React.Component {
           <li className="nav-item" data-toggle="tooltip" data-placement="right">
             <Link className="nav-link heading" to="/createChannel">
               <span className="nav-link-text mr-2">Channels</span>
-              <FontAwesomeIcon icon={faPlusCircle} />
+              <span style={{fontSize: '23px'}}><FontAwesomeIcon icon={faPlusCircle} /></span>
             </Link>
           </li>
           {channelLinks}
@@ -41,9 +41,9 @@ class SideNav extends React.Component {
                 }))
               }
             >
-              <FontAwesomeIcon
-                icon={this.state.collapsed ? faAngleRight : faAngleLeft}
-              />
+              <span style={{fontSize:"23px"}}><FontAwesomeIcon
+                icon={this.state.collapsed ? faAngleDoubleRight : faAngleDoubleLeft}
+              /></span>
             </span>
           </li>
         </ul>
@@ -53,3 +53,4 @@ class SideNav extends React.Component {
 }
 
 export default SideNav;
+

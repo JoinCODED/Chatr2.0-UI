@@ -11,8 +11,8 @@ import {
 
 class AuthButton extends Component {
   render() {
-    // const { user } = this.props;
-    const user = { username: "Mr Potato" };
+     //const { user } = this.props;
+    const user = {username: "Fahad"} ;
     let buttons = (
       <li className="nav-item">
         <span className="nav-link">
@@ -38,7 +38,7 @@ class AuthButton extends Component {
 
     return (
       <ul className="navbar-nav ml-auto">
-        <span className="navbar-text">{user.username}</span>
+        <span className="navbar-text">{user && user.username }</span>
         {buttons}
       </ul>
     );

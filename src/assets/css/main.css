@@ -1,3 +1,4 @@
+
 html {
   position: relative;
   min-height: 100%;
@@ -65,14 +66,30 @@ body.fixed-nav {
 .z-1 {
   z-index: 1;
 }
+#mainNav{
+  background-color: #20B2AA !important; 
 
+
+}
+#mainNav .navbar-sidenav{
+    background-color: #008B8B !important; 
+
+}
+.navbar-sidenav{
+  font-size: 15px !important;
+
+}
 #mainNav .navbar-collapse {
   overflow: auto;
   max-height: 75vh;
+  margin-bottom: -1px;
 }
-
+#mainNav .navbar-collapse .navbar-nav .navbar-text{
+  color: white !important;
+}
 #mainNav .navbar-collapse .navbar-nav .nav-item .nav-link {
   cursor: pointer;
+  color: white !important;
 }
 
 #mainNav .navbar-collapse .navbar-sidenav .nav-link-collapse:after {
@@ -125,7 +142,7 @@ body.fixed-nav {
   width: auto;
   content: "\f105";
   border: none;
-  font-family: "FontAwesome";
+  font-family: "Shadows Into Light";
 }
 
 #mainNav
@@ -137,7 +154,7 @@ body.fixed-nav {
   position: absolute;
   top: 5px;
   left: 21px;
-  font-size: 10px;
+  font-size: 50px;
 }
 
 #mainNav
@@ -162,7 +179,10 @@ body.fixed-nav {
 
 @media (min-width: 992px) {
   #mainNav .navbar-brand {
-    width: 250px;
+    width: 280px;
+    font-family: 'Shadows Into Light';
+    font-size: 50px;
+    height: 100px;
   }
   #mainNav .navbar-collapse {
     overflow: visible;
@@ -170,7 +190,7 @@ body.fixed-nav {
   }
   #mainNav .navbar-collapse .navbar-sidenav {
     position: absolute;
-    top: 0;
+    top: 2;
     left: 0;
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
@@ -259,6 +279,7 @@ body.fixed-nav {
   display: none;
 }
 
+
 @media (min-width: 992px) {
   #mainNav.fixed-top .navbar-sidenav {
     height: calc(100vh - 112px);
@@ -283,15 +304,15 @@ body.fixed-nav {
 }
 
 #mainNav.fixed-top.navbar-dark .sidenav-toggler {
-  background-color: #212529;
+  background-color: #696969 !important;
 }
 
 #mainNav.fixed-top.navbar-dark .sidenav-toggler a i {
-  color: #adb5bd;
+  color: white;
 }
 
 #mainNav.fixed-top.navbar-light .sidenav-toggler {
-  background-color: #dee2e6;
+  background-color: #D3D3D3 ;
 }
 
 #mainNav.fixed-top.navbar-light .sidenav-toggler a i {
@@ -388,12 +409,13 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
 }
 
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav .nav-link-collapse:after {
-  color: #868e96;
+  color: white !important;
 }
 
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
   transition: all 0.2s ease-out;
-  color: #868e96;
+  color: white !important;
+
 }
 
 #mainNav.navbar-dark

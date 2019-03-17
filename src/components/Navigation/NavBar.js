@@ -12,8 +12,8 @@ class NavBar extends Component {
         className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
         id="mainNav"
       >
-        <Link className="navbar-brand" to="/welcome">
-          Chatr2.0
+      <Link className="navbar-brand" to="/welcome">    
+          Chatr
         </Link>
         <button
           className="navbar-toggler navbar-toggler-right"

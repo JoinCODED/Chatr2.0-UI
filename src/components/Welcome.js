@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class Welcome extends Component {
   render() {
     return (
-      <header className="masthead d-flex">
+      <header className="masthead d-flex mt-5">
         <div className="container text-center my-auto z-1">
           <h1 className="mb-1">WELCOME TO CHATR</h1>
           <h3 className="mb-5">
