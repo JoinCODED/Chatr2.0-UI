@@ -46,7 +46,7 @@ export const getChannel = (chID) => {
 			})
 
 		} catch (error) {
-			// dispatch(setErrors(error))
+			dispatch(setErrors(error))
 			console.error(error.response.data);
 		}
 	}
