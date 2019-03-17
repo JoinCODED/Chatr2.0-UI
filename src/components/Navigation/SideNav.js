@@ -19,10 +19,8 @@ class SideNav extends React.Component {
   state = { collapsed: false };
 
   render() {
+    let user = this.props.user
     let chs = this.props.channels
-    // const channelLinks = [{ name: "all" }].map(channel => (
-    //   <ChannelNavLink key={channel.name} channel={channel} />
-    // ));
 
     console.log("zerodebug => Channels: ", chs)
     const channelLinks = chs.map(channel => (
@@ -33,13 +31,16 @@ class SideNav extends React.Component {
         <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
           
           <li className="nav-item" data-toggle="tooltip" data-placement="right">
-            <Link className="nav-link heading" to="/createChannel">
+            <Link 
+            className="nav-link heading" 
+            to={user ? "/createChannel" : "/login"}
+          >
               <span className="nav-link-text mr-2">Channels</span>
               <FontAwesomeIcon icon={faPlusCircle} />
             </Link>
           </li>
 
-          {channelLinks}
+          {!!user && channelLinks}
         </ul>
         <ul className="navbar-nav sidenav-toggler">
           <li className="nav-item">
@@ -66,11 +67,10 @@ class SideNav extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    channels: state.channels.channelsObj
+    channels: state.channels.channelsObj,
+    user: state.auth.user,
   };
 };
-
-
 
 
 export default connect(
