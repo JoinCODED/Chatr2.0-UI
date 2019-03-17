@@ -9,15 +9,76 @@ const instance = axios.create({
   baseURL: "https://api-chatr.herokuapp.com/"
 });
 
-const setAuthToken = token => {};
+const setAuthToken = token => {
+  if (token) {
+    localStorage.setItem("token", token);
+    //this line will put the token in the code format
+    axios.defaults.headers.common.Authorization = `jwt ${token}`;
+  } else {
+    localStorage.removeItem("token");
+    delete axios.defaults.headers.common.Authorization;
+  }
+};
 
-export const checkForExpiredToken = () => {};
+export const checkForExpiredToken = () => {
+  return dispatch => {
+    // Get token
+    const token = localStorage.getItem("token");
 
-export const login = userData => {};
+    if (token) {
+      const currentTime = Date.now() / 1000;
 
-export const signup = userData => {};
+      // Decode token and get user info
+      const user = jwt_decode(token);
 
-export const logout = () => {};
+      console.log((user.exp - currentTime) / 60);
+
+      // Check token expiration
+      if (user.exp >= currentTime) {
+        // Set auth token header
+        setAuthToken(token);
+        // Set user
+        dispatch(setCurrentUser(user));
+      } else {
+        dispatch(logout());
+      }
+    }
+  };
+};
+
+export const login = (userData, history) => {
+  return async dispatch => {
+    try {
+      let response = await instance.post("/login/", userData);
+      let user = response.data;
+      let decodedUser = jwt_decode(user.token);
+      setAuthToken(user.token);
+      dispatch(setCurrentUser(decodedUser));
+      history.push("/private");
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  };
+};
+
+export const signup = (userData, history) => {
+  return async dispatch => {
+    try {
+      let response = await instance.post("/signup/", userData);
+      let user = response.data;
+      let decodedUser = jwt_decode(user.token);
+      setAuthToken(user.token);
+      dispatch(setCurrentUser(decodedUser));
+      history.push("/private");
+    } catch (error) {}
+  };
+};
+
+//will delete the whole user obj
+export const logout = () => {
+  setAuthToken();
+  return setCurrentUser();
+};
 
 const setCurrentUser = user => ({
   type: actionTypes.SET_CURRENT_USER,
