@@ -1,6 +1,12 @@
 import React, { Component } from "react";
+import * as actionCreators from "../store/actions";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class SuperSecretPage extends Component {
+  componentDidMount() {
+    this.props.onFetchChannels();
+  }
   render() {
     return (
       <div>
@@ -10,5 +16,15 @@ class SuperSecretPage extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchChannels: () => dispatch(actionCreators.fetchChannels())
+  };
+};
 
-export default SuperSecretPage;
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(SuperSecretPage)
+);

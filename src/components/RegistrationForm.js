@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+// Actions
+import * as actionCreators from "../store/actions";
 
 class RegistationForm extends Component {
   state = {
@@ -13,11 +17,17 @@ class RegistationForm extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    alert("I don't work yet");
+    console.log("[RegistrationForm.js]", this.props.match.url.substring(1));
+    this.props.loginAndSignup(
+      this.state,
+      this.props.history,
+      this.props.match.url.substring(1)
+    );
   };
 
   render() {
     const type = this.props.match.url.substring(1);
+    const { username, password } = this.state;
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">
@@ -33,6 +43,7 @@ class RegistationForm extends Component {
                 type="text"
                 placeholder="Username"
                 name="username"
+                value={username}
                 onChange={this.changeHandler}
               />
             </div>
@@ -42,6 +53,7 @@ class RegistationForm extends Component {
                 type="password"
                 placeholder="Password"
                 name="password"
+                value={password}
                 onChange={this.changeHandler}
               />
             </div>
@@ -67,4 +79,12 @@ class RegistationForm extends Component {
   }
 }
 
-export default RegistationForm;
+const mapDispatchToProps = dispatch => ({
+  loginAndSignup: (userData, history, type) =>
+    dispatch(actionCreators.loginAndSignup(userData, history, type)) //pass state
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(RegistationForm);
