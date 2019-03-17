@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   channelsObj: [],
-  chObj: {},
+  chObj: []
 };
 
 const reducer = (state = initialState, action) => {

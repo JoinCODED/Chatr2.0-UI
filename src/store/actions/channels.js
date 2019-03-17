@@ -30,22 +30,23 @@ export const getAllChannels = () => {
 };
 
 
-export const getChannel = (chObj) => {
+export const getChannel = (chID) => {
+	console.log(chID)
 	return async dispatch => {
 		try {
-			console.log("zerodebug => getChannel => chObj: ", chObj)
-			let chID = chObj.id
+			// console.log("zerodebug => getChannel => chObj: ", chID)
+			// let chID = chObj.id
 			let response = await instance.get(`/channels/${chID}/`);
 			let channel = response.data;
 
-			console.log("zerodebug => channel action => getChannel => res.data: ". channel)
+			// console.log("zerodebug => channel action => getChannel => res.data: ". channel)
 			dispatch({
 				type: actionTypes.GET_CHANNEL,
 				payload: channel,
 			})
 
 		} catch (error) {
-			dispatch(setErrors(error))
+			// dispatch(setErrors(error))
 			console.error(error.response.data);
 		}
 	}
