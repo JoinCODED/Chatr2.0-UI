@@ -18,6 +18,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         channelsObj: [...state.channelsObj, action.payload]
       }
+
+      case actionTypes.GET_CHANNEL:
+      return {
+        ...state,
+        chObj: action.payload
+      }
+
     default:
       return state;
   }
