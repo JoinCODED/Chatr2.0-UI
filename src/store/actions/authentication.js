@@ -54,7 +54,7 @@ export const login = (userData, history) => {
 			setAuthToken(user.token);
 			dispatch(setCurrentUser(decodedUser));
 		  // make sure to passe the history obj to the func
-		  history.push("/welcome");
+		  history.push("/private");
 		} catch (error) {
 			dispatch(setErrors(error))
 			console.error(error.response.data);

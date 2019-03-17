@@ -16,14 +16,22 @@ import * as actionCreators from "../../store/actions/index";
 
 
 class AuthButton extends Component {
+
+  
+  // this function is just for testing, when needed 
+  handleLogout = () => {
+    this.props.logout()
+    console.log("handlelogout => user: ", this.props.user)
+  }
+
+
   render() {
     const { user } = this.props;
     console.log("zerodebug => user logged in: ", user)
-    // const user = { username: "Mr Potato" };
     let buttons = (
       <li className="nav-item">
-        <span className="nav-link">
-          <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+        <span onClick={() => this.props.logout()} className="nav-link">
+          <FontAwesomeIcon icon={faSignOutAlt} /> logout
         </span>
       </li>
     );
@@ -60,11 +68,14 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(actionCreators.logout())
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {};
-// };
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(AuthButton);

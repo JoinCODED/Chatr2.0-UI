@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 // Scripts
 import main from "./assets/js/main";
@@ -12,12 +12,20 @@ import Welcome from "./components/Welcome";
 import RegistrationForm from "./components/RegistrationForm";
 import SuperSecretPage from "./components/SuperSecretPage";
 
+import { connect } from "react-redux";
+
+import * as actionCreators from "./store/actions/index";
+
+
+
 class App extends Component {
   componentDidMount() {
     main();
+    this.props.checkForExpiredToken()
   }
 
   render() {
+    
     return (
       <div className="content-wrapper">
         <NavBar />
@@ -33,4 +41,16 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken())
+  };
+};
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(App)
+);
+
