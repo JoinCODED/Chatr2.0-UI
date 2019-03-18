@@ -26,17 +26,6 @@ class ChannelForm extends Component {
 		this.props.postChannel(this.state, this.props.history);
 	};
 
-		return (
-			<div className="mt-5 p-2">
-				<form onSubmit={this.submitChannel}>
-					{/* handling error (impl later)
-						!!errors.length && (
-						<div className="alert alert-danger" role="alert">
-							{errors.map(error => (
-								<p key={error}>{error}</p>
-							))}
-						</div>
-					)*/}
 
 
   render() {
