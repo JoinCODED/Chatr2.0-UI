@@ -10,7 +10,8 @@ export {
  	postChannel,
  	getChannelMsgs,
  	postMsg,
- 	getChannelInfo, 
+ 	getChannelInfo,
+ 	filterChannels, 
 } from "./channels"
 
 export { setErrors } from "./errors";

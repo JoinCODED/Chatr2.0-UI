@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import * as actionCreators from "../../store/actions";
+
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -8,13 +10,15 @@ import { connect } from "react-redux";
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
+import SearchBar from "../SearchBar";
 
 class SideNav extends React.Component {
   state = { collapsed: false };
 
+
   render() {
     let user = this.props.user;
-    let chs = this.props.channels;
+    let chs = this.props.filteredChannels;
 
     console.log("RNDER SIDE NAV");
     console.log("zerodebug => Channels: ", chs);
@@ -39,6 +43,7 @@ class SideNav extends React.Component {
           </div>
         </div>
         <hr />
+        <SearchBar filter={this.props.filterChannels}/>
         <div className="col-12 my-4">{user ? channelLinks : <div />}</div>
       </div>
     );
@@ -48,8 +53,16 @@ class SideNav extends React.Component {
 const mapStateToProps = state => {
   return {
     channels: state.channels.channelsObj,
+    filteredChannels: state.channels.filteredChannelsObj,
     user: state.auth.user
   };
 };
 
-export default connect(mapStateToProps)(SideNav);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    filterChannels: (q) => dispatch(actionCreators.filterChannels(q))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideNav);
