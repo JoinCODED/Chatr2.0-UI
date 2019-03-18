@@ -107,3 +107,12 @@ export const postMsg = (msg, chID) => {
 		}
 	}
 };
+
+
+
+export const filterChannels = (query) => {
+	return {
+		type: actionTypes.FILTER_CHANNELS,
+		payload: query,
+	}
+};

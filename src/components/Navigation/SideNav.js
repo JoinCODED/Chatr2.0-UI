@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import * as actionCreators from "../../store/actions";
+
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -8,13 +10,15 @@ import { connect } from "react-redux";
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
+import SearchBar from "../SearchBar";
 
 class SideNav extends React.Component {
   state = { collapsed: false };
 
+
   render() {
     let user = this.props.user;
-    let chs = this.props.channels;
+    let chs = this.props.filteredChannels;
 
     const channelLinks = chs.map(channel => (
       <ChannelNavLink key={channel.name} channel={channel} />
@@ -38,13 +42,8 @@ class SideNav extends React.Component {
             </div>
           </div>
           <hr />
-          <div className="col-12 ">
-            <input
-              className="form-control form-field-format"
-              name="searchBarMsg"
-              placeholder="Search for channel . ."
-            />
-          </div>
+          <SearchBar filter={this.props.filterChannels}/>
+          
           <div
             className="col-12 my-4 channels-board"
             style={{ maxHeight: 440 }}
@@ -52,17 +51,22 @@ class SideNav extends React.Component {
             {user ? channelLinks : <div />}
           </div>
         </div>
-      );
-    }
-    return <div />;
   }
 }
 
 const mapStateToProps = state => {
   return {
     channels: state.channels.channelsObj,
+    filteredChannels: state.channels.filteredChannelsObj,
     user: state.auth.user
   };
 };
 
-export default connect(mapStateToProps)(SideNav);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    filterChannels: (q) => dispatch(actionCreators.filterChannels(q))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideNav);

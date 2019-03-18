@@ -2,6 +2,7 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const SET_ERRORS = "SET_ERRORS";
 
 export const GET_ALL_CHANNELS = "GET_ALL_CHANNELS";
+export const FILTER_CHANNELS = "FILTER_CHANNELS";
 export const POST_CHANNEL = "POST_CHANNEL";
 
 export const GET_CHANNEL_INFO = "GET_CHANNEL_INFO";
