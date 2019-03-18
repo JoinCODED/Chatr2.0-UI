@@ -30,7 +30,7 @@ class App extends Component {
       <div className="container">
         <div className="row my-4">
           <NavBar />
-          <div className="col-8 content">
+          <div className="col-8 content " style={{ maxHeight: 700 }}>
             <Switch>
               <Route path="/welcome" component={Welcome} />
               <Route path="/(login|signup)" component={RegistrationForm} />
