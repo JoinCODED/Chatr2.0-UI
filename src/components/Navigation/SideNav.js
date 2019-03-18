@@ -16,6 +16,7 @@ class SideNav extends React.Component {
     let user = this.props.user;
     let chs = this.props.channels;
 
+    console.log("RNDER SIDE NAV");
     console.log("zerodebug => Channels: ", chs);
     const channelLinks = chs.map(channel => (
       <ChannelNavLink key={channel.name} channel={channel} />
@@ -38,7 +39,7 @@ class SideNav extends React.Component {
           </div>
         </div>
         <hr />
-        <div className="col-12 my-4">{channelLinks}</div>
+        <div className="col-12 my-4">{user ? channelLinks : <div />}</div>
       </div>
     );
   }
