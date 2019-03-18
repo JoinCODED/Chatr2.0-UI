@@ -36,6 +36,10 @@ hr {
   overflow-y: auto;
 }
 
+.content-board {
+  overflow-y: auto;
+}
+
 .form-format {
   box-shadow: 0 0 15px -2px #ececec99;
   width: 420px;

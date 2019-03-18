@@ -40,7 +40,7 @@ class SideNav extends React.Component {
           <hr />
           <div
             className="col-12 my-4 channels-board"
-            style={{ maxHeight: 500 }}
+            style={{ maxHeight: 490 }}
           >
             {user ? channelLinks : <div />}
           </div>
