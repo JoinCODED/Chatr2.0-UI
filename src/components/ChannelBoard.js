@@ -43,14 +43,15 @@ class ChannelBoard extends Component {
 		
 		if (prevState.match.params.channelID !== currentChID) {
 			
-			this.props.restQuery()
-			// this.setState({query:""})
 			
 			clearInterval(this.checkForMsgsInterval)
+			this.props.getChannelMsgs(currentChID)
 			this.checkForMsgsInterval = setInterval(
 				() => this.props.getChannelMsgs(currentChID),
 				3000
 			)
+
+			this.props.restQuery()
 		}
 	}
 
