@@ -13,7 +13,6 @@ class ChannelNavLink extends Component {
         <div className="col-12 my-1">
           <Link
             to={`/channels/${channel.id}`}
-            onClick={() => this.props.getChannel(channel)}
           >
             <span># </span> {channel.name}
           </Link>
