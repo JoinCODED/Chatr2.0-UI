@@ -13,10 +13,18 @@ hr {
   border-top: 1px solid rgba(150, 150, 150, 0.877)!important;
 }
 
+.row-width {
+  height: 300px;
+}
+
 .nav-style {
   background-color: #3f0f3f;
   color: #fff;
   border-radius: 15px 0px 0px 15px;
+}
+
+.channels-board {
+  overflow-y: auto;
 }
 
 .form-format {

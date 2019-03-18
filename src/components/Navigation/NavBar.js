@@ -15,7 +15,7 @@ import * as actionCreators from "../../store/actions/index";
 class NavBar extends Component {
   render() {
     return (
-      <div className="col-4 nav-style">
+      <div className="col-4 nav-style " style={{ maxHeight: 700 }}>
         <div className="row">
           <div className="col-12 my-3">
             <Link className="navbar-brand" to="/welcome">
