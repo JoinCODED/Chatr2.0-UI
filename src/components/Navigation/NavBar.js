@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSignOutAlt,
+  faSignInAlt,
+  faUserPlus
+} from "@fortawesome/free-solid-svg-icons";
 
 // Components
 import SideNav from "./SideNav";
@@ -27,17 +31,39 @@ class NavBar extends Component {
                 </div>
               </div>
               <div className="col-8 text-right">
-                <button
-                  onClick={() => this.props.logout()}
-                  className="custom-logout-btn"
-                >
-                  {" "}
-                  <span>Logout</span>
-                  <span>
-                    {"       "}
-                    <FontAwesomeIcon icon={faSignOutAlt} />
-                  </span>
-                </button>
+                {this.props.user ? (
+                  <button
+                    onClick={() => this.props.logout()}
+                    className="custom-auth-btn"
+                  >
+                    {" "}
+                    <span>Logout</span>
+                    <span>
+                      {"       "}
+                      <FontAwesomeIcon icon={faSignOutAlt} />
+                    </span>
+                  </button>
+                ) : (
+                  [
+                    <Link to="/signup" className="custom-auth-btn">
+                      {" "}
+                      <span>Sigup</span>
+                      <span>
+                        {"       "}
+                        <FontAwesomeIcon icon={faUserPlus} />
+                      </span>
+                    </Link>,
+                    <Link to="/login" className="custom-auth-btn">
+                      {" "}
+                      <span>Login</span>
+                      <span>
+                        {"       "}
+
+                        <FontAwesomeIcon icon={faSignInAlt} />
+                      </span>
+                    </Link>
+                  ]
+                )}
               </div>
             </div>
           </div>

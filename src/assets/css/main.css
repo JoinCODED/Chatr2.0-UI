@@ -17,7 +17,7 @@ hr {
   height: 300px;
 }
 
-.custom-logout-btn {
+.custom-auth-btn {
   /* border-colo: none; */
   border-style: none;
   border-width: 0px;
@@ -57,7 +57,7 @@ hr {
 }
 
 .content {
-  background-color: #f7f7f7;
+  background-color: #fffef3;
   border: .5px solid #d3d3d3;
   border-radius: 0px 15px 15px 0px;
 }
