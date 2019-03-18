@@ -1,6 +1,108 @@
+@import url('https://fonts.googleapis.com/css?family=Sniglet');
+
 html {
   position: relative;
   min-height: 100%;
+}
+
+#page-top {
+  font-family: 'Sniglet', cursive;
+}
+
+hr {
+  border-top: 1px solid rgba(150, 150, 150, 0.877)!important;
+}
+
+.nav-style {
+  background-color: #3f0f3f;
+  color: #fff;
+  border-radius: 15px 0px 0px 15px;
+}
+
+.form-format {
+  box-shadow: 0 0 15px -2px #ececec99;
+  width: 420px;
+  max-width: 420px;
+  padding: 25px;
+  border: 1px solid #efefef !important;
+  border-radius: 8px !important;
+}
+
+.form-field-format {
+  background-color: #fff!important;
+  border: 1px solid #efefef
+}
+
+.button-color {
+  background-color: #e11f5a !important;
+  border-radius: 8px !important;
+  color:#fff!important;
+}
+
+.content {
+  background-color: #f7f7f7;
+  border: .5px solid #d3d3d3;
+  border-radius: 0px 15px 15px 0px;
+}
+
+.footer {
+  color: #868e96;
+}
+
+.heart {
+  color: #e11f5a
+}
+
+.addChnlBtn {
+  color: #fff
+}
+
+.card-footer {
+  background-color:  rgba(0, 0, 0, 0.01) !important;
+  
+}
+
+.card-footer  a {
+  color: #e11f5a!important;
+}
+
+.card-footer a:link {
+  color: #e11f5a;
+  text-decoration: none
+}
+
+.card-footer a:hover {
+  color: #e11f5a;
+  text-decoration: none
+}
+
+.card-footer a:visited {
+  color: #e11f5a;
+  text-decoration: none
+}
+
+.card-footer a:active {
+  color: #e11f5a;
+  text-decoration: none
+  
+}
+
+a {
+  color: #fff!important;
+  text-decoration: none
+}
+
+
+.baseNav {
+  background-color: #900c3e57!important
+}
+
+.bg-darky {
+  background-color: #900c3e!important
+}
+
+.bg-darker {
+  background-image: url(../images/background.svg)
 }
 
 body {

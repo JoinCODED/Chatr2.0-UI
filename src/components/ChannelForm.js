@@ -1,10 +1,16 @@
 import React, { Component } from "react";
+import logo from "../assets/images/logo.png";
+
+// Fontawesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 
 import * as actionCreators from "../store/actions/index";
 
 class ChannelForm extends Component {
+
 	state = {
 		name: "",
 		image_url: ""
@@ -20,9 +26,6 @@ class ChannelForm extends Component {
 		this.props.postChannel(this.state, this.props.history);
 	};
 
-	render() {
-		// const errors = this.props.errors;
-
 		return (
 			<div className="mt-5 p-2">
 				<form onSubmit={this.submitChannel}>
@@ -35,37 +38,51 @@ class ChannelForm extends Component {
 						</div>
 					)*/}
 
-					<div className="input-group mb-3">
-						<div className="input-group-prepend">
-							<span className="input-group-text">
-								Channel Name
-							</span>
-						</div>
-						<input
-							type="text"
-							className="form-control"
-							name="name"
-							onChange={this.textChangeHandler}
-						/>
-					</div>
 
-					<div className="input-group mb-3">
-						<div className="input-group-prepend">
-							<span className="input-group-text">Image URL</span>
-						</div>
-						<input
-							type="text"
-							className="form-control"
-							name="image_url"
-							onChange={this.textChangeHandler}
-						/>
-					</div>
+  render() {
+    // const errors = this.props.errors;
 
-					<input type="submit" />
-				</form>
-			</div>
-		);
-	}
+
+    return (
+      <div className="row my-4">
+        <div className="col-12 text-center">
+          <h4>Create a new channel</h4>
+
+          <div className="card mx-auto p-0 mt-5 form-format">
+            <div className="card-body my-3">
+              <form onSubmit={this.submitChannel}>
+                <div className="form-group">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Channel Name"
+                    name="name"
+                    onChange={this.textChangeHandler}
+                  />
+                  <i class="sicon-user text-muted text-bottom" />
+                </div>
+      
+                <div className="form-group my-4 ">
+                  <input
+                    className="form-control form-field-format"
+                    type="text"
+                    placeholder="Image URL"
+                    name="image_url"
+                    onChange={this.textChangeHandler}
+                  />
+                </div>
+                <input
+                  className="btn btn-light btn-block button-color"
+                  type="submit"
+                  value="Create"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapDispatchToProps = dispatch => {

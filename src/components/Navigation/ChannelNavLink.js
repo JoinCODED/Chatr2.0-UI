@@ -1,33 +1,24 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-
-// FontAwesome
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHashtag } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
 import * as actionCreators from "../../store/actions/index";
 
-
 class ChannelNavLink extends Component {
   render() {
     const { channel } = this.props;
     return (
-      <li
-        className="nav-item"
-        data-toggle="tooltip"
-        data-placement="right"
-        title={channel.name}
-      >
-        <NavLink 
-        className="nav-link"
-        to={`/channels/${channel.id}`}
-        >
-          <FontAwesomeIcon icon={faHashtag} />
-          <span className="nav-link-text"> {channel.name}</span>
-        </NavLink>
-      </li>
+      <div className="row">
+        <div className="col-12 my-1">
+          <Link
+            to={`/channels/${channel.id}`}
+            onClick={() => this.props.getChannel(channel)}
+          >
+            <span># </span> {channel.name}
+          </Link>
+        </div>
+      </div>
     );
   }
 }
