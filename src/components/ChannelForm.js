@@ -4,21 +4,20 @@ import { connect } from "react-redux";
 
 import * as actionCreators from "../store/actions/index";
 
-
 class ChannelForm extends Component {
 	state = {
 		name: "",
-		image_url: "",
+		image_url: ""
 	};
 
 	textChangeHandler = event => {
 		this.setState({ [event.target.name]: event.target.value });
-	}
+	};
 
 	submitChannel = event => {
 		event.preventDefault();
-		console.log("zerodebug => submitChannel: ", this.state)
-		this.props.postChannel(this.state);
+		console.log("zerodebug => submitChannel: ", this.state);
+		this.props.postChannel(this.state, this.props.history);
 	};
 
 	render() {
@@ -27,7 +26,6 @@ class ChannelForm extends Component {
 		return (
 			<div className="mt-5 p-2">
 				<form onSubmit={this.submitChannel}>
-					
 					{/* handling error (impl later)
 						!!errors.length && (
 						<div className="alert alert-danger" role="alert">
@@ -53,9 +51,7 @@ class ChannelForm extends Component {
 
 					<div className="input-group mb-3">
 						<div className="input-group-prepend">
-							<span className="input-group-text">
-								Image URL
-							</span>
+							<span className="input-group-text">Image URL</span>
 						</div>
 						<input
 							type="text"
@@ -72,14 +68,14 @@ class ChannelForm extends Component {
 	}
 }
 
-
 const mapDispatchToProps = dispatch => {
-  return {
-    postChannel: newCh => dispatch(actionCreators.postChannel(newCh))
-  }
+	return {
+		postChannel: (newCh, history) =>
+			dispatch(actionCreators.postChannel(newCh, history))
+	};
 };
 
 export default connect(
-  null,
-  mapDispatchToProps
+	null,
+	mapDispatchToProps
 )(ChannelForm);

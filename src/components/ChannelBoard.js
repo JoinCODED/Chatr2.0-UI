@@ -19,22 +19,32 @@ class ChannelBoard extends Component {
 	} 
 
 
-	currentChID = this.props.match.params.channelID;
+	async componentDidMount() {
+		let currentChID = this.props.match.params.channelID;
+		
+		this.checkForMsgsInterval = setInterval(
+			await this.props.getChannelMsgs(currentChID),
+			3000)
 
-	componentDidMount() {
-		// let chID = this.props.match.params.channelID;
-		this.props.getChannel(this.currentChID);
+		await this.props.getChannelInfo(currentChID)
+
+		console.log(this.props.chInfo)
 	}
-	
+
 	componentDidUpdate(prevState) {
-		// let this.currentChID = this.props.match.params.channelID;
-		if (prevState.match.params.channelID !== this.currentChID) {
-			this.props.getChannel(this.currentChID);
+		let currentChID = this.props.match.params.channelID;
+		if (prevState.match.params.channelID !== currentChID) {
+			
+			clearInterval(this.checkForMsgsInterval)
+			this.checkForMsgsInterval = setInterval(
+				this.props.getChannelMsgs(currentChID),
+				3000
+			)
 		}
 	}
 
 	componentWillMount() {
-		console.log("ChannelBoard => componentWillMount")
+		clearInterval(this.checkForMsgsInterval)
 	}
 
 	textChangeHandler = event => {
@@ -52,11 +62,20 @@ class ChannelBoard extends Component {
 
 		let msgs = <p> No messages yet... </p>;
 
-		if (this.props.chObj.length !== 0) {
-			let chObj = this.props.chObj;
-			msgs = chObj.map(msg => {
+		if (this.props.chObjMsgs.length !== 0) {
+			let username = this.props.user.username
+			
+			console.log("zerodebug => username: ", username)
+
+			let chObjMsgs = this.props.chObjMsgs;
+			msgs = chObjMsgs.map(msg => {
 				return (
-					<div className="mx-4" key={msg.id}>
+					<div 
+					className={
+						username === msg.username ?
+						"mx-4 text-right" : "mx-4"
+					} 
+					key={msg.id}>
 						<h4>
 							{msg.username.replace(/^\w/, c => c.toUpperCase())}
 						</h4>
@@ -67,7 +86,7 @@ class ChannelBoard extends Component {
 								{msg.timestamp}
 							</small>
 						</p>
-						{ColoredLine("#AE4432")}
+						{ColoredLine(username === msg.username ? "#5C33AE" : "#AE4432")}
 					</div>
 				);
 			});
@@ -125,14 +144,17 @@ class ChannelBoard extends Component {
 
 const mapStateToProps = state => {
 	return {
-		chObj: state.channels.chObj
+		user: state.auth.user,
+		chObjMsgs: state.channels.chObjMsgs,
+		chInfo: state.channels.chInfo,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		getChannel: chID => dispatch(actionCreators.getChannel(chID)),
+		getChannelMsgs: chID => dispatch(actionCreators.getChannelMsgs(chID)),
 		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
+		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
 	};
 };
 

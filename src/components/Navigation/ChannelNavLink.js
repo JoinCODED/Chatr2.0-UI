@@ -32,13 +32,16 @@ class ChannelNavLink extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getChannel: (ch) => dispatch(actionCreators.getChannel(ch))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     getChannel: (ch) => dispatch(actionCreators.getChannel(ch))
+//   };
+// };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ChannelNavLink);
+// export default connect(
+//   null,
+//   mapDispatchToProps
+// )(ChannelNavLink);
+
+
+export default ChannelNavLink

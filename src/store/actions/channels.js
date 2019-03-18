@@ -30,18 +30,16 @@ export const getAllChannels = () => {
 };
 
 
-export const getChannel = (chID) => {
+export const getChannelMsgs = (chID) => {
 	console.log(chID)
 	return async dispatch => {
 		try {
-			// console.log("zerodebug => getChannel => chObj: ", chID)
-			// let chID = chObj.id
+			
 			let response = await instance.get(`/channels/${chID}/`);
 			let channel = response.data;
 
-			// console.log("zerodebug => channel action => getChannel => res.data: ". channel)
 			dispatch({
-				type: actionTypes.GET_CHANNEL,
+				type: actionTypes.GET_CHANNEL_MSGS,
 				payload: channel,
 			})
 
@@ -53,7 +51,15 @@ export const getChannel = (chID) => {
 };
 
 
-export const postChannel = (newCh) => {
+export const getChannelInfo = (chID) => {
+	return {
+		type: actionTypes.GET_CHANNEL_INFO,
+		payload: chID,
+	}
+
+};
+
+export const postChannel = (newCh, history) => {
 	return async dispatch => {
 		try {
 			console.log("New channel obj: ", newCh)
@@ -66,6 +72,9 @@ export const postChannel = (newCh) => {
 				type: actionTypes.POST_CHANNEL,
 				payload: newChObj,
 			})
+
+			let postedChID = newChObj.id
+			history.push(`/channels/${postedChID}/`)
 
 		} catch (error) {
 			dispatch(setErrors(error))
@@ -91,7 +100,7 @@ export const postMsg = (msg, chID) => {
 				payload: newMsg,
 			})
 
-			dispatch(getChannel(chID))
+			dispatch(getChannelMsgs(chID))
 
 		} catch (error) {
 			dispatch(setErrors(error))
