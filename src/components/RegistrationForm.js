@@ -6,7 +6,6 @@ import logo from "../assets/images/logo.png";
 import { connect } from "react-redux";
 
 import * as actionCreators from "../store/actions/index";
-import { faAlignCenter } from "@fortawesome/free-solid-svg-icons";
 
 class RegistationForm extends Component {
   state = {

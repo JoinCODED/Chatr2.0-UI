@@ -20,34 +20,43 @@ class SideNav extends React.Component {
     let user = this.props.user;
     let chs = this.props.filteredChannels;
 
-    console.log("RNDER SIDE NAV");
-    console.log("zerodebug => Channels: ", chs);
     const channelLinks = chs.map(channel => (
       <ChannelNavLink key={channel.name} channel={channel} />
     ));
-    console.log(user);
-    return (
-      <div>
-        <div className="row">
-          <div className="col-1">
-            <FontAwesomeIcon icon={faUser} />
+
+    if (user) {
+      return (
+        <div>
+          <div className="row">
+            <div className="col-1">
+              <FontAwesomeIcon icon={faUser} />
+            </div>
+            <div className="col-11">{user ? `Hi ${user.username}` : ""}</div>
           </div>
-          <div className="col-11">{user ? `Hi ${user.username}` : ""}</div>
+          <div className="row my-2">
+            <div className="col-1">
+              <FontAwesomeIcon icon={faPlus} />
+            </div>
+            <div className="col-11">
+              <Link to={user ? "/createChannel" : "/login"}>Add a channel</Link>
+            </div>
+          </div>
+          <hr />
+          <SearchBar key="channels" filter={this.props.filterChannels}/>
+          
+          <div
+            className="col-12 my-4 channels-board"
+            style={{ maxHeight: 440 }}
+          >
+            {user ? channelLinks : <div />}
+          </div>
         </div>
-        <div className="row my-2">
-          <div className="col-1">
-            <FontAwesomeIcon icon={faPlus} />
-          </div>
-          <div className="col-11">
-            <Link to={user ? "/createChannel" : "/login"}>Add a channel</Link>
-          </div>
-        </div>
-        <hr />
-        <SearchBar key="sideNav"  filter={this.props.filterChannels}/>
-        <div className="col-12 my-4">{user ? channelLinks : <div />}</div>
-      </div>
-    );
-  }
+
+      );} 
+      else {
+        return <div />
+      }
+  } 
 }
 
 const mapStateToProps = state => {

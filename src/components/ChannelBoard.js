@@ -6,17 +6,18 @@ import * as actionCreators from "../store/actions";
 import SearchBar from "./SearchBar";
 
 const ColoredLine = color => (
-	<hr
-		style={{
-			color: color,
-			backgroundColor: color,
-			height: 5,
-			borderRadius: "20px",
-		}}
-	/>
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 5,
+      borderRadius: "20px"
+    }}
+  />
 );
 
 class ChannelBoard extends Component {
+
 	state = {
 		message: "",
 	} 
@@ -109,55 +110,65 @@ class ChannelBoard extends Component {
 		}
 
 		return (
-
-			<div className="container">
-				<SearchBar 
-				key="ChannelBoard" 
-				filter={this.props.filterMsgs}
+	      <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
+	        <div className="col-12 ">
+	          <SearchBar 
+					key="ChannelBoard" 
+					filter={this.props.filterMsgs}
 				/>
-				{msgs}
+				
+	        </div>
+	        <div className="col-12 ">
+	          <div
+	            className="container my-4 content-board"
+	            style={{ height: 520, maxHeight: 520 }}
+	          >
+	            {msgs}
+	          </div>
+	        </div>
+	        <div className="col-12">
+	          <form onSubmit={this.submitMsg}>
+	            
+	            {/* handling error (impl later)
+				!!errors.length && (
+				<div className="alert alert-danger" role="alert">
+					{errors.map(error => (
+						<p key={error}>{error}</p>
+					))}
+				</div>
+				)*/}
 
-				<form
-				className="my-5" 
-				onSubmit={this.submitMsg}>
-					
-					{/* handling error (impl later)
-						!!errors.length && (
-						<div className="alert alert-danger" role="alert">
-							{errors.map(error => (
-								<p key={error}>{error}</p>
-							))}
-						</div>
-					)*/}
+	            <div className="input-group mb-3 my-4">
+	              <input
+	                type="text"
+	                className="form-control"
+	                placeholder="Your message . ."
+	                name="message"
+	                value={this.state.message}
+	                onChange={this.textChangeHandler}
+	              />
 
-					<div className="input-group mb-3 my-4">
-					  <input
-					  	type="text" 
-					  	className="form-control" 
-					  	placeholder="Your message..." 
-					  	name="message"
-					  	value={this.state.message}
-						onChange={this.textChangeHandler}
-						/>
-
-					  <div className="input-group-append">
-					    <button 
-					    className="btn btn-outline-secondary" 
-					    type="button" 
-					    id="button-addon2"
-					    onClick={this.submitMsg}>
-					    	Send
-					    </button>
-					  </div>
-					
-					</div>
-					
-				</form>
-			</div>
-		)
-
+	              <div className="input-group-append">
+	                <button
+	                  className="btn btn-outline-info"
+	                  type="button"
+	                  id="button-addon2"
+	                  onClick={this.submitMsg}
+	                >
+	                  Send
+	                </button>
+	              </div>
+	            </div>
+	          </form>
+	        </div>
+	      </div>
+	    );
 	}
+
 }
+  
+
+
 
 const mapStateToProps = state => {
 	return {
@@ -176,9 +187,9 @@ const mapDispatchToProps = dispatch => {
 		filterMsgs: (q) => dispatch(actionCreators.filterMsgs(q)),
 		restQuery: () => dispatch(actionCreators.restQuery()),
 	};
-};
+}
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ChannelBoard);

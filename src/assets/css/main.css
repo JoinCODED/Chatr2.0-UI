@@ -13,10 +13,31 @@ hr {
   border-top: 1px solid rgba(150, 150, 150, 0.877)!important;
 }
 
+.row-width {
+  height: 300px;
+}
+
+.custom-auth-btn {
+  /* border-colo: none; */
+  border-style: none;
+  border-width: 0px;
+  background-color: #3f0f3f;
+  padding: 1px 7px 2px;
+  color: #fff
+}
+
 .nav-style {
   background-color: #3f0f3f;
   color: #fff;
   border-radius: 15px 0px 0px 15px;
+}
+
+.channels-board {
+  overflow-y: auto;
+}
+
+.content-board {
+  overflow-y: auto;
 }
 
 .form-format {
@@ -40,7 +61,7 @@ hr {
 }
 
 .content {
-  background-color: #f7f7f7;
+  background-color: #fff;
   border: .5px solid #d3d3d3;
   border-radius: 0px 15px 15px 0px;
 }
