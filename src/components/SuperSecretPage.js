@@ -11,7 +11,7 @@ class SuperSecretPage extends Component {
       <div className="my-4 text-center">
         <br />
         <br />
-        <img src={background} style={{ width: 300 }} />
+        {/* <img src={background} style={{ width: 300 }} /> */}
         <br />
         <br />
         <br />

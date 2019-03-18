@@ -17,7 +17,7 @@ class Welcome extends Component {
         <div className="container  text-center my-auto z-1">
           <br />
           <br />
-          <img src={background} style={{ width: 300 }} />
+          {/* <img src={background} style={{ width: 300 }} /> */}
           <br />
           <br />
           <br />

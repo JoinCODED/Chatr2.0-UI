@@ -38,9 +38,16 @@ class SideNav extends React.Component {
             </div>
           </div>
           <hr />
+          <div className="col-12 ">
+            <input
+              className="form-control form-field-format"
+              name="searchBarMsg"
+              placeholder="Search for channel . ."
+            />
+          </div>
           <div
             className="col-12 my-4 channels-board"
-            style={{ maxHeight: 490 }}
+            style={{ maxHeight: 440 }}
           >
             {user ? channelLinks : <div />}
           </div>

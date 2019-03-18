@@ -86,14 +86,12 @@ class ChannelBoard extends Component {
 
     return (
       <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
-        <div className="col-12">
-          <div className="col-12 ">
-            <input
-              className="form-control form-field-format"
-              name="searchBarMsg"
-              placeholder="Search for message . ."
-            />
-          </div>
+        <div className="col-12 ">
+          <input
+            className="form-control form-field-format"
+            name="searchBarMsg"
+            placeholder="Search for message . ."
+          />
         </div>
         <div className="col-12 ">
           <div
