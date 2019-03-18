@@ -32,12 +32,12 @@ class RegistationForm extends Component {
 
     return (
       <div className="row ">
-        <div className="col-12 text-center">
+        <div className="col-12 text-center my-4">
           <img src={logo} style={{ width: 100 }} />
           <h1>Slack Me</h1>
         </div>
         <div className="col-12">
-          <div className="card mx-auto p-0 mt-5 form-format">
+          <div className="card mx-auto p-0 mt-5 form-format my-4">
             <div className="card-body my-3">
               <form onSubmit={this.submitHandler}>
                 <div className="form-group">

@@ -9,7 +9,11 @@ class SuperSecretPage extends Component {
   render() {
     return (
       <div className="my-4 text-center">
+        <br />
+        <br />
         <img src={background} style={{ width: 300 }} />
+        <br />
+        <br />
         <br />
         <br />
         <h1>

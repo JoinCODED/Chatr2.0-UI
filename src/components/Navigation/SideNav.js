@@ -27,7 +27,7 @@ class SideNav extends React.Component {
           <div className="col-1">
             <FontAwesomeIcon icon={faUser} />
           </div>
-          <div className="col-11">Hi {user ? user.username : ""}</div>
+          <div className="col-11">{user ? `Hi ${user.username}` : ""}</div>
         </div>
         <div className="row my-2">
           <div className="col-1">

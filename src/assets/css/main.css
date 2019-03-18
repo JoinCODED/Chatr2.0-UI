@@ -102,7 +102,7 @@ a {
 }
 
 .bg-darker {
-  background-color: #f3f3f3!important;
+  background-image: url(../images/background.svg)
 }
 
 body {

@@ -9,6 +9,9 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import SideNav from "./SideNav";
 import logo from "../logo.png";
 
+import { connect } from "react-redux";
+import * as actionCreators from "../../store/actions/index";
+
 class NavBar extends Component {
   render() {
     return (
@@ -20,11 +23,14 @@ class NavBar extends Component {
                 <img src={logo} style={{ width: 30 }} />
               </div>
             </Link>
-            <span> Logout</span>
-            <span>
-              {"       "}
-              <FontAwesomeIcon icon={faSignOutAlt} />
-            </span>
+            <a onClick={() => this.props.logout()}>
+              {" "}
+              <span>Logout</span>
+              <span>
+                {"       "}
+                <FontAwesomeIcon icon={faSignOutAlt} />
+              </span>
+            </a>
           </div>
         </div>
         <SideNav />
@@ -33,4 +39,19 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(actionCreators.logout())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavBar);
