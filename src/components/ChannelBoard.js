@@ -23,7 +23,7 @@ class ChannelBoard extends Component {
 		let currentChID = this.props.match.params.channelID;
 		
 		this.checkForMsgsInterval = setInterval(
-			await this.props.getChannelMsgs(currentChID),
+			() => this.props.getChannelMsgs(currentChID),
 			3000)
 
 		await this.props.getChannelInfo(currentChID)
@@ -37,7 +37,7 @@ class ChannelBoard extends Component {
 			
 			clearInterval(this.checkForMsgsInterval)
 			this.checkForMsgsInterval = setInterval(
-				this.props.getChannelMsgs(currentChID),
+				() => this.props.getChannelMsgs(currentChID),
 				3000
 			)
 		}
