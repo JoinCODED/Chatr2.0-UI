@@ -27,7 +27,6 @@ class App extends Component {
 
   render() {
     return (
-
       <div className="container">
         <div className="row my-4">
           <NavBar />
@@ -36,7 +35,10 @@ class App extends Component {
               <Route path="/welcome" component={Welcome} />
               <Route path="/(login|signup)" component={RegistrationForm} />
               <PrivateRoute path="/private" component={SuperSecretPage} />
-              <PrivateRoute path="/channels/:name" component={ChannelBoard} />
+              <PrivateRoute
+                path="/channels/:channelID"
+                component={ChannelBoard}
+              />
               <PrivateRoute path="/createChannel" component={ChannelForm} />
               <Redirect to="/login" />
             </Switch>
