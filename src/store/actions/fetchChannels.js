@@ -3,7 +3,9 @@ import * as actionTypes from "./actionTypes";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://private-chatr.herokuapp.com/"
+           //https://api-chatr.herokuapp.com/
+          //http://private-chatr.herokuapp.com/
+  baseURL: "https://api-chatr.herokuapp.com/"
 });
 
 export const fetchChannels = () => {

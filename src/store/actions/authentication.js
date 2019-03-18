@@ -5,7 +5,9 @@ import * as actionTypes from "./actionTypes";
 
 
 const instance = axios.create({
-  baseURL: "http://private-chatr.herokuapp.com"
+            //https://api-chatr.herokuapp.com/
+            //http://private-chatr.herokuapp.com/
+  baseURL: "https://api-chatr.herokuapp.com/"
 });
 
 const setAuthToken = token => {
@@ -48,7 +50,7 @@ export const checkForExpiredToken = () => {
 export const login = (userData, history) => {
   return async dispatch => {
     try {
-      let response = await instance.post("/login/", userData);
+      let response = await instance.post("login/", userData);
       let user = response.data;
       let decodedUser = jwt_decode(user.token);
       setAuthToken(user.token);
@@ -63,7 +65,7 @@ export const login = (userData, history) => {
 export const signup = (userData, history) => {
   return async dispatch => {
     try {
-      let response = await instance.post("/signup/", userData);
+      let response = await instance.post("signup/", userData);
       let user = response.data;
       let decodedUser = jwt_decode(user.token);
       setAuthToken(user.token);

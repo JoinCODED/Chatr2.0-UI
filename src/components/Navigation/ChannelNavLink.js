@@ -9,6 +9,7 @@ class ChannelNavLink extends Component {
   render() {
     const  channel  = this.props.channel;
     return (
+      
       <li
         className="nav-item"
         data-toggle="tooltip"

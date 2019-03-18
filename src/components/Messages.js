@@ -1,34 +1,26 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actionCreators from "../store/actions";
 
 class Messages extends Component {
-
-  componentDidMount() {
-    this.props.getMessages(this.props.match.params.channelId)
-  }
-
+	
 render() {
+	const messageObj = this.props.Messages;
+	//2019-03-16T06:32:21.997461Z
+	let timestampObj = messageObj.timestamp;
+	const date = timestampObj.slice(0, 10);
+	const time = timestampObj.slice(11, 16);
+
     return (
-          <div>
-          <h1 className="mb-1">WELCOME TO CHATR</h1>
-          <h3 className="mb-5">
-            <em>You're gonna need to login to see the messages</em>
-          </h3>
-          </div>
+    	<div className={`${messageObj.username ===  this.props.user.username ? "card text-white p-2 float-right mb-1 mt-2 rounded-pill mr-2 bg-success":"card mb-1 mt-2 rounded-pill bg-light ml-2" }`} style={{width: "30rem", clear: "both", height: "auto"}}>
+		  <div className="card-body">
+		  	<h5 className="card-title">{messageObj.username} <small>{`${date} || ${time}`}</small></h5>
+		    <div className="card-text" style={{fontSize:"15px"}}>{messageObj.message}</div>
+		  </div>
+		</div>
     );
   }
 }
-
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getMessages: (channelId) => dispatch(actionCreators.checkForExpiredToken(channelId)),
-  };
-};
 const mapStateToProps = state => {
-  return { messages: state.mess.messages };
+  return { user: state.auth.user };
 };
-
-export default connect(mapStateToProps,mapStateToProps)(Messages);
+export default connect(mapStateToProps)(Messages);
