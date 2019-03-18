@@ -1,23 +1,36 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+// Actions
+import * as actionCreators from "../store/actions";
 
 class RegistationForm extends Component {
   state = {
     username: "",
     password: ""
   };
-
+  componentWillUnmount() {
+    if (this.props.errors.length) this.props.resetErrors();
+  }
   changeHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   submitHandler = e => {
     e.preventDefault();
-    alert("I don't work yet");
+    console.log("[RegistrationForm.js]", this.props.match.url.substring(1));
+    this.props.loginAndSignup(
+      this.state,
+      this.props.history,
+      this.props.match.url.substring(1)
+    );
   };
 
   render() {
     const type = this.props.match.url.substring(1);
+    const { username, password } = this.state;
+    const errors = this.props.errors;
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">
@@ -27,12 +40,20 @@ class RegistationForm extends Component {
               : "Register an account"}
           </h5>
           <form onSubmit={this.submitHandler}>
+            {!!errors.length && (
+              <div className="alert alert-danger" role="alert">
+                {errors.map(error => (
+                  <p key={error}>{error}</p>
+                ))}
+              </div>
+            )}
             <div className="form-group">
               <input
                 className="form-control"
                 type="text"
                 placeholder="Username"
                 name="username"
+                value={username}
                 onChange={this.changeHandler}
               />
             </div>
@@ -42,6 +63,7 @@ class RegistationForm extends Component {
                 type="password"
                 placeholder="Password"
                 name="password"
+                value={password}
                 onChange={this.changeHandler}
               />
             </div>
@@ -66,5 +88,19 @@ class RegistationForm extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    errors: state.errors.errors
+  };
+};
 
-export default RegistationForm;
+const mapDispatchToProps = dispatch => ({
+  loginAndSignup: (userData, history, type) =>
+    dispatch(actionCreators.loginAndSignup(userData, history, type)), //pass state
+  resetErrors: () => dispatch(actionCreators.resetErrors())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegistationForm);
