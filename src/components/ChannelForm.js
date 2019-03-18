@@ -10,23 +10,38 @@ import { connect } from "react-redux";
 import * as actionCreators from "../store/actions/index";
 
 class ChannelForm extends Component {
-  state = {
-    name: "",
-    image_url: ""
-  };
 
-  textChangeHandler = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+	state = {
+		name: "",
+		image_url: ""
+	};
 
-  submitChannel = event => {
-    event.preventDefault();
-    console.log("zerodebug => submitChannel: ", this.state);
-    this.props.postChannel(this.state);
-  };
+	textChangeHandler = event => {
+		this.setState({ [event.target.name]: event.target.value });
+	};
+
+	submitChannel = event => {
+		event.preventDefault();
+		console.log("zerodebug => submitChannel: ", this.state);
+		this.props.postChannel(this.state, this.props.history);
+	};
+
+		return (
+			<div className="mt-5 p-2">
+				<form onSubmit={this.submitChannel}>
+					{/* handling error (impl later)
+						!!errors.length && (
+						<div className="alert alert-danger" role="alert">
+							{errors.map(error => (
+								<p key={error}>{error}</p>
+							))}
+						</div>
+					)*/}
+
 
   render() {
     // const errors = this.props.errors;
+
 
     return (
       <div className="row my-4">
@@ -46,6 +61,7 @@ class ChannelForm extends Component {
                   />
                   <i class="sicon-user text-muted text-bottom" />
                 </div>
+      
                 <div className="form-group my-4 ">
                   <input
                     className="form-control form-field-format"
@@ -70,12 +86,13 @@ class ChannelForm extends Component {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {
-    postChannel: newCh => dispatch(actionCreators.postChannel(newCh))
-  };
+	return {
+		postChannel: (newCh, history) =>
+			dispatch(actionCreators.postChannel(newCh, history))
+	};
 };
 
 export default connect(
-  null,
-  mapDispatchToProps
+	null,
+	mapDispatchToProps
 )(ChannelForm);

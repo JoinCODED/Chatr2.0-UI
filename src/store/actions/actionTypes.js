@@ -4,4 +4,8 @@ export const SET_ERRORS = "SET_ERRORS";
 export const GET_ALL_CHANNELS = "GET_ALL_CHANNELS";
 export const POST_CHANNEL = "POST_CHANNEL";
 
-export const GET_CHANNEL = "GET_CHANNEL";
+export const GET_CHANNEL_INFO = "GET_CHANNEL_INFO";
+export const GET_CHANNEL_MSGS = "GET_CHANNEL_MSGS";
+
+
+export const POST_MSG = "POST_MSG";

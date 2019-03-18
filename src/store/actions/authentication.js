@@ -46,20 +46,20 @@ export const checkForExpiredToken = () => {
 };
 
 export const login = (userData, history) => {
-  return async dispatch => {
-    try {
-      let response = await instance.post("/login/", userData);
-      let token = response.data.token;
-      let decodedUser = jwt_decode(token);
-      setAuthToken(token);
-      dispatch(setCurrentUser(decodedUser));
-      // make sure to passe the history obj to the func
-      history.push("/private");
-    } catch (error) {
-      dispatch(setErrors(error));
-      console.error(error.response.data);
-    }
-  };
+	return async dispatch => {
+		try {
+			let response = await instance.post("/login/", userData);
+			let user = response.data;
+			let decodedUser = jwt_decode(user.token);
+			setAuthToken(user.token);
+			dispatch(setCurrentUser(decodedUser));
+		  // make sure to passe the history obj to the func
+		  history.push("/welcome");
+		} catch (error) {
+			dispatch(setErrors(error))
+			console.error(error.response.data);
+		}
+	}
 };
 
 export const signup = (userData, history) => {
