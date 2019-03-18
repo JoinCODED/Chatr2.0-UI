@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import background from "../assets/images/background.svg";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +10,6 @@ class SuperSecretPage extends Component {
       <div className="my-4 text-center">
         <br />
         <br />
-        {/* <img src={background} style={{ width: 300 }} /> */}
         <br />
         <br />
         <br />
