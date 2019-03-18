@@ -18,19 +18,28 @@ class NavBar extends Component {
       <div className="col-4 nav-style " style={{ maxHeight: 700 }}>
         <div className="row">
           <div className="col-12 my-3">
-            <Link className="navbar-brand" to="/welcome">
-              <div>
-                <img src={logo} style={{ width: 30 }} />
+            <div className="row mx-1">
+              <div className="col-4">
+                <div>
+                  <Link className="navbar-brand" to="/welcome">
+                    <img src={logo} style={{ width: 40 }} />
+                  </Link>
+                </div>
               </div>
-            </Link>
-            <a onClick={() => this.props.logout()}>
-              {" "}
-              <span>Logout</span>
-              <span>
-                {"       "}
-                <FontAwesomeIcon icon={faSignOutAlt} />
-              </span>
-            </a>
+              <div className="col-8 text-right">
+                <button
+                  onClick={() => this.props.logout()}
+                  className="custom-logout-btn"
+                >
+                  {" "}
+                  <span>Logout</span>
+                  <span>
+                    {"       "}
+                    <FontAwesomeIcon icon={faSignOutAlt} />
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <SideNav />

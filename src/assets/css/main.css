@@ -17,6 +17,15 @@ hr {
   height: 300px;
 }
 
+.custom-logout-btn {
+  /* border-colo: none; */
+  border-style: none;
+  border-width: 0px;
+  background-color: #3f0f3f;
+  padding: 1px 7px 2px;
+  color: #fff
+}
+
 .nav-style {
   background-color: #3f0f3f;
   color: #fff;
