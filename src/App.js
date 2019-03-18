@@ -15,10 +15,14 @@ import PrivateRoute from "./components/PrivateRoute";
 import Welcome from "./components/Welcome";
 import RegistrationForm from "./components/RegistrationForm";
 import SuperSecretPage from "./components/SuperSecretPage";
+import messages from "./components/messages";
+import CreateChannelForm from "./components/Navigation/CreateChannelForm";
+import SendMessageForm from "./components/SendMessageForm";
 
 class App extends Component {
   componentDidMount() {
     main();
+    this.props.checkForExpiredToken();
   }
 
   render() {
@@ -29,6 +33,9 @@ class App extends Component {
           <Route path="/welcome" component={Welcome} />
           <Route path="/(login|signup)" component={RegistrationForm} />
           <PrivateRoute path="/private" component={SuperSecretPage} />
+          <Route path="/channel/:channelID/" component={messages} />
+          <Route path="/createChannel/" component={CreateChannelForm} />
+          {/* <Route path="/message/" component={SendMessageForm} /> */}
           <Redirect to="/welcome" />
         </Switch>
         <Footer />

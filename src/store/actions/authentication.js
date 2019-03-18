@@ -60,7 +60,7 @@ const setAuthToken = token => {
 
 }
 export const checkForExpiredToken = () => {
-  // Get token
+
   const token = localStorage.getItem("myToken");
   if (token) {
     const currentTime = Date.now() / 1000;
@@ -69,10 +69,11 @@ export const checkForExpiredToken = () => {
     // Check token expiration
     if (user.exp >= currentTime) {
       // Set auth token header
-      setAuthToken(token);
-      return setCurrentUser(user)
+      return setAuthToken(token);
+      // return setCurrentUser(user)
     }
     return logout();
   };
+
 }
 

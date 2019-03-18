@@ -1,4 +1,5 @@
 import { FETCH_CHANNELS } from "../actions/actionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 
 const initialState = {
@@ -16,6 +17,18 @@ const reducer = (state = initialState, action) => {
                 filteredChannels: state.filteredChannels.concat(action.payload),
                 loading: false
             };
+        case actionTypes.POST_CHANNEL:
+            return {
+                ...state,
+                channels: [action.payload].concat(state.channels)
+            };
+        default:
+            return state;
+    }
+};
+
+export default reducer;
+
         // case actionTypes.FETCH_CHANNELS:
         // return {
         //     ...state,
@@ -26,8 +39,3 @@ const reducer = (state = initialState, action) => {
         //     })
 
         // };
-        default:
-            return state;
-    }
-}
-export default reducer;

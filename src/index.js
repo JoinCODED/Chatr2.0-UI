@@ -14,9 +14,9 @@ import App from "./App";
 
 // Store
 import store from "./store";
-import { checkForExpiredToken } from './store/actions'
+// import { checkForExpiredToken } from './store/actions'
 
-store.dispatch(checkForExpiredToken());
+// store.dispatch(checkForExpiredToken());
 
 
 ReactDOM.render(

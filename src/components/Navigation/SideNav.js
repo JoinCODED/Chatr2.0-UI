@@ -12,24 +12,48 @@ import {
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
+import CreateChannelForm from "./CreateChannelForm";
+import Modal from "react-modal";
 
 class SideNav extends React.Component {
-  state = { collapsed: false };
+  state = {
+    collapsed: false,
+    open: false
+  };
 
   componentDidMount() {
-    this.props.getChannels();
+    if (this.props.user) {
+
+      this.props.getChannels();
+    }
   }
 
+  componentDidUpdate(prevState) {
+    if (prevState.user !== this.props.user) {
+      if (this.props.user) {
+        this.props.getChannels()
+      }
+    }
+  }
+  onOpenModal = () => this.setState({ open: true });
+
+  onCloseModal = () => this.setState({ open: false });
+
   render() {
+    const { open } = this.state;
     const channelLinks = this.props.channels.map(channel => (
       <ChannelNavLink key={channel.name} channel={channel} />
     ));
     return (
       <div>
-        <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <ul className="navbar-nav navbar-sidenav" id="exampleAccordion" style={{ overflowY: "scroll" }}>
           <li className="nav-item" data-toggle="tooltip" data-placement="right">
             <Link className="nav-link heading" to="/createChannel">
-              <span className="nav-link-text mr-2">Channels</span>
+              <Modal open={open} onClose={this.onCloseModal} center>
+                <CreateChannelForm closeModal={this.onCloseModal} />
+              </Modal>
+              {/* <div className="card" onClick={this.onOpenModal}></div> */}
+              <span className="nav-link-text mr-2" >Channels</span>
               <FontAwesomeIcon icon={faPlusCircle} />
             </Link>
           </li>
@@ -60,13 +84,13 @@ class SideNav extends React.Component {
 const mapStateToProps = state => {
   return {
     channels: state.channels.channels,
-    // loading: state.rootAuthors.loading
+    user: state.auth.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getChannels: () => dispatch(actionCreators.fetchChannels())
+    getChannels: () => dispatch(actionCreators.fetchChannels()),
   };
 };
 export default connect(

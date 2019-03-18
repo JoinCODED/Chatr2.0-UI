@@ -8,18 +8,19 @@ import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 class ChannelNavLink extends Component {
   render() {
     const { channel } = this.props;
-    return (
-      <li
-        className="nav-item"
-        data-toggle="tooltip"
-        data-placement="right"
-        title={channel.name}
-      >
-        <NavLink className="nav-link" to={`/channels/${channel.name}`}>
-          <FontAwesomeIcon icon={faHashtag} />
-          <span className="nav-link-text"> {channel.name}</span>
-        </NavLink>
-      </li>
+    return (<>
+      {(channel) ?
+        <li
+          className="nav-item"
+          data-toggle="tooltip"
+          data-placement="right"
+          title={channel.name}
+        >
+          <NavLink className="nav-link" to={`/channel/${channel.id}`}>
+            <FontAwesomeIcon icon={faHashtag} />
+            <span className="nav-link-text"> {channel.name}</span>
+          </NavLink>
+        </li> : <></>}</>
     );
   }
 }
