@@ -7,6 +7,8 @@ export const POST_CHANNEL = "POST_CHANNEL";
 
 export const GET_CHANNEL_INFO = "GET_CHANNEL_INFO";
 export const GET_CHANNEL_MSGS = "GET_CHANNEL_MSGS";
+export const FILTER_MSGS = "FILTER_MSGS";
+export const REST_QUERY = "REST_QUERY";
 
 
 export const POST_MSG = "POST_MSG";

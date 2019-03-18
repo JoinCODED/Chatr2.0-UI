@@ -43,7 +43,7 @@ class SideNav extends React.Component {
           </div>
         </div>
         <hr />
-        <SearchBar filter={this.props.filterChannels}/>
+        <SearchBar key="sideNav"  filter={this.props.filterChannels}/>
         <div className="col-12 my-4">{user ? channelLinks : <div />}</div>
       </div>
     );

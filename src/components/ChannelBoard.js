@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 
+// Components
+import SearchBar from "./SearchBar";
+
 const ColoredLine = color => (
 	<hr
 		style={{
@@ -15,25 +18,33 @@ const ColoredLine = color => (
 
 class ChannelBoard extends Component {
 	state = {
-		message: ""
+		message: "",
 	} 
-
+	
+	// filterMessages = async query => {
+	// 	await this.setState({query:query})
+	// 	await this.props.filterMsgs(query)
+	// }
 
 	async componentDidMount() {
 		let currentChID = this.props.match.params.channelID;
-		
+		console.log("componentDidMount => ChannelBoard => currentChID: ", currentChID)
 		this.checkForMsgsInterval = setInterval(
 			() => this.props.getChannelMsgs(currentChID),
 			3000)
 
-		await this.props.getChannelInfo(currentChID)
+		this.props.getChannelInfo(currentChID)
 
 		console.log(this.props.chInfo)
 	}
 
 	componentDidUpdate(prevState) {
 		let currentChID = this.props.match.params.channelID;
+		
 		if (prevState.match.params.channelID !== currentChID) {
+			
+			this.props.restQuery()
+			// this.setState({query:""})
 			
 			clearInterval(this.checkForMsgsInterval)
 			this.checkForMsgsInterval = setInterval(
@@ -52,22 +63,25 @@ class ChannelBoard extends Component {
 	}
 
 	submitMsg = (event) => {
+		let currentChID = this.props.match.params.channelID;
 		event.preventDefault();
 		console.log("zerodebug => submitMsg: ", this.state.message)
 		console.log("zerodebug => this.currentChID: ", this.currentChID)
-		this.props.postMsg(this.state, this.currentChID)
+		this.props.postMsg(this.state, currentChID)
 		this.setState({message: ""})
-	} 
+	}
+
 	render() {
 
 		let msgs = <p> No messages yet... </p>;
+		let chObjMsgs = this.props.filterChObjMsgs;
 
-		if (this.props.chObjMsgs.length !== 0) {
+		if (chObjMsgs.length !== 0) {
 			let username = this.props.user.username
 			
 			console.log("zerodebug => username: ", username)
 
-			let chObjMsgs = this.props.chObjMsgs;
+			
 			msgs = chObjMsgs.map(msg => {
 				return (
 					<div 
@@ -96,6 +110,10 @@ class ChannelBoard extends Component {
 		return (
 
 			<div className="container">
+				<SearchBar 
+				key="ChannelBoard" 
+				filter={this.props.filterMsgs}
+				/>
 				{msgs}
 
 				<form
@@ -132,9 +150,7 @@ class ChannelBoard extends Component {
 					  </div>
 					
 					</div>
-					{
-						//<input type="submit" />
-					}
+					
 				</form>
 			</div>
 		)
@@ -146,6 +162,7 @@ const mapStateToProps = state => {
 	return {
 		user: state.auth.user,
 		chObjMsgs: state.channels.chObjMsgs,
+		filterChObjMsgs: state.channels.filterChObjMsgs,
 		chInfo: state.channels.chInfo,
 	};
 };
@@ -155,6 +172,8 @@ const mapDispatchToProps = dispatch => {
 		getChannelMsgs: chID => dispatch(actionCreators.getChannelMsgs(chID)),
 		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
 		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
+		filterMsgs: (q) => dispatch(actionCreators.filterMsgs(q)),
+		restQuery: () => dispatch(actionCreators.restQuery()),
 	};
 };
 

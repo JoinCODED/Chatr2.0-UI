@@ -3,8 +3,10 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   channelsObj: [],
   filteredChannelsObj: [],
+  query: "",
 
   chObjMsgs: [],
+  filterChObjMsgs: [],
   chInfo: {},
 
   msg: ""
@@ -28,7 +30,10 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_CHANNEL_MSGS:
       return {
         ...state,
-        chObjMsgs: action.payload
+        chObjMsgs: action.payload,
+        filterChObjMsgs: action.payload.filter(msg => {
+          return `${msg.message}`.toLowerCase().includes(state.query);
+        })
       };
 
     case actionTypes.POST_MSG:
@@ -56,6 +61,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         filteredChannelsObj: filteredCh
       };
+
+    case actionTypes.FILTER_MSGS:
+      let filterChObjs = state.chObjMsgs.filter(msg => {
+        return `${msg.message}`.toLowerCase().includes(action.payload);
+      });
+
+      return {
+        ...state,
+        query: action.payload,
+        filterChObjMsgs: filterChObjs
+      };
+
+    case actionTypes.REST_QUERY:
+      return {
+        ...state,
+        query: "",
+      }
 
     default:
       return state;

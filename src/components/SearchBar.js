@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 
+import { connect } from "react-redux";
+
+
 class SearchBar extends Component {
   render() {
-    console.log(this.props.filter,"filter")
     return (
       <div className="form-group col-lg-6 col-12 mx-auto">
         <div className="input-group my-3">
@@ -25,4 +27,10 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+
+const mapStateToProps = state => {
+  return {
+    query: state.channels.query
+  };
+};
+export default connect(mapStateToProps)(SearchBar);

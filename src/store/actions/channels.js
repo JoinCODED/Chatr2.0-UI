@@ -116,3 +116,15 @@ export const filterChannels = (query) => {
 		payload: query,
 	}
 };
+
+export const filterMsgs = (query) => {
+	return {
+		type: actionTypes.FILTER_MSGS,
+		payload: query,
+	}
+};
+
+
+export const restQuery = () => {
+	return {type: actionTypes.REST_QUERY}
+};

@@ -11,7 +11,9 @@ export {
  	getChannelMsgs,
  	postMsg,
  	getChannelInfo,
- 	filterChannels, 
+ 	filterChannels,
+ 	filterMsgs,
+ 	restQuery,
 } from "./channels"
 
 export { setErrors } from "./errors";
