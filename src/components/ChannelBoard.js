@@ -5,6 +5,8 @@ import * as actionCreators from "../store/actions";
 // Components
 import SearchBar from "./SearchBar";
 
+
+// Utility functions 
 const ColoredLine = color => (
   <hr
     style={{
@@ -15,6 +17,28 @@ const ColoredLine = color => (
     }}
   />
 );
+
+const formatAMPM = (date) => {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? 'pm' : 'am';
+
+  hours = (hours % 12) || 12; // the hour '0' should be '12'
+  
+  minutes = minutes < 10 ? ('0' + minutes) : minutes;
+  
+  return hours + ':' + minutes + ' ' + ampm;
+}
+
+const formatTimeS = (ts) => {
+	let dateObj = new Date(ts);
+	console.log("zerodebug => date: ", dateObj)
+
+	let date = dateObj.toDateString()
+	let time = formatAMPM(dateObj)
+
+	return time
+}
 
 class ChannelBoard extends Component {
 
@@ -95,11 +119,11 @@ class ChannelBoard extends Component {
 						<h4>
 							{msg.username.replace(/^\w/, c => c.toUpperCase())}
 						</h4>
-						<p>
+						<p style={{ wordBreak: "break-all" }}>
 							{msg.message}
 							<br />
 							<small className="border-bottom">
-								{msg.timestamp}
+								{formatTimeS(msg.timestamp)}
 							</small>
 						</p>
 						{ColoredLine(username === msg.username ? "#5C33AE" : "#AE4432")}
