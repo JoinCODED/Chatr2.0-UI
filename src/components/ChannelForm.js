@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-import logo from "../assets/images/logo.png";
-
-// Fontawesome
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 
@@ -32,8 +27,6 @@ class ChannelForm extends Component {
   };
 
   render() {
-    // const errors = this.props.errors;
-
     return (
       <div className="row my-4">
         <div className="col-12 text-center">

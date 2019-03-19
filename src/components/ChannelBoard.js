@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 
-import loadingImg from "../assets/images/loadingcodeing.gif";
-import userPic from "../assets/images/logo.png";
+import pic from "../assets/images/logo.png";
 
 // Import spinners library
 import { ClipLoader } from "react-spinners";
@@ -12,18 +11,6 @@ import { ClipLoader } from "react-spinners";
 import SearchBar from "./SearchBar";
 import Sound from "react-sound";
 import soundFile from "../assets/openended.mp3";
-
-// Utility functions
-const ColoredLine = color => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      height: 5,
-      borderRadius: "20px"
-    }}
-  />
-);
 
 const formatAMPM = date => {
   let hours = date.getHours();
@@ -39,7 +26,7 @@ const formatAMPM = date => {
 
 const formatTimeS = ts => {
   let dateObj = new Date(ts);
-  let date = dateObj.toDateString();
+  let date = dateObj.toDateString(); // Where do we use it ?
   let time = formatAMPM(dateObj);
 
   return time;
@@ -164,7 +151,7 @@ class ChannelBoard extends Component {
               ) : (
                 <span class="">
                   <img
-                    src={userPic}
+                    src={pic}
                     class="rounded mx-2"
                     alt={msg.username}
                     style={
@@ -211,16 +198,28 @@ class ChannelBoard extends Component {
     return (
       <div
         className="row my-3"
-        style={{ height: "665px", overflow: "visible" }}
+        style={{ height: "565px", overflow: "visible" }}
       >
-        <div className="col-5">{this.props.chInfo.name}</div>
+        <div className="col-5" style={{ borderBottom: "1px solid #e7e7e7" }}>
+          <span>
+            <img
+              src={pic}
+              class="rounded mx-2"
+              alt={this.props.chInfo.name}
+              style={{ width: "20px", textAlign: "left", float: "left" }}
+            />
+            <span style={{ maxLength: "break-word" }}>
+              {this.props.chInfo.name}
+            </span>
+          </span>
+        </div>
         <div className="col-7 ">
           <SearchBar key="ChannelBoard" filter={this.props.filterMsgs} />
         </div>
         <div className="col-12 ">
           <div
             className="container my-4 content-board"
-            style={{ height: 520, maxHeight: 520 }}
+            style={{ height: "445px", maxHeight: "445px" }}
           >
             {msgs}
           </div>
@@ -236,7 +235,7 @@ class ChannelBoard extends Component {
 				</div>
 				)*/}
 
-            <div className="input-group mb-3 my-4">
+            <div className="input-group mb-5">
               <input
                 type="text"
                 className="form-control"

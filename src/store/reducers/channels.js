@@ -12,7 +12,7 @@ const initialState = {
   msgLoading: true,
   chLoading: true,
 
-  msg: "",
+  msg: "" // Why do we save the msg rether than get it from the senteral store
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,7 +22,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         channelsObj: action.payload,
         filteredChannelsObj: action.payload,
-        chLoading: false,
+        chLoading: false
       };
 
     case actionTypes.POST_CHANNEL:
@@ -36,9 +36,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         chObjMsgs: action.payload,
         filterChObjMsgs: action.payload.filter(msg => {
+          // Why do we need to feed this here
           return `${msg.message}`.toLowerCase().includes(state.query);
         }),
-        msgLoading: false,
+        msgLoading: false
       };
 
     case actionTypes.POST_MSG:
@@ -81,20 +82,20 @@ const reducer = (state = initialState, action) => {
     case actionTypes.REST_QUERY:
       return {
         ...state,
-        query: "",
-      }
+        query: ""
+      };
 
     case actionTypes.SET_MSG_LOADING:
       return {
         ...state,
-        msgLoading: true,
-      }
+        msgLoading: true
+      };
 
     case actionTypes.SET_MSG_LOADING:
       return {
         ...state,
-        chLoading: true,
-      }
+        chLoading: true
+      };
 
     default:
       return state;

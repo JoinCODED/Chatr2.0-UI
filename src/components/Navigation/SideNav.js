@@ -38,7 +38,7 @@ class SideNav extends React.Component {
               <FontAwesomeIcon icon={faPlus} />
             </div>
             <div className="col-11">
-              <Link to={user ? "/createChannel" : "/login"}>Add a channel</Link>
+              <Link to={user ? "/createChannel" : "/login"}>New Channel</Link>
             </div>
           </div>
           <hr />
@@ -46,7 +46,7 @@ class SideNav extends React.Component {
 
           <div
             className="col-12 my-4 channels-board"
-            style={{ width: "440px", maxHeight: "440px" }}
+            style={{ width: "340px", maxHeight: "340px" }}
           >
             {user ? (
               !this.props.loading ? (
