@@ -128,3 +128,12 @@ export const filterMsgs = (query) => {
 export const restQuery = () => {
 	return {type: actionTypes.REST_QUERY}
 };
+
+export const setMsgLoading = () => {
+	return {type: actionTypes.SET_MSG_LOADING}
+};
+
+export const setChannelLoading = () => {
+	return {type: actionTypes.SET_CH_LOADING}
+};
+
