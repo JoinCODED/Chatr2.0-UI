@@ -5,6 +5,9 @@ import * as actionCreators from "../store/actions";
 import loadingImg from "../assets/images/loadingcodeing.gif";
 import userPic from "../assets/images/logo.png";
 
+// Import spinners library
+import { ClipLoader } from "react-spinners";
+
 // Components
 import SearchBar from "./SearchBar";
 import Sound from "react-sound";
@@ -45,7 +48,8 @@ const formatTimeS = ts => {
 class ChannelBoard extends Component {
   state = {
     message: "",
-    played: false
+    played: false,
+    loading: true
   };
 
   async componentDidMount() {
@@ -124,15 +128,16 @@ class ChannelBoard extends Component {
 
   render() {
     let msgs = (
-      <div className="content-board">
-        {/* <img src={loadingImg} alt="" /> */}
+      <div className="content-board text-center mt-5">
         <div
-          className="spinnerGrow"
-          style={{ width: "3rem", height: "3rem" }}
+          class="spinner-grow"
+          style={{
+            width: "10rem",
+            height: "10rem",
+            color: "#f1f1f1"
+          }}
           role="status"
-        >
-          <span className="srOnly">Loading...</span>
-        </div>
+        />
       </div>
     );
 
@@ -205,7 +210,8 @@ class ChannelBoard extends Component {
 
     return (
       <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
-        <div className="col-12 ">
+        <div className="col-5">{this.props.chInfo.name}</div>
+        <div className="col-7 ">
           <SearchBar key="ChannelBoard" filter={this.props.filterMsgs} />
         </div>
         <div className="col-12 ">
