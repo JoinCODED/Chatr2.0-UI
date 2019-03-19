@@ -19,14 +19,14 @@ import * as actionCreators from "../../store/actions/index";
 class NavBar extends Component {
   render() {
     return (
-      <div className="col-4 nav-style " style={{ maxHeight: 700 }}>
+      <div className="col-4 nav-style " style={{ maxHeight: "700px" }}>
         <div className="row">
           <div className="col-12 my-3">
             <div className="row mx-1">
               <div className="col-4">
                 <div>
                   <Link className="navbar-brand" to="/welcome">
-                    <img src={logo} style={{ width: 40 }} />
+                    <img src={logo} style={{ width: "40px" }} />
                   </Link>
                 </div>
               </div>

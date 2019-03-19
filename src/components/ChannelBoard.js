@@ -209,7 +209,10 @@ class ChannelBoard extends Component {
     }
 
     return (
-      <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
+      <div
+        className="row my-3"
+        style={{ height: "665px", overflow: "visible" }}
+      >
         <div className="col-5">{this.props.chInfo.name}</div>
         <div className="col-7 ">
           <SearchBar key="ChannelBoard" filter={this.props.filterMsgs} />

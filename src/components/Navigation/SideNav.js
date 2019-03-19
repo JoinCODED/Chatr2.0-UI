@@ -16,7 +16,6 @@ import SearchBar from "../SearchBar";
 class SideNav extends React.Component {
   state = { collapsed: false };
 
-
   render() {
     let user = this.props.user;
     let chs = this.props.filteredChannels;
@@ -43,29 +42,32 @@ class SideNav extends React.Component {
             </div>
           </div>
           <hr />
-          <SearchBar key="channels" filter={this.props.filterChannels}/>
-          
+          <SearchBar key="channels" filter={this.props.filterChannels} />
+
           <div
             className="col-12 my-4 channels-board"
-            style={{ maxHeight: 440 }}
-          > 
-            {
-              user ? 
-              (!this.props.loading ? channelLinks :
-                <div className = "my-2">
-                  {[...Array(15).keys()].map( _ => <img src={chLoadingImg}/>)}
-                </div>)
-              : <div />
-            }
-
+            style={{ width: "440px", maxHeight: "440px" }}
+          >
+            {user ? (
+              !this.props.loading ? (
+                channelLinks
+              ) : (
+                <div className="my-2">
+                  {[...Array(15).keys()].map(_ => (
+                    <img src={chLoadingImg} />
+                  ))}
+                </div>
+              )
+            ) : (
+              <div />
+            )}
           </div>
         </div>
-
-      );} 
-      else {
-        return <div />
-      }
-  } 
+      );
+    } else {
+      return <div />;
+    }
+  }
 }
 
 const mapStateToProps = state => {
@@ -73,16 +75,18 @@ const mapStateToProps = state => {
     channels: state.channels.channelsObj,
     filteredChannels: state.channels.filteredChannelsObj,
     user: state.auth.user,
-    loading: state.channels.chLoading,
+    loading: state.channels.chLoading
   };
 };
-
 
 const mapDispatchToProps = dispatch => {
   return {
-    filterChannels: (q) => dispatch(actionCreators.filterChannels(q)),
-    setChannelLoading: () => dispatch(actionCreators.setChannelLoading()),
+    filterChannels: q => dispatch(actionCreators.filterChannels(q)),
+    setChannelLoading: () => dispatch(actionCreators.setChannelLoading())
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideNav);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SideNav);
