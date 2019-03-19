@@ -4,6 +4,8 @@ import * as actionCreators from "../store/actions";
 
 // Components
 import SearchBar from "./SearchBar";
+import Sound from 'react-sound';
+import soundFile from '../assets/openended.mp3';
 
 
 // Utility functions 
@@ -32,8 +34,6 @@ const formatAMPM = (date) => {
 
 const formatTimeS = (ts) => {
 	let dateObj = new Date(ts);
-	console.log("zerodebug => date: ", dateObj)
-
 	let date = dateObj.toDateString()
 	let time = formatAMPM(dateObj)
 
@@ -44,6 +44,7 @@ class ChannelBoard extends Component {
 
 	state = {
 		message: "",
+		played: false,
 	} 
 	
 	// filterMessages = async query => {
@@ -63,10 +64,10 @@ class ChannelBoard extends Component {
 		console.log(this.props.chInfo)
 	}
 
-	componentDidUpdate(prevState) {
+	componentDidUpdate(prevProps, prevState) {
 		let currentChID = this.props.match.params.channelID;
 		
-		if (prevState.match.params.channelID !== currentChID) {
+		if (prevProps.match.params.channelID !== currentChID) {
 			
 			
 			clearInterval(this.checkForMsgsInterval)
@@ -77,6 +78,12 @@ class ChannelBoard extends Component {
 			)
 
 			this.props.restQuery()
+		}
+
+		if (prevProps.chObjMsgs && this.props.chObjMsgs) {
+			if (prevProps.chObjMsgs.length !== this.props.chObjMsgs.length) {
+				this.setState({played: true })
+			}
 		}
 	}
 
@@ -93,9 +100,27 @@ class ChannelBoard extends Component {
 		event.preventDefault();
 		console.log("zerodebug => submitMsg: ", this.state.message)
 		console.log("zerodebug => this.currentChID: ", this.currentChID)
-		this.props.postMsg(this.state, currentChID)
+		let msgObj = {message: this.state.message}
+		this.props.postMsg(msgObj, currentChID)
 		this.setState({message: ""})
 	}
+
+	sound = () => {
+		return (
+			<Sound 
+				url= {soundFile}
+				playStatus= {Sound.status.PLAYING}
+				autoLoad= {true}
+				autoPlay = {true}
+				onError = {(errorCode, description) => {
+					console.log("sound error: ", description)}
+				}
+				onFinishedPlaying = {this.togglePlay} 
+			/>
+			);
+	}
+
+	togglePlay = () => this.setState({played: false})
 
 	render() {
 
@@ -182,6 +207,9 @@ class ChannelBoard extends Component {
 	                  Send
 	                </button>
 	              </div>
+
+	              {this.state.played && this.sound()}
+
 	            </div>
 	          </form>
 	        </div>
