@@ -11,45 +11,35 @@ import * as actionCreators from "../store/actions";
 
 
 class Messages extends Component {
-
+    timer = 0
     state = {
         messages: []
     }
-    async componentDidMount() {
+    componentDidMount() {
         if (this.props.user) {
-
-            await this.props.getMessages(this.props.match.params.channelID);
-            this.setState({
-                messages: this.props.channel.map(message => (
-                    <li key={message.id}>{message.username} : {message.message} <small>{message.timestamp}</small></li>
-                ))
-            })
+            clearInterval(this.timer)
+            this.props.getMessages(this.props.match.params.channelID);
         }
     }
-    async componentDidUpdate(prevState) {
+    componentDidUpdate(prevState) {
+        console.log("in component did update")
         if (prevState.match.params.channelID !== this.props.match.params.channelID) {
-            this.props.getMessages(this.props.match.params.channelID)
-            await this.props.getMessages(this.props.match.params.channelID);
-            this.setState({
-                messages: this.props.channel.map(message => (
-                    <li key={message.id}>{message.username} : {message.message} <small>{message.timestamp}</small></li>
-                ))
-            })
+            console.log("difference")
+            clearInterval(this.timer)
+            this.timer = setInterval(() => this.props.getMessages(this.props.match.params.channelID), 3000)
+
         }
     }
 
 
     render() {
-        if (this.state.messages.length !== 0) {
+        if (this.props.channel.length !== 0) {
+            let messeges = this.props.channel.map(message => <p>{message.username}: {message.message}</p>)
             return (
                 <div className="channel">
                     <div>
-                        <ul>{this.state.messages}</ul>
+                        <ul>{messeges}</ul>
                         <SendMessageForm channelID={this.props.match.params.channelID} />
-                        {/* <img
-                            className="img-thumbnail img-fluid"
-                            alt={channel}
-                        /> */}
                     </div>
                     {/* <ChannelNavLink /> */}
                 </div>

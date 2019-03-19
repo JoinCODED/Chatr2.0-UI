@@ -6,10 +6,12 @@ const instance = axios.create({
 });
 
 export const fetchAllMessages = channelID => {
+    console.log("in action")
     return async dispatch => {
         try {
-            const res = await instance.get(`/channels/${channelID}`);
+            const res = await instance.get(`channels/${channelID}`);
             const channel = res.data;
+            console.log(channel)
             dispatch({
                 type: actionTypes.FETCH_ALL_MESSAGES,
                 payload: channel
@@ -27,10 +29,12 @@ export const PostMessage = (message, channelID) => {
     return async dispatch => {
         try {
 
-            const res = await instance.post(`/channels/${channelID}/send/`, message);
+            const res = await instance.post(`channels/${channelID}/send/`, message);
             let newmessage = res.data;
             console.log(res)
             // dispatch(setErrors());
+            //fetch(channelID)
+            //console.log("channel", channelID)
             dispatch({
                 type: actionTypes.POST_MESSAGE,
                 payload: newmessage
