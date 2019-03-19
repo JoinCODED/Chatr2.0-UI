@@ -12,3 +12,6 @@ export const REST_QUERY = "REST_QUERY";
 
 
 export const POST_MSG = "POST_MSG";
+
+export const SET_MSG_LOADING = "SET_MSG_LOADING";
+export const SET_CH_LOADING = "SET_CH_LOADING";

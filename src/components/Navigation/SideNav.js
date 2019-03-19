@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import * as actionCreators from "../../store/actions";
+import chLoadingImg from "../../assets/images/chloading2.svg";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -47,8 +48,16 @@ class SideNav extends React.Component {
           <div
             className="col-12 my-4 channels-board"
             style={{ maxHeight: 440 }}
-          >
-            {user ? channelLinks : <div />}
+          > 
+            {
+              user ? 
+              (!this.props.loading ? channelLinks :
+                <div className = "my-2">
+                  {[...Array(15).keys()].map( _ => <img src={chLoadingImg}/>)}
+                </div>)
+              : <div />
+            }
+
           </div>
         </div>
 
@@ -63,14 +72,16 @@ const mapStateToProps = state => {
   return {
     channels: state.channels.channelsObj,
     filteredChannels: state.channels.filteredChannelsObj,
-    user: state.auth.user
+    user: state.auth.user,
+    loading: state.channels.chLoading,
   };
 };
 
 
 const mapDispatchToProps = dispatch => {
   return {
-    filterChannels: (q) => dispatch(actionCreators.filterChannels(q))
+    filterChannels: (q) => dispatch(actionCreators.filterChannels(q)),
+    setChannelLoading: () => dispatch(actionCreators.setChannelLoading()),
   };
 };
 

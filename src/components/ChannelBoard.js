@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 
+import loadingImg from '../assets/images/loadingcodeing.gif'
+
 // Components
 import SearchBar from "./SearchBar";
 import Sound from 'react-sound';
@@ -46,11 +48,6 @@ class ChannelBoard extends Component {
 		message: "",
 		played: false,
 	} 
-	
-	// filterMessages = async query => {
-	// 	await this.setState({query:query})
-	// 	await this.props.filterMsgs(query)
-	// }
 
 	async componentDidMount() {
 		let currentChID = this.props.match.params.channelID;
@@ -69,7 +66,8 @@ class ChannelBoard extends Component {
 		
 		if (prevProps.match.params.channelID !== currentChID) {
 			
-			
+			this.props.setMsgLoading()
+
 			clearInterval(this.checkForMsgsInterval)
 			this.props.getChannelMsgs(currentChID)
 			this.checkForMsgsInterval = setInterval(
@@ -117,17 +115,23 @@ class ChannelBoard extends Component {
 				}
 				onFinishedPlaying = {this.togglePlay} 
 			/>
-			);
+		);
 	}
 
 	togglePlay = () => this.setState({played: false})
 
 	render() {
 
-		let msgs = <p> No messages yet... </p>;
+		let msgs = <div className = "content-board">
+						<img 
+						src={loadingImg} 
+						alt="" 
+						/>
+					</div>
+
 		let chObjMsgs = this.props.filterChObjMsgs;
 
-		if (chObjMsgs.length !== 0) {
+		if (!this.props.loading) {
 			let username = this.props.user.username
 			
 			console.log("zerodebug => username: ", username)
@@ -228,6 +232,7 @@ const mapStateToProps = state => {
 		chObjMsgs: state.channels.chObjMsgs,
 		filterChObjMsgs: state.channels.filterChObjMsgs,
 		chInfo: state.channels.chInfo,
+		loading: state.channels.msgLoading,
 	};
 };
 
@@ -238,6 +243,7 @@ const mapDispatchToProps = dispatch => {
 		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
 		filterMsgs: (q) => dispatch(actionCreators.filterMsgs(q)),
 		restQuery: () => dispatch(actionCreators.restQuery()),
+		setMsgLoading: () => dispatch(actionCreators.setMsgLoading()),
 	};
 }
 
