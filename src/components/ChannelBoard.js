@@ -17,119 +17,125 @@ const ColoredLine = color => (
 );
 
 class ChannelBoard extends Component {
+  state = {
+    message: ""
+  };
 
-	state = {
-		message: "",
-	} 
-	
-	// filterMessages = async query => {
-	// 	await this.setState({query:query})
-	// 	await this.props.filterMsgs(query)
-	// }
+  // filterMessages = async query => {
+  // 	await this.setState({query:query})
+  // 	await this.props.filterMsgs(query)
+  // }
 
-	async componentDidMount() {
-		let currentChID = this.props.match.params.channelID;
-		console.log("componentDidMount => ChannelBoard => currentChID: ", currentChID)
-		this.checkForMsgsInterval = setInterval(
-			() => this.props.getChannelMsgs(currentChID),
-			3000)
+  async componentDidMount() {
+    let currentChID = this.props.match.params.channelID;
+    console.log(
+      "componentDidMount => ChannelBoard => currentChID: ",
+      currentChID
+    );
+    this.checkForMsgsInterval = setInterval(
+      () => this.props.getChannelMsgs(currentChID),
+      3000
+    );
 
-		this.props.getChannelInfo(currentChID)
+    this.props.getChannelInfo(currentChID);
 
-		console.log(this.props.chInfo)
-	}
+    console.log(this.props.chInfo);
+  }
 
-	componentDidUpdate(prevState) {
-		let currentChID = this.props.match.params.channelID;
-		
-		if (prevState.match.params.channelID !== currentChID) {
-			
-			
-			clearInterval(this.checkForMsgsInterval)
-			this.props.getChannelMsgs(currentChID)
-			this.checkForMsgsInterval = setInterval(
-				() => this.props.getChannelMsgs(currentChID),
-				3000
-			)
+  componentDidUpdate(prevState) {
+    let currentChID = this.props.match.params.channelID;
 
-			this.props.restQuery()
-		}
-	}
+    if (prevState.match.params.channelID !== currentChID) {
+      clearInterval(this.checkForMsgsInterval);
+      this.props.getChannelMsgs(currentChID);
+      this.checkForMsgsInterval = setInterval(
+        () => this.props.getChannelMsgs(currentChID),
+        3000
+      );
 
-	componentWillMount() {
-		clearInterval(this.checkForMsgsInterval)
-	}
+      this.props.restQuery();
+    }
+  }
 
-	textChangeHandler = event => {
-		this.setState({ message: event.target.value });
-	}
+  componentWillMount() {
+    clearInterval(this.checkForMsgsInterval);
+  }
 
-	submitMsg = (event) => {
-		let currentChID = this.props.match.params.channelID;
-		event.preventDefault();
-		console.log("zerodebug => submitMsg: ", this.state.message)
-		console.log("zerodebug => this.currentChID: ", this.currentChID)
-		this.props.postMsg(this.state, currentChID)
-		this.setState({message: ""})
-	}
+  textChangeHandler = event => {
+    this.setState({ message: event.target.value });
+  };
 
-	render() {
+  submitMsg = event => {
+    let currentChID = this.props.match.params.channelID;
+    event.preventDefault();
+    console.log("zerodebug => submitMsg: ", this.state.message);
+    console.log("zerodebug => this.currentChID: ", this.currentChID);
+    this.props.postMsg(this.state, currentChID);
+    this.setState({ message: "" });
+  };
 
-		let msgs = <p> No messages yet... </p>;
-		let chObjMsgs = this.props.filterChObjMsgs;
+  render() {
+    let msgs = <p> No messages yet... </p>;
+    let chObjMsgs = this.props.filterChObjMsgs;
 
-		if (chObjMsgs.length !== 0) {
-			let username = this.props.user.username
-			
-			console.log("zerodebug => username: ", username)
+    if (chObjMsgs.length !== 0) {
+      let username = this.props.user.username;
 
-			
-			msgs = chObjMsgs.map(msg => {
-				return (
-					<div 
-					className={
-						username === msg.username ?
-						"mx-4 text-right" : "mx-4"
-					} 
-					key={msg.id}>
-						<h4>
-							{msg.username.replace(/^\w/, c => c.toUpperCase())}
-						</h4>
-						<p>
-							{msg.message}
-							<br />
-							<small className="border-bottom">
-								{msg.timestamp}
-							</small>
-						</p>
-						{ColoredLine(username === msg.username ? "#5C33AE" : "#AE4432")}
-					</div>
-				);
-			});
+      console.log("zerodebug => username: ", username);
 
-		}
+      msgs = chObjMsgs.map(msg => {
+        return (
+          //  <div
+          //   className={username === msg.username ? "mx-4 text-right" : "mx-4"}
+          //    key={msg.id}
+          //  >
+          //    <h4>{msg.username.replace(/^\w/, c => c.toUpperCase())}</h4>
+          //   <p style={{ wordBreak: "break-all" }}>
+          //     {msg.message}
+          //     <br />
+          //     <small className="border-bottom">{msg.timestamp}</small>
+          //   </p>
+          //   {ColoredLine(username === msg.username ? "#5C33AE" : "#AE4432")}
+          //  </div>
+          <div
+            class={
+              username === msg.username
+                ? "col-6 alert alert-success text-right float-right"
+                : "col-6 alert alert-warning text-left"
+            }
+            style={{ clear: "both" }}
+            role="alert"
+          >
+            <div
+              className={username === msg.username ? "mx-4 text-right" : "mx-4"}
+              key={msg.id}
+            />
+            <span className="chat-username">
+              {msg.username.replace(/^\w/, c => c.toUpperCase())}
+            </span>
+            <p style={{ wordBreak: "break-all" }}>{msg.message}</p>
+            <small className="chat-time">{msg.timestamp}</small>
+          </div>
+        );
+      });
+    }
 
-		return (
-	      <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
-	        <div className="col-12 ">
-	          <SearchBar 
-					key="ChannelBoard" 
-					filter={this.props.filterMsgs}
-				/>
-				
-	        </div>
-	        <div className="col-12 ">
-	          <div
-	            className="container my-4 content-board"
-	            style={{ height: 520, maxHeight: 520 }}
-	          >
-	            {msgs}
-	          </div>
-	        </div>
-	        <div className="col-12">
-	          <form onSubmit={this.submitMsg}>
-	            
-	            {/* handling error (impl later)
+    return (
+      <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
+        <div className="col-12 ">
+          <SearchBar key="ChannelBoard" filter={this.props.filterMsgs} />
+        </div>
+        <div className="col-12 ">
+          <div
+            className="container my-4 content-board"
+            style={{ height: 520, maxHeight: 520 }}
+          >
+            {msgs}
+          </div>
+        </div>
+        <div className="col-12">
+          <form onSubmit={this.submitMsg}>
+            {/* handling error (impl later)
 				!!errors.length && (
 				<div className="alert alert-danger" role="alert">
 					{errors.map(error => (
@@ -138,56 +144,52 @@ class ChannelBoard extends Component {
 				</div>
 				)*/}
 
-	            <div className="input-group mb-3 my-4">
-	              <input
-	                type="text"
-	                className="form-control"
-	                placeholder="Your message . ."
-	                name="message"
-	                value={this.state.message}
-	                onChange={this.textChangeHandler}
-	              />
+            <div className="input-group mb-3 my-4">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Your message . ."
+                name="message"
+                value={this.state.message}
+                onChange={this.textChangeHandler}
+              />
 
-	              <div className="input-group-append">
-	                <button
-	                  className="btn btn-outline-info"
-	                  type="button"
-	                  id="button-addon2"
-	                  onClick={this.submitMsg}
-	                >
-	                  Send
-	                </button>
-	              </div>
-	            </div>
-	          </form>
-	        </div>
-	      </div>
-	    );
-	}
-
+              <div className="input-group-append">
+                <button
+                  className="btn btn-outline-info"
+                  type="button"
+                  id="button-addon2"
+                  onClick={this.submitMsg}
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 }
-  
-
-
 
 const mapStateToProps = state => {
-	return {
-		user: state.auth.user,
-		chObjMsgs: state.channels.chObjMsgs,
-		filterChObjMsgs: state.channels.filterChObjMsgs,
-		chInfo: state.channels.chInfo,
-	};
+  return {
+    user: state.auth.user,
+    chObjMsgs: state.channels.chObjMsgs,
+    filterChObjMsgs: state.channels.filterChObjMsgs,
+    chInfo: state.channels.chInfo
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		getChannelMsgs: chID => dispatch(actionCreators.getChannelMsgs(chID)),
-		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
-		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
-		filterMsgs: (q) => dispatch(actionCreators.filterMsgs(q)),
-		restQuery: () => dispatch(actionCreators.restQuery()),
-	};
-}
+  return {
+    getChannelMsgs: chID => dispatch(actionCreators.getChannelMsgs(chID)),
+    postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
+    getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
+    filterMsgs: q => dispatch(actionCreators.filterMsgs(q)),
+    restQuery: () => dispatch(actionCreators.restQuery())
+  };
+};
 
 export default connect(
   mapStateToProps,

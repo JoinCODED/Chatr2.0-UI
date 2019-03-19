@@ -17,6 +17,14 @@ hr {
   height: 300px;
 }
 
+.chat-username {
+  color: #212529;
+}
+
+.chat-time {
+  color: #858585;
+}
+
 .custom-auth-btn {
   /* border-colo: none; */
   border-style: none;
