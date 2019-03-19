@@ -16,7 +16,17 @@ import SearchBar from "../SearchBar";
 class SideNav extends React.Component {
   state = { collapsed: false };
 
+  componentDidMount() {
+    console.log("SideNav => componentDidMount ")
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    console.log("SideNav => componentDidUpdate ")
+
+    console.log("SideNav => prevProps: ", prevProps)
+    console.log("SideNav => thisProps: ", this.props)
+    if(prevProps.user !== this.props.user ) this.props.getAllChannels()
+  }
   render() {
     let user = this.props.user;
     let chs = this.props.filteredChannels;
@@ -82,6 +92,7 @@ const mapDispatchToProps = dispatch => {
   return {
     filterChannels: (q) => dispatch(actionCreators.filterChannels(q)),
     setChannelLoading: () => dispatch(actionCreators.setChannelLoading()),
+    getAllChannels: () => dispatch(actionCreators.getAllChannels()),
   };
 };
 
