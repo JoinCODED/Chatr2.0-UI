@@ -125,7 +125,14 @@ class ChannelBoard extends Component {
   render() {
     let msgs = (
       <div className="content-board">
-        <img src={loadingImg} alt="" />
+        {/* <img src={loadingImg} alt="" /> */}
+        <div
+          className="spinnerGrow"
+          style={{ width: "3rem", height: "3rem" }}
+          role="status"
+        >
+          <span className="srOnly">Loading...</span>
+        </div>
       </div>
     );
 
@@ -147,19 +154,26 @@ class ChannelBoard extends Component {
               }
               style={{ clear: "both" }}
             >
-              <span class="">
-                <img
-                  src={userPic}
-                  class="rounded mx-2"
-                  alt={msg.username}
-                  style={
-                    username === msg.username
-                      ? { width: "20px", textAlign: "right", float: "right" }
-                      : { width: "20px", textAlign: "left", float: "left" }
-                  }
-                />
-              </span>
-              <span>{msg.username.replace(/^\w/, c => c.toUpperCase())}</span>
+              {username === msg.username ? (
+                ""
+              ) : (
+                <span class="">
+                  <img
+                    src={userPic}
+                    class="rounded mx-2"
+                    alt={msg.username}
+                    style={
+                      username === msg.username
+                        ? { width: "20px", textAlign: "right", float: "right" }
+                        : { width: "20px", textAlign: "left", float: "left" }
+                    }
+                  />
+
+                  <span>
+                    {msg.username.replace(/^\w/, c => c.toUpperCase())}
+                  </span>
+                </span>
+              )}
             </span>
 
             <div
@@ -177,7 +191,7 @@ class ChannelBoard extends Component {
             >
               <p
                 style={{
-                  wordBreak: "break-all"
+                  wordBreak: "break-word"
                 }}
               >
                 {msg.message}
