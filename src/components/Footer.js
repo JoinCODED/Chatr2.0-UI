@@ -6,7 +6,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const Footer = () => {
   return (
-    <div className="row my-5 justify-content-md-center">
+    <div className="row my-3 justify-content-md-center">
       <span className="footer ">
         <span>Made with </span>
         <FontAwesomeIcon className="heart" icon={faHeart} />

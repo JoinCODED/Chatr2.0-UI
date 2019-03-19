@@ -139,28 +139,29 @@ class ChannelBoard extends Component {
 			
 			msgs = chObjMsgs.map(msg => {
 				return (
-					<div 
-					className={
-						username === msg.username ?
-						"mx-4 text-right" : "mx-4"
-					} 
-					key={msg.id}>
-						<h4>
-							{msg.username.replace(/^\w/, c => c.toUpperCase())}
-						</h4>
-						<p style={{ wordBreak: "break-all" }}>
-							{msg.message}
-							<br />
-							<small className="border-bottom">
-								{formatTimeS(msg.timestamp)}
-							</small>
-						</p>
-						{ColoredLine(username === msg.username ? "#5C33AE" : "#AE4432")}
-					</div>
-				);
-			});
+					<div
+            class={
+              username === msg.username
+                ? "col-6 alert alert-success text-right float-right"
+                : "col-6 alert alert-warning text-left"
+            }
+            style={{ clear: "both" }}
+            role="alert"
+          >
+            <div
+              className={username === msg.username ? "mx-4 text-right" : "mx-4"}
+              key={msg.id}
+            />
+            <span className="chat-username">
+              {msg.username.replace(/^\w/, c => c.toUpperCase())}
+            </span>
+            <p style={{ wordBreak: "break-all" }}>{msg.message}</p>
+            <small className="chat-time">{formatTimeS(msg.timestamp)}</small>
+          </div>
+        );
+      });
+    }
 
-		}
 
 		return (
 	      <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
@@ -220,11 +221,7 @@ class ChannelBoard extends Component {
 	      </div>
 	    );
 	}
-
 }
-  
-
-
 
 const mapStateToProps = state => {
 	return {
