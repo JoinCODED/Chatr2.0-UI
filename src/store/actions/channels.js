@@ -8,7 +8,7 @@ const instance = axios.create({
 export const fetchChannels = () => {
     return async dispatch => {
         try {
-            const res = await instance.get("/channels/");
+            const res = await instance.get("channels/");
             const channels = res.data;
             dispatch({
                 type: actionTypes.FETCH_CHANNELS,
@@ -31,7 +31,7 @@ export const fetchChannels = () => {
 export const postChannel = (newChannel, closeModal) => {
     return async dispatch => {
         try {
-            const res = await instance.post("/channels/create/", newChannel);
+            const res = await instance.post("channels/create/", newChannel);
             const channel = res.data;
             // dispatch(resetErrors());
             dispatch({
@@ -41,15 +41,7 @@ export const postChannel = (newChannel, closeModal) => {
             // dispatch(filterChannel(""));
             closeModal();
         } catch (err) {
-            // err.response.data
-            // Object.keys(err.response.data)
-            // Object.keys(err.response.data).map(
-            //     key => `${key}: ${err.response.data[key]}`
-            // )
-            dispatch({
-                // type: actionTypes.SET_ERRORS,
-                //payload: err.response.data
-            });
+            console.log(err.response)
         }
     };
 };
