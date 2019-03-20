@@ -16,16 +16,16 @@ class Messages extends Component {
         messages: []
     }
     componentDidMount() {
+
         if (this.props.user) {
             clearInterval(this.timer)
             this.props.getMessages(this.props.match.params.channelID);
         }
     }
     componentDidUpdate(prevState) {
-        console.log("in component did update")
         if (prevState.match.params.channelID !== this.props.match.params.channelID) {
-            console.log("difference")
             clearInterval(this.timer)
+            this.props.getMessages(this.props.match.params.channelID)
             this.timer = setInterval(() => this.props.getMessages(this.props.match.params.channelID), 3000)
 
         }
@@ -34,7 +34,7 @@ class Messages extends Component {
 
     render() {
         if (this.props.channel.length !== 0) {
-            let messeges = this.props.channel.map(message => <p>{message.username}: {message.message}</p>)
+            let messeges = this.props.channel.filter(msg => msg.username).map(message => <p>{message.username}: {message.message}</p>)
             return (
                 <div className="channel">
                     <div>

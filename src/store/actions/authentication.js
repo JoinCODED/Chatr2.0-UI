@@ -58,7 +58,7 @@ export const checkForExpiredToken = () => {
   return dispatch => {
 
     const token = localStorage.getItem("myToken");
-    console.log(token)
+
     if (token) {
       const currentTime = Date.now() / 1000;
       // Decode token and get user info
