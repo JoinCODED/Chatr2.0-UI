@@ -22,10 +22,11 @@ class App extends Component {
   componentDidMount() {
     main();
     this.props.checkForExpiredToken();
-    this.props.getAllChannels();
+    
   }
 
   render() {
+    let user = this.props.user
     return (
       <div className="container">
         <div className="row my-4">
@@ -33,7 +34,7 @@ class App extends Component {
           <div className="col-8 content " style={{ maxHeight: 700 }}>
             <Switch>
               <Route path="/welcome" component={Welcome} />
-              <Route path="/(login|signup)" component={RegistrationForm} />
+              {!user && <Route path="/(login|signup)" component={RegistrationForm} />}
               <PrivateRoute path="/private" component={SuperSecretPage} />
               <PrivateRoute
                 path="/channels/:channelID"
@@ -51,16 +52,22 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+
 const mapDispatchToProps = dispatch => {
   return {
     checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken()),
-    getAllChannels: () => dispatch(actionCreators.getAllChannels())
   };
 };
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(App)
 );

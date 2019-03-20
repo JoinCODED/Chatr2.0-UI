@@ -49,35 +49,55 @@ class ChannelBoard extends Component {
 		played: false,
 	} 
 
-	async componentDidMount() {
+	 componentDidMount() {
 		let currentChID = this.props.match.params.channelID;
-		console.log("componentDidMount => ChannelBoard => currentChID: ", currentChID)
+		console.log("componentDidMount => ChannelBoard")
+
+
+		let msgs = this.props.chObjMsgs
+		let last = msgs[msgs.length - 1]
+
+		this.props.getChannelMsgs(currentChID)
+		
+
 		this.checkForMsgsInterval = setInterval(
-			() => this.props.getChannelMsgs(currentChID),
+			() => {
+				let msgs = this.props.chObjMsgs
+				let lastMsg = msgs[msgs.length - 1]
+				this.props.getChannelMsgs(currentChID, lastMsg.timestamp)
+			},
 			3000)
 
-		this.props.getChannelInfo(currentChID)
 
-		console.log(this.props.chInfo)
+		this.props.getChannelInfo(currentChID)
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		let currentChID = this.props.match.params.channelID;
-		
+
+		console.log("componentDidUpdate => ChannelBoard")
+
+
+		// when tapping to different channels 
 		if (prevProps.match.params.channelID !== currentChID) {
 			
 			this.props.setMsgLoading()
 
 			clearInterval(this.checkForMsgsInterval)
-			this.props.getChannelMsgs(currentChID)
-			this.checkForMsgsInterval = setInterval(
-				() => this.props.getChannelMsgs(currentChID),
-				3000
-			)
 
+			this.props.getChannelMsgs(currentChID)
+		
+
+			this.checkForMsgsInterval = setInterval(
+				() => this.props.getChannelMsgs(currentChID, this.props.chObjMsgs[this.props.chObjMsgs.length-1].timestamp),
+				3000)
+
+
+			this.props.getChannelInfo(currentChID)
 			this.props.restQuery()
 		}
 
+		// Sound related 
 		if (prevProps.chObjMsgs && this.props.chObjMsgs) {
 			if (prevProps.chObjMsgs.length !== this.props.chObjMsgs.length) {
 				this.setState({played: true })
@@ -148,10 +168,6 @@ class ChannelBoard extends Component {
             style={{ clear: "both" }}
             role="alert"
           >
-            <div
-              className={username === msg.username ? "mx-4 text-right" : "mx-4"}
-              key={msg.id}
-            />
             <span className="chat-username">
               {msg.username.replace(/^\w/, c => c.toUpperCase())}
             </span>
@@ -235,7 +251,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		getChannelMsgs: chID => dispatch(actionCreators.getChannelMsgs(chID)),
+		getChannelMsgs: (chID, time) => dispatch(actionCreators.getChannelMsgs(chID, time)),
 		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
 		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
 		filterMsgs: (q) => dispatch(actionCreators.filterMsgs(q)),
