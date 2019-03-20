@@ -29,7 +29,7 @@ class Messages extends Component {
       this.props.getMessages(this.props.match.params.channelID);
       this.timer = setInterval(
         () => this.props.getMessages(this.props.match.params.channelID),
-        15000
+        3000
       );
     }
   }
