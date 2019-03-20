@@ -20,12 +20,6 @@ class ChannelForm extends Component {
     this.props.postChannel(this.state, this.props.history);
   };
 
-  submitChannel = event => {
-    event.preventDefault();
-    console.log("zerodebug => submitChannel: ", this.state);
-    this.props.postChannel(this.state, this.props.history);
-  };
-
   render() {
     return (
       <div className="row my-4">

@@ -135,9 +135,13 @@ class ChannelBoard extends Component {
 
       console.log("zerodebug => username: ", username);
 
+      {
+        /* Map to chat's messages */
+      }
       msgs = chObjMsgs.map(msg => {
         return (
           <div>
+            {/* Display user name & his img in the chat */}
             <span
               className={
                 username === msg.username
@@ -168,6 +172,7 @@ class ChannelBoard extends Component {
               )}
             </span>
 
+            {/* Display user msg & the msg's time in the chat */}
             <div
               class={
                 username === msg.username
@@ -200,6 +205,7 @@ class ChannelBoard extends Component {
         className="row my-3"
         style={{ height: "565px", overflow: "visible" }}
       >
+        {/* Display channel name && channel image in the chat */}
         <div className="col-5" style={{ borderBottom: "1px solid #e7e7e7" }}>
           <span>
             <img
@@ -208,11 +214,12 @@ class ChannelBoard extends Component {
               alt={this.props.chInfo.name}
               style={{ width: "20px", textAlign: "left", float: "left" }}
             />
-            <span style={{ maxLength: "break-", textOverflow: "ellipsis" }}>
+            <span style={{ wordBreak: "break-word", textOverflow: "ellipsis" }}>
               {this.props.chInfo.name}
             </span>
           </span>
         </div>
+        {/* Display search bar in the chat */}
         <div className="col-7 ">
           <SearchBar key="ChannelBoard" filter={this.props.filterMsgs} />
         </div>
@@ -225,16 +232,8 @@ class ChannelBoard extends Component {
           </div>
         </div>
         <div className="col-12">
+          {/* User message input */}
           <form onSubmit={this.submitMsg}>
-            {/* handling error (impl later)
-				!!errors.length && (
-				<div className="alert alert-danger" role="alert">
-					{errors.map(error => (
-						<p key={error}>{error}</p>
-					))}
-				</div>
-				)*/}
-
             <div className="input-group mb-5">
               <input
                 type="text"

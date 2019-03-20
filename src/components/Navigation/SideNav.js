@@ -2,26 +2,26 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import * as actionCreators from "../../store/actions";
+import { connect } from "react-redux";
+
+// Import loading image animation for the channels side
 import chLoadingImg from "../../assets/images/chloading2.svg";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
-import { connect } from "react-redux";
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
 import SearchBar from "../SearchBar";
 
 class SideNav extends React.Component {
-  state = { collapsed: false };
-
   render() {
     let user = this.props.user;
     let chs = this.props.filteredChannels;
 
     const channelLinks = chs.map(channel => (
-      <ChannelNavLink key={channel.name} channel={channel} />
+      <ChannelNavLink key={channel.id} channel={channel} />
     ));
 
     if (user) {
@@ -50,8 +50,7 @@ class SideNav extends React.Component {
               width: "340px",
               maxWidth: "340px",
               maxHeight: "340px",
-              maxLength: "break-word",
-              textOverflow: "ellipsis"
+              wordBreak: "break-all" // Need to break the word using ... rether than just break it
             }}
           >
             {user ? (
@@ -78,7 +77,6 @@ class SideNav extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    channels: state.channels.channelsObj,
     filteredChannels: state.channels.filteredChannelsObj,
     user: state.auth.user,
     loading: state.channels.chLoading
@@ -88,7 +86,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     filterChannels: q => dispatch(actionCreators.filterChannels(q)),
-    setChannelLoading: () => dispatch(actionCreators.setChannelLoading())
+    setChannelLoading: () => dispatch(actionCreators.setChannelLoading()) // We didn't use it
   };
 };
 
