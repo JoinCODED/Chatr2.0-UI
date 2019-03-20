@@ -206,14 +206,40 @@ class ChannelBoard extends Component {
         style={{ height: "565px", overflow: "visible" }}
       >
         {/* Display channel name && channel image in the chat */}
-        <div className="col-5" style={{ borderBottom: "1px solid #e7e7e7" }}>
+        <div
+          className="col-5"
+          style={{
+            borderBottom: "1px solid #e7e7e7",
+            textOverflow: "ellipsis"
+          }}
+        >
           <span>
-            <img
-              src={pic}
-              class="rounded mx-2"
-              alt={this.props.chInfo.name}
-              style={{ width: "20px", textAlign: "left", float: "left" }}
-            />
+            {this.props.chInfo.image_url ? (
+              <img
+                src={this.props.chInfo.image_url}
+                class="rounded mx-2"
+                alt={this.props.chInfo.name}
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  objectFit: "cover",
+                  textAlign: "left",
+                  float: "left"
+                }}
+              />
+            ) : (
+              <img
+                src={pic}
+                class="rounded mx-2"
+                alt={this.props.chInfo.name}
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  textAlign: "left",
+                  float: "left"
+                }}
+              />
+            )}
             <span style={{ wordBreak: "break-word", textOverflow: "ellipsis" }}>
               {this.props.chInfo.name}
             </span>
