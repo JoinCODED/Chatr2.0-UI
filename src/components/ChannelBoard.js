@@ -8,19 +8,19 @@ import loadingImg from '../assets/images/loadingcodeing.gif'
 import SearchBar from "./SearchBar";
 import Sound from 'react-sound';
 import soundFile from '../assets/openended.mp3';
-
+import { HashLoader } from 'react-spinners'
 
 // Utility functions 
-const ColoredLine = color => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      height: 5,
-      borderRadius: "20px"
-    }}
-  />
-);
+Array.prototype.getRandom = function () {
+  return this[Math.floor(Math.random()*this.length)];
+};
+
+const override = {
+    marginTop: "25%",
+    marginLeft: "45%",
+};
+
+const colors = ["#E9A829", "#DC1B50", "#2FBEEE", "#29AD72"]
 
 const formatAMPM = (date) => {
   let hours = date.getHours();
@@ -49,7 +49,7 @@ class ChannelBoard extends Component {
 		played: false,
 	} 
 
-	 componentDidMount() {
+	async componentDidMount() {
 		let currentChID = this.props.match.params.channelID;
 		console.log("componentDidMount => ChannelBoard")
 
@@ -57,7 +57,7 @@ class ChannelBoard extends Component {
 		let msgs = this.props.chObjMsgs
 		let last = msgs[msgs.length - 1]
 
-		this.props.getChannelMsgs(currentChID)
+		await this.props.getChannelMsgs(currentChID)
 		
 
 		this.checkForMsgsInterval = setInterval(
@@ -74,6 +74,7 @@ class ChannelBoard extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		let currentChID = this.props.match.params.channelID;
+
 
 		console.log("componentDidUpdate => ChannelBoard")
 
@@ -141,12 +142,13 @@ class ChannelBoard extends Component {
 	togglePlay = () => this.setState({played: false})
 
 	render() {
-
-		let msgs = <div className = "content-board">
-						<img 
-						src={loadingImg} 
-						alt="" 
-						/>
+		let msgs = <div className = "content-board text-center mt-5">
+						<HashLoader
+						  css={override}
+				          sizeUnit={"px"}
+				          size={150}
+				          color={colors.getRandom()}
+				        />
 					</div>
 
 		let chObjMsgs = this.props.filterChObjMsgs;
@@ -154,7 +156,6 @@ class ChannelBoard extends Component {
 		if (!this.props.loading) {
 			let username = this.props.user.username
 			
-			console.log("zerodebug => username: ", username)
 
 			
 			msgs = chObjMsgs.map(msg => {
