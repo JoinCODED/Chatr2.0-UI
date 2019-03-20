@@ -46,7 +46,13 @@ class SideNav extends React.Component {
 
           <div
             className="col-12 my-4 channels-board"
-            style={{ width: "340px", maxHeight: "340px" }}
+            style={{
+              width: "340px",
+              maxWidth: "340px",
+              maxHeight: "340px",
+              maxLength: "break-word",
+              textOverflow: "ellipsis"
+            }}
           >
             {user ? (
               !this.props.loading ? (

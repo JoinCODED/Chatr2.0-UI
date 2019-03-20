@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import Welcome from "./components/Welcome";
 import RegistrationForm from "./components/RegistrationForm";
-import SuperSecretPage from "./components/SuperSecretPage";
 import ChannelForm from "./components/ChannelForm";
 import ChannelBoard from "./components/ChannelBoard";
 
@@ -37,7 +36,6 @@ class App extends Component {
             <Switch>
               <Route path="/welcome" component={Welcome} />
               <Route path="/(login|signup)" component={RegistrationForm} />
-              <PrivateRoute path="/private" component={SuperSecretPage} />
               <PrivateRoute
                 path="/channels/:channelID"
                 component={ChannelBoard}

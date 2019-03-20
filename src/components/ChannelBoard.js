@@ -208,7 +208,7 @@ class ChannelBoard extends Component {
               alt={this.props.chInfo.name}
               style={{ width: "20px", textAlign: "left", float: "left" }}
             />
-            <span style={{ maxLength: "break-word" }}>
+            <span style={{ maxLength: "break-", textOverflow: "ellipsis" }}>
               {this.props.chInfo.name}
             </span>
           </span>

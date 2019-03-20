@@ -12,7 +12,7 @@ const initialState = {
   msgLoading: true,
   chLoading: true,
 
-  msg: "" // Why do we save the msg rether than get it from the senteral store
+  msg: "" // not used yet
 };
 
 const reducer = (state = initialState, action) => {
@@ -36,7 +36,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         chObjMsgs: action.payload,
         filterChObjMsgs: action.payload.filter(msg => {
-          // Why do we need to feed this here
           return `${msg.message}`.toLowerCase().includes(state.query);
         }),
         msgLoading: false

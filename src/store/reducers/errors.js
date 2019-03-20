@@ -5,7 +5,7 @@ const initialState = {};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_ERRORS:
-      return action.payload; // Do we have to return every thing or just the data
+      return action.payload;
     default:
       return state;
   }
