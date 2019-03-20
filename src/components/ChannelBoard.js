@@ -4,14 +4,13 @@ import * as actionCreators from "../store/actions";
 
 import pic from "../assets/images/logo.png";
 
-// Import spinners library
-import { ClipLoader } from "react-spinners";
-
 // Components
 import SearchBar from "./SearchBar";
 
 import Sound from "react-sound";
 import soundFile from "../assets/openended.mp3";
+
+// Import spinners library
 import { HashLoader } from "react-spinners";
 
 // Utility functions
@@ -55,9 +54,6 @@ class ChannelBoard extends Component {
   async componentDidMount() {
     let currentChID = this.props.match.params.channelID;
     console.log("componentDidMount => ChannelBoard");
-
-    let msgs = this.props.chObjMsgs;
-    let last = msgs[msgs.length - 1];
 
     await this.props.getChannelMsgs(currentChID);
 
@@ -269,7 +265,10 @@ class ChannelBoard extends Component {
         </div>
         {/* Display search bar in the chat */}
         <div className="col-7 ">
-          <SearchBar key="ChannelBoard" filter={this.props.filterMsgs} />
+          <SearchBar
+            key={this.props.chInfo.id}
+            filter={this.props.filterMsgs}
+          />
         </div>
         <div className="col-12 ">
           <div
