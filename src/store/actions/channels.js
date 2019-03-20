@@ -29,17 +29,20 @@ export const getAllChannels = () => {
 };
 
 
-export const getChannelMsgs = (chID) => {
+export const getChannelMsgs = (chID, time = "") => {
 	console.log(chID)
+
 	return async dispatch => {
 		try {
-			
-			let response = await instance.get(`/channels/${chID}/`);
-			let channel = response.data;
+			console.log("getChannelMsgs => ttime: ", time, chID);
+			let response = await instance.get(`/channels/${chID}/?latest=${time}`);
+			let msgs = response.data;
 
+			console.log("getChannelMsgs => channel msgs: ", msgs)
 			dispatch({
 				type: actionTypes.GET_CHANNEL_MSGS,
-				payload: channel,
+				payload: msgs,
+				ts: time,
 			})
 
 		} catch (error) {

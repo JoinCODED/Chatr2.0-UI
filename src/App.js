@@ -22,7 +22,7 @@ class App extends Component {
   componentDidMount() {
     main();
     this.props.checkForExpiredToken();
-    this.props.getAllChannels();
+    
   }
 
   render() {
@@ -62,7 +62,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken()),
-    getAllChannels: () => dispatch(actionCreators.getAllChannels())
   };
 };
 
