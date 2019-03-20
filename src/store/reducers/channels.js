@@ -12,7 +12,7 @@ const initialState = {
   msgLoading: true,
   chLoading: true,
 
-  msg: "",
+  msg: "" // not used yet
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,7 +22,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         channelsObj: action.payload,
         filteredChannelsObj: action.payload,
-        chLoading: false,
+        chLoading: false
       };
 
     case actionTypes.POST_CHANNEL:
@@ -48,7 +48,7 @@ const reducer = (state = initialState, action) => {
         filterChObjMsgs: msgs.filter(msg => {
           return `${msg.message}`.toLowerCase().includes(state.query);
         }),
-        msgLoading: false,
+        msgLoading: false
       };
 
     case actionTypes.POST_MSG:
@@ -91,20 +91,20 @@ const reducer = (state = initialState, action) => {
     case actionTypes.REST_QUERY:
       return {
         ...state,
-        query: "",
-      }
+        query: ""
+      };
 
     case actionTypes.SET_MSG_LOADING:
       return {
         ...state,
-        msgLoading: true,
-      }
+        msgLoading: true
+      };
 
     case actionTypes.SET_MSG_LOADING:
       return {
         ...state,
-        chLoading: true,
-      }
+        chLoading: true
+      };
 
     default:
       return state;

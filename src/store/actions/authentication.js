@@ -11,10 +11,10 @@ const instance = axios.create({
 
 const setAuthToken = token => {
   if (token) {
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", token); // Store user token in his browser's local storage
     axios.defaults.headers.common.Authorization = `jwt ${token}`;
   } else {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token"); // Remove user token from his browser's local storage
     delete axios.defaults.headers.common.Authorization;
   }
 };
@@ -46,20 +46,20 @@ export const checkForExpiredToken = () => {
 };
 
 export const login = (userData, history) => {
-	return async dispatch => {
-		try {
-			let response = await instance.post("/login/", userData);
-			let user = response.data;
-			let decodedUser = jwt_decode(user.token);
-			setAuthToken(user.token);
-			dispatch(setCurrentUser(decodedUser));
-		  // make sure to passe the history obj to the func
-		  history.push("/welcome");
-		} catch (error) {
-			dispatch(setErrors(error))
-			console.error(error.response.data);
-		}
-	}
+  return async dispatch => {
+    try {
+      let response = await instance.post("/login/", userData);
+      let token = response.data.token;
+      let decodedUser = jwt_decode(token);
+      setAuthToken(token);
+      dispatch(setCurrentUser(decodedUser));
+      // make sure to passe the history obj to the func
+      history.push("/welcome");
+    } catch (error) {
+      dispatch(setErrors(error));
+      console.error(error.response.data);
+    }
+  };
 };
 
 export const signup = (userData, history) => {

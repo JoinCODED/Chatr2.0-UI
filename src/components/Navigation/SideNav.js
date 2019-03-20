@@ -2,20 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import * as actionCreators from "../../store/actions";
+import { connect } from "react-redux";
+
+// Import loading image animation for the channels side
 import chLoadingImg from "../../assets/images/chloading2.svg";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
-import { connect } from "react-redux";
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
 import SearchBar from "../SearchBar";
 
 class SideNav extends React.Component {
-  state = { collapsed: false };
-
   componentDidMount() {
     console.log("SideNav => componentDidMount ")
   }
@@ -32,7 +32,7 @@ class SideNav extends React.Component {
     let chs = this.props.filteredChannels;
 
     const channelLinks = chs.map(channel => (
-      <ChannelNavLink key={channel.name} channel={channel} />
+      <ChannelNavLink key={channel.id} channel={channel} />
     ));
 
     if (user) {
@@ -49,51 +49,61 @@ class SideNav extends React.Component {
               <FontAwesomeIcon icon={faPlus} />
             </div>
             <div className="col-11">
-              <Link to={user ? "/createChannel" : "/login"}>Add a channel</Link>
+              <Link to={user ? "/createChannel" : "/login"}>New Channel</Link>
             </div>
           </div>
           <hr />
-          <SearchBar key="channels" filter={this.props.filterChannels}/>
-          
+          <SearchBar key="channels" filter={this.props.filterChannels} />
+
           <div
             className="col-12 my-4 channels-board"
-            style={{ maxHeight: 440 }}
-          > 
-            {
-              user ? 
-              (!this.props.loading ? channelLinks :
-                <div className = "my-2">
-                  {[...Array(15).keys()].map( _ => <img src={chLoadingImg}/>)}
-                </div>)
-              : <div />
-            }
-
+            style={{
+              width: "340px",
+              maxWidth: "340px",
+              maxHeight: "340px",
+              wordBreak: "break-all" // Need to break the word using ... rether than just break it
+            }}
+          >
+            {user ? (
+              !this.props.loading ? (
+                channelLinks
+              ) : (
+                <div className="my-2">
+                  {[...Array(15).keys()].map(_ => (
+                    <img src={chLoadingImg} />
+                  ))}
+                </div>
+              )
+            ) : (
+              <div />
+            )}
           </div>
         </div>
-
-      );} 
-      else {
-        return <div />
-      }
-  } 
+      );
+    } else {
+      return <div />;
+    }
+  }
 }
 
 const mapStateToProps = state => {
   return {
-    channels: state.channels.channelsObj,
     filteredChannels: state.channels.filteredChannelsObj,
     user: state.auth.user,
-    loading: state.channels.chLoading,
+    loading: state.channels.chLoading
   };
 };
-
 
 const mapDispatchToProps = dispatch => {
   return {
     filterChannels: (q) => dispatch(actionCreators.filterChannels(q)),
-    setChannelLoading: () => dispatch(actionCreators.setChannelLoading()),
+    setChannelLoading: () => dispatch(actionCreators.setChannelLoading()), // We didn't use it
     getAllChannels: () => dispatch(actionCreators.getAllChannels()),
+
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideNav);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SideNav);

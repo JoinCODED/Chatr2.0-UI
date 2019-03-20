@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 
-import loadingImg from '../assets/images/loadingcodeing.gif'
+import pic from "../assets/images/logo.png";
+
+// Import spinners library
+import { ClipLoader } from "react-spinners";
 
 // Components
 import SearchBar from "./SearchBar";
+
 import Sound from 'react-sound';
 import soundFile from '../assets/openended.mp3';
 import { HashLoader } from 'react-spinners'
@@ -25,26 +29,26 @@ const colors = ["#E9A829", "#DC1B50", "#2FBEEE", "#29AD72"]
 const formatAMPM = (date) => {
   let hours = date.getHours();
   let minutes = date.getMinutes();
-  let ampm = hours >= 12 ? 'pm' : 'am';
+  let ampm = hours >= 12 ? "pm" : "am";
 
-  hours = (hours % 12) || 12; // the hour '0' should be '12'
-  
-  minutes = minutes < 10 ? ('0' + minutes) : minutes;
-  
-  return hours + ':' + minutes + ' ' + ampm;
-}
+  hours = hours % 12 || 12; // the hour '0' should be '12'
 
-const formatTimeS = (ts) => {
-	let dateObj = new Date(ts);
-	let date = dateObj.toDateString()
-	let time = formatAMPM(dateObj)
+  minutes = minutes < 10 ? "0" + minutes : minutes;
 
-	return time
-}
+  return hours + ":" + minutes + " " + ampm;
+};
+
+const formatTimeS = ts => {
+  let dateObj = new Date(ts);
+  let date = dateObj.toDateString(); // Where do we use it ?
+  let time = formatAMPM(dateObj);
+
+  return time;
+};
 
 class ChannelBoard extends Component {
 
-	state = {
+  state = {
 		message: "",
 		played: false,
 	} 
@@ -72,7 +76,8 @@ class ChannelBoard extends Component {
 		this.props.getChannelInfo(currentChID)
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+
+componentDidUpdate(prevProps, prevState) {
 		let currentChID = this.props.match.params.channelID;
 
 
@@ -106,7 +111,7 @@ class ChannelBoard extends Component {
 		}
 	}
 
-	componentWillMount() {
+componentWillMount() {
 		clearInterval(this.checkForMsgsInterval)
 	}
 
@@ -141,8 +146,10 @@ class ChannelBoard extends Component {
 
 	togglePlay = () => this.setState({played: false})
 
-	render() {
-		let msgs = <div className = "content-board text-center mt-5">
+
+  render() {
+    let msgs = (
+     <div className = "content-board text-center mt-5">
 						<HashLoader
 						  css={override}
 				          sizeUnit={"px"}
@@ -150,104 +157,177 @@ class ChannelBoard extends Component {
 				          color={colors.getRandom()}
 				        />
 					</div>
+    );
 
-		let chObjMsgs = this.props.filterChObjMsgs;
+    let chObjMsgs = this.props.filterChObjMsgs;
 
-		if (!this.props.loading) {
-			let username = this.props.user.username
-			
+    if (!this.props.loading) {
+      let username = this.props.user.username;
 
-			
-			msgs = chObjMsgs.map(msg => {
-				return (
-					<div
-            class={
-              username === msg.username
-                ? "col-6 alert alert-success text-right float-right"
-                : "col-6 alert alert-warning text-left"
-            }
-            style={{ clear: "both" }}
-            role="alert"
-          >
-            <span className="chat-username">
-              {msg.username.replace(/^\w/, c => c.toUpperCase())}
-            </span>
-            <p style={{ wordBreak: "break-all" }}>{msg.message}</p>
-            <small className="chat-time">{formatTimeS(msg.timestamp)}</small>
+      console.log("zerodebug => username: ", username);
+
+      {
+        /* Map to chat's messages */
+      }
+      msgs = chObjMsgs.map(msg => {
+        return (
+          <div>
+            {/* Display user name & his img in the chat */}
+            <span
+              className={
+                username === msg.username
+                  ? "chat-username float-right my-1"
+                  : "chat-username text-left float-left my-1"
+              }
+              style={{ clear: "both" }}
+            >
+              {username === msg.username ? (
+                ""
+              ) : (
+                <span class="">
+                  <img
+                    src={pic}
+                    class="rounded mx-2"
+                    alt={msg.username}
+                    style={
+                      username === msg.username
+                        ? { width: "20px", textAlign: "right", float: "right" }
+                        : { width: "20px", textAlign: "left", float: "left" }
+                    }
+                  />
+
+                  <span>
+                    {msg.username.replace(/^\w/, c => c.toUpperCase())}
+                  </span>
+                </span>
+              )}
+
+            {/* Display user msg & the msg's time in the chat */}
+            <div
+              class={
+                username === msg.username
+                  ? "col-6 alert alert-success text-right float-right"
+                  : "col-6 alert alert-warning text-left"
+              }
+              style={
+                username === msg.username
+                  ? { clear: "both", borderRadius: "25px 4px 25px 25px" }
+                  : { clear: "both", borderRadius: "4px 25px 25px 25px" }
+              }
+              role="alert"
+            >
+              <p
+                style={{
+                  wordBreak: "break-word"
+                }}
+              >
+                {msg.message}
+              </p>
+              <small className="chat-time">{formatTimeS(msg.timestamp)}</small>
+            </div>
           </div>
         );
       });
     }
 
+    return (
+      <div
+        className="row my-3"
+        style={{ height: "565px", overflow: "visible" }}
+      >
+        {/* Display channel name && channel image in the chat */}
+        <div
+          className="col-5"
+          style={{
+            borderBottom: "1px solid #e7e7e7",
+            textOverflow: "ellipsis"
+          }}
+        >
+          <span>
+            {this.props.chInfo.image_url ? (
+              <img
+                src={this.props.chInfo.image_url}
+                class="rounded mx-2"
+                alt={this.props.chInfo.name}
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  objectFit: "cover",
+                  textAlign: "left",
+                  float: "left"
+                }}
+              />
+            ) : (
+              <img
+                src={pic}
+                class="rounded mx-2"
+                alt={this.props.chInfo.name}
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  textAlign: "left",
+                  float: "left"
+                }}
+              />
+            )}
+            <span style={{ wordBreak: "break-word", textOverflow: "ellipsis" }}>
+              {this.props.chInfo.name}
+            </span>
+          </span>
+        </div>
+        {/* Display search bar in the chat */}
+        <div className="col-7 ">
+          <SearchBar key="ChannelBoard" filter={this.props.filterMsgs} />
+        </div>
+        <div className="col-12 ">
+          <div
+            className="container my-4 content-board"
+            style={{ height: "445px", maxHeight: "445px" }}
+          >
+            {msgs}
+          </div>
+        </div>
+        <div className="col-12">
+          {/* User message input */}
+          <form onSubmit={this.submitMsg}>
+            <div className="input-group mb-5">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Your message . ."
+                name="message"
+                value={this.state.message}
+                onChange={this.textChangeHandler}
+              />
 
-		return (
-	      <div className="row my-3" style={{ height: 665, overflow: "visible" }}>
-	        <div className="col-12 ">
-	          <SearchBar 
-					key="ChannelBoard" 
-					filter={this.props.filterMsgs}
-				/>
-				
-	        </div>
-	        <div className="col-12 ">
-	          <div
-	            className="container my-4 content-board"
-	            style={{ height: 520, maxHeight: 520 }}
-	          >
-	            {msgs}
-	          </div>
-	        </div>
-	        <div className="col-12">
-	          <form onSubmit={this.submitMsg}>
-	            
-	            {/* handling error (impl later)
-				!!errors.length && (
-				<div className="alert alert-danger" role="alert">
-					{errors.map(error => (
-						<p key={error}>{error}</p>
-					))}
-				</div>
-				)*/}
+              <div className="input-group-append">
+                <button
+                  className="btn btn-outline-info"
+                  type="button"
+                  id="button-addon2"
+                  onClick={this.submitMsg}
+                >
+                  Send
+                </button>
+              </div>
 
-	            <div className="input-group mb-3 my-4">
-	              <input
-	                type="text"
-	                className="form-control"
-	                placeholder="Your message . ."
-	                name="message"
-	                value={this.state.message}
-	                onChange={this.textChangeHandler}
-	              />
-
-	              <div className="input-group-append">
-	                <button
-	                  className="btn btn-outline-info"
-	                  type="button"
-	                  id="button-addon2"
-	                  onClick={this.submitMsg}
-	                >
-	                  Send
-	                </button>
-	              </div>
-
-	              {this.state.played && this.sound()}
-
-	            </div>
-	          </form>
-	        </div>
-	      </div>
-	    );
-	}
+              {this.state.played && this.sound()}
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => {
-	return {
-		user: state.auth.user,
-		chObjMsgs: state.channels.chObjMsgs,
-		filterChObjMsgs: state.channels.filterChObjMsgs,
-		chInfo: state.channels.chInfo,
-		loading: state.channels.msgLoading,
-	};
+  return {
+    user: state.auth.user,
+    chObjMsgs: state.channels.chObjMsgs,
+    filterChObjMsgs: state.channels.filterChObjMsgs,
+    chInfo: state.channels.chInfo,
+    loading: state.channels.msgLoading
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -260,6 +340,7 @@ const mapDispatchToProps = dispatch => {
 		setMsgLoading: () => dispatch(actionCreators.setMsgLoading()),
 	};
 }
+
 
 export default connect(
   mapStateToProps,

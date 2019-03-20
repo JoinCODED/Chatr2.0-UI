@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import Welcome from "./components/Welcome";
 import RegistrationForm from "./components/RegistrationForm";
-import SuperSecretPage from "./components/SuperSecretPage";
 import ChannelForm from "./components/ChannelForm";
 import ChannelBoard from "./components/ChannelBoard";
 
@@ -31,11 +30,15 @@ class App extends Component {
       <div className="container">
         <div className="row my-4">
           <NavBar />
-          <div className="col-8 content " style={{ maxHeight: 700 }}>
+          <div
+            className="col-8 content "
+            style={{ height: "600px", maxHeight: "600px" }}
+          >
             <Switch>
               <Route path="/welcome" component={Welcome} />
+
               {!user && <Route path="/(login|signup)" component={RegistrationForm} />}
-              <PrivateRoute path="/private" component={SuperSecretPage} />
+
               <PrivateRoute
                 path="/channels/:channelID"
                 component={ChannelBoard}

@@ -22,7 +22,7 @@ class Welcome extends Component {
           {!this.props.user ? (
             <div>
               <h3 className="mb-5">
-                <h1>Login to access owr awesome channels</h1>
+                <h1>Login To Access Our Awesome Channels</h1>
               </h3>
               <Link to="/login" className="btn btn-light btn-lg button-color">
                 Login
@@ -30,7 +30,7 @@ class Welcome extends Component {
             </div>
           ) : (
             <h1>
-              Welcome to our awesome chat{" "}
+              Welcome To Our Awesome Channels{" "}
               <span>
                 {" "}
                 <FontAwesomeIcon className="heart" icon={faHeart} />

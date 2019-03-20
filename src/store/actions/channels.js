@@ -28,7 +28,6 @@ export const getAllChannels = () => {
   };
 };
 
-
 export const getChannelMsgs = (chID, time = "") => {
 	console.log(chID)
 
@@ -52,91 +51,86 @@ export const getChannelMsgs = (chID, time = "") => {
 	}
 };
 
-
-export const getChannelInfo = (chID) => {
-	return {
-		type: actionTypes.GET_CHANNEL_INFO,
-		payload: chID,
-	}
-
+export const getChannelInfo = chID => {
+  return {
+    type: actionTypes.GET_CHANNEL_INFO,
+    payload: chID
+  };
 };
 
 export const postChannel = (newCh, history) => {
-	return async dispatch => {
-		try {
-			console.log("New channel obj: ", newCh)
-			let response = await instance.post("/channels/create/", newCh);
-			
-			let newChObj = response.data;
+  return async dispatch => {
+    try {
+      console.log("New channel obj: ", newCh);
+      let response = await instance.post("/channels/create/", newCh);
 
-			console.log("zerodebug => channels action => postChannel => res.data: ", newChObj)
-			dispatch({
-				type: actionTypes.POST_CHANNEL,
-				payload: newChObj,
-			})
+      let newChObj = response.data;
 
-			let postedChID = newChObj.id
-			history.push(`/channels/${postedChID}/`)
+      console.log(
+        "zerodebug => channels action => postChannel => res.data: ",
+        newChObj
+      );
+      dispatch({
+        type: actionTypes.POST_CHANNEL,
+        payload: newChObj
+      });
 
-		} catch (error) {
-			dispatch(setErrors(error))
-			console.error(error.response.data);
-		}
-	}
+      // To move to channel board directly after created it
+      let postedChID = newChObj.id;
+      history.push(`/channels/${postedChID}/`);
+    } catch (error) {
+      dispatch(setErrors(error));
+      console.error(error.response.data);
+    }
+  };
 };
-
 
 export const postMsg = (msg, chID) => {
-	console.log(msg)
-	return async dispatch => {
-		try {
-			console.log("New msg sent: ", msg)
-			console.log("chID: ", chID)
+  console.log(msg);
+  return async dispatch => {
+    try {
+      console.log("New msg sent: ", msg);
+      console.log("chID: ", chID);
 
-			let response = await instance.post(`/channels/${chID}/send/`, msg);
-			
-			let newMsg = response.data;
+      let response = await instance.post(`/channels/${chID}/send/`, msg);
 
-			dispatch({
-				type: actionTypes.POST_MSG,
-				payload: newMsg,
-			})
+      let newMsg = response.data;
 
-			dispatch(getChannelMsgs(chID))
+      dispatch({
+        type: actionTypes.POST_MSG,
+        payload: newMsg
+      });
 
-		} catch (error) {
-			dispatch(setErrors(error))
-			console.error(error.response.data);
-		}
-	}
+      dispatch(getChannelMsgs(chID));
+    } catch (error) {
+      dispatch(setErrors(error));
+      console.error(error.response.data);
+    }
+  };
 };
 
-
-
-export const filterChannels = (query) => {
-	return {
-		type: actionTypes.FILTER_CHANNELS,
-		payload: query,
-	}
+export const filterChannels = query => {
+  return {
+    type: actionTypes.FILTER_CHANNELS,
+    payload: query
+  };
 };
 
-export const filterMsgs = (query) => {
-	return {
-		type: actionTypes.FILTER_MSGS,
-		payload: query,
-	}
+export const filterMsgs = query => {
+  return {
+    type: actionTypes.FILTER_MSGS,
+    payload: query
+  };
 };
-
 
 export const restQuery = () => {
-	return {type: actionTypes.REST_QUERY}
+  return { type: actionTypes.REST_QUERY };
 };
 
 export const setMsgLoading = () => {
-	return {type: actionTypes.SET_MSG_LOADING}
+  return { type: actionTypes.SET_MSG_LOADING };
 };
 
 export const setChannelLoading = () => {
-	return {type: actionTypes.SET_CH_LOADING}
+  return { type: actionTypes.SET_CH_LOADING };
 };
-
