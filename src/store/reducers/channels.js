@@ -32,10 +32,20 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.GET_CHANNEL_MSGS:
+      let isTime = action.ts
+      
+      // at the first run fetch all the msgs.
+      let msgs = action.payload
+
+      // when a timestamp(ts) passed, fetch only msgs
+      // after the ts and append it to the prev msgs
+      if (isTime) {
+        msgs = state.chObjMsgs.concat(action.payload)
+      }
       return {
         ...state,
-        chObjMsgs: action.payload,
-        filterChObjMsgs: action.payload.filter(msg => {
+        chObjMsgs: msgs,
+        filterChObjMsgs: msgs.filter(msg => {
           return `${msg.message}`.toLowerCase().includes(state.query);
         }),
         msgLoading: false

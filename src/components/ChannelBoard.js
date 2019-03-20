@@ -9,10 +9,24 @@ import { ClipLoader } from "react-spinners";
 
 // Components
 import SearchBar from "./SearchBar";
-import Sound from "react-sound";
-import soundFile from "../assets/openended.mp3";
 
-const formatAMPM = date => {
+import Sound from 'react-sound';
+import soundFile from '../assets/openended.mp3';
+import { HashLoader } from 'react-spinners'
+
+// Utility functions 
+Array.prototype.getRandom = function () {
+  return this[Math.floor(Math.random()*this.length)];
+};
+
+const override = {
+    marginTop: "25%",
+    marginLeft: "45%",
+};
+
+const colors = ["#E9A829", "#DC1B50", "#2FBEEE", "#29AD72"]
+
+const formatAMPM = (date) => {
   let hours = date.getHours();
   let minutes = date.getMinutes();
   let ampm = hours >= 12 ? "pm" : "am";
@@ -33,99 +47,116 @@ const formatTimeS = ts => {
 };
 
 class ChannelBoard extends Component {
+
   state = {
-    message: "",
-    played: false,
-    loading: true
-  };
+		message: "",
+		played: false,
+	} 
 
-  async componentDidMount() {
-    let currentChID = this.props.match.params.channelID;
-    console.log(
-      "componentDidMount => ChannelBoard => currentChID: ",
-      currentChID
-    );
-    this.checkForMsgsInterval = setInterval(
-      () => this.props.getChannelMsgs(currentChID),
-      3000
-    );
+	async componentDidMount() {
+		let currentChID = this.props.match.params.channelID;
+		console.log("componentDidMount => ChannelBoard")
 
-    this.props.getChannelInfo(currentChID);
 
-    console.log(this.props.chInfo);
-  }
+		let msgs = this.props.chObjMsgs
+		let last = msgs[msgs.length - 1]
 
-  componentDidUpdate(prevProps, prevState) {
-    let currentChID = this.props.match.params.channelID;
+		await this.props.getChannelMsgs(currentChID)
+		
 
-    if (prevProps.match.params.channelID !== currentChID) {
-      this.props.setMsgLoading();
+		this.checkForMsgsInterval = setInterval(
+			() => {
+				let msgs = this.props.chObjMsgs
+				let lastMsg = msgs[msgs.length - 1]
+				this.props.getChannelMsgs(currentChID, lastMsg.timestamp)
+			},
+			3000)
 
-      clearInterval(this.checkForMsgsInterval);
-      this.props.getChannelMsgs(currentChID);
-      this.checkForMsgsInterval = setInterval(
-        () => this.props.getChannelMsgs(currentChID),
-        3000
-      );
 
-      this.props.restQuery();
-    }
+		this.props.getChannelInfo(currentChID)
+	}
 
-    if (prevProps.chObjMsgs && this.props.chObjMsgs) {
-      if (prevProps.chObjMsgs.length !== this.props.chObjMsgs.length) {
-        this.setState({ played: true });
-      }
-    }
-  }
 
-  componentWillMount() {
-    clearInterval(this.checkForMsgsInterval);
-  }
+componentDidUpdate(prevProps, prevState) {
+		let currentChID = this.props.match.params.channelID;
 
-  textChangeHandler = event => {
-    this.setState({ message: event.target.value });
-  };
 
-  submitMsg = event => {
-    let currentChID = this.props.match.params.channelID;
-    event.preventDefault();
-    console.log("zerodebug => submitMsg: ", this.state.message);
-    console.log("zerodebug => this.currentChID: ", this.currentChID);
-    let msgObj = { message: this.state.message };
-    this.props.postMsg(msgObj, currentChID);
-    this.setState({ message: "" });
-  };
+		console.log("componentDidUpdate => ChannelBoard")
 
-  sound = () => {
-    return (
-      <Sound
-        url={soundFile}
-        playStatus={Sound.status.PLAYING}
-        autoLoad={true}
-        autoPlay={true}
-        onError={(errorCode, description) => {
-          console.log("sound error: ", description);
-        }}
-        onFinishedPlaying={this.togglePlay}
-      />
-    );
-  };
 
-  togglePlay = () => this.setState({ played: false });
+		// when tapping to different channels 
+		if (prevProps.match.params.channelID !== currentChID) {
+			
+			this.props.setMsgLoading()
+
+			clearInterval(this.checkForMsgsInterval)
+
+			this.props.getChannelMsgs(currentChID)
+		
+
+			this.checkForMsgsInterval = setInterval(
+				() => this.props.getChannelMsgs(currentChID, this.props.chObjMsgs[this.props.chObjMsgs.length-1].timestamp),
+				3000)
+
+
+			this.props.getChannelInfo(currentChID)
+			this.props.restQuery()
+		}
+
+		// Sound related 
+		if (prevProps.chObjMsgs && this.props.chObjMsgs) {
+			if (prevProps.chObjMsgs.length !== this.props.chObjMsgs.length) {
+				this.setState({played: true })
+			}
+		}
+	}
+
+componentWillMount() {
+		clearInterval(this.checkForMsgsInterval)
+	}
+
+	textChangeHandler = event => {
+		this.setState({ message: event.target.value });
+	}
+
+	submitMsg = (event) => {
+		let currentChID = this.props.match.params.channelID;
+		event.preventDefault();
+		console.log("zerodebug => submitMsg: ", this.state.message)
+		console.log("zerodebug => this.currentChID: ", this.currentChID)
+		let msgObj = {message: this.state.message}
+		this.props.postMsg(msgObj, currentChID)
+		this.setState({message: ""})
+	}
+
+	sound = () => {
+		return (
+			<Sound 
+				url= {soundFile}
+				playStatus= {Sound.status.PLAYING}
+				autoLoad= {true}
+				autoPlay = {true}
+				onError = {(errorCode, description) => {
+					console.log("sound error: ", description)}
+				}
+				onFinishedPlaying = {this.togglePlay} 
+			/>
+		);
+	}
+
+	togglePlay = () => this.setState({played: false})
+
 
   render() {
     let msgs = (
-      <div className="content-board text-center mt-5">
-        <div
-          class="spinner-grow"
-          style={{
-            width: "10rem",
-            height: "10rem",
-            color: "#f1f1f1"
-          }}
-          role="status"
-        />
-      </div>
+     <div className = "content-board text-center mt-5">
+						<HashLoader
+						  css={override}
+				          sizeUnit={"px"}
+				          size={150}
+				          color={colors.getRandom()}
+				        />
+					</div>
     );
 
     let chObjMsgs = this.props.filterChObjMsgs;
@@ -170,7 +201,6 @@ class ChannelBoard extends Component {
                   </span>
                 </span>
               )}
-            </span>
 
             {/* Display user msg & the msg's time in the chat */}
             <div
@@ -301,15 +331,16 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    getChannelMsgs: chID => dispatch(actionCreators.getChannelMsgs(chID)),
-    postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
-    getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
-    filterMsgs: q => dispatch(actionCreators.filterMsgs(q)),
-    restQuery: () => dispatch(actionCreators.restQuery()),
-    setMsgLoading: () => dispatch(actionCreators.setMsgLoading())
-  };
-};
+	return {
+		getChannelMsgs: (chID, time) => dispatch(actionCreators.getChannelMsgs(chID, time)),
+		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
+		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
+		filterMsgs: (q) => dispatch(actionCreators.filterMsgs(q)),
+		restQuery: () => dispatch(actionCreators.restQuery()),
+		setMsgLoading: () => dispatch(actionCreators.setMsgLoading()),
+	};
+}
+
 
 export default connect(
   mapStateToProps,
