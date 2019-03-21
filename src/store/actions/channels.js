@@ -29,26 +29,25 @@ export const getAllChannels = () => {
 };
 
 export const getChannelMsgs = (chID, time = "") => {
-	console.log(chID)
+  console.log(chID);
 
-	return async dispatch => {
-		try {
-			console.log("getChannelMsgs => ttime: ", time, chID);
-			let response = await instance.get(`/channels/${chID}/?latest=${time}`);
-			let msgs = response.data;
+  return async dispatch => {
+    try {
+      console.log("getChannelMsgs => ttime: ", time, chID);
+      let response = await instance.get(`/channels/${chID}/?latest=${time}`);
+      let msgs = response.data;
 
-			console.log("getChannelMsgs => channel msgs: ", msgs)
-			dispatch({
-				type: actionTypes.GET_CHANNEL_MSGS,
-				payload: msgs,
-				ts: time,
-			})
-
-		} catch (error) {
-			dispatch(setErrors(error))
-			console.error(error.response.data);
-		}
-	}
+      console.log("getChannelMsgs => channel msgs: ", msgs);
+      dispatch({
+        type: actionTypes.GET_CHANNEL_MSGS,
+        payload: msgs,
+        ts: time
+      });
+    } catch (error) {
+      dispatch(setErrors(error));
+      console.error(error.response.data);
+    }
+  };
 };
 
 export const getChannelInfo = chID => {
@@ -79,7 +78,7 @@ export const postChannel = (newCh, history) => {
       let postedChID = newChObj.id;
       history.push(`/channels/${postedChID}/`);
     } catch (error) {
-      dispatch(setErrors(error));
+      dispatch(setErrors(error.response.data));
       console.error(error.response.data);
     }
   };
