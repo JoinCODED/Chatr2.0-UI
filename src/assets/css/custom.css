@@ -1,0 +1,106 @@
+.divulmessage {
+  background: #eeefea;
+}
+
+li.limessage {
+  list-style: none;
+  background: #fff;
+  border-radius: 50px 50px 50px 50px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 40px;
+}
+
+li.limessage:after {
+  content: " ";
+  position: absolute;
+  width: 2;
+  height: 0;
+  left: -10px;
+  right: auto;
+  top: 15px;
+  bottom: auto;
+  border: 12px solid;
+  border-color: #fff #fff transparent transparent;
+  ms-transform: skewY(30deg);
+  -webkit-transform: skewY(30deg);
+  transform: skewY(30deg);
+}
+ul.ulmessage {
+  padding-top: 20px;
+}
+.spanmessage {
+  border: 1px solid #00edcf;
+  padding: 10px;
+  border-radius: 100px;
+  background: #00edcf;
+}
+
+.inputmessage {
+  padding: 10px;
+  border-radius: 50px;
+  border: 1px solid #e7e7e7;
+  /* padding-right: 0px; */
+}
+
+.divform {
+  padding: 25px;
+  margin-left: 20%;
+  margin-top: 10%;
+}
+
+button.btn.btn-success {
+  margin-left: 20px;
+  border-radius: 100px;
+  margin-bottom: 5px;
+}
+
+.divulmessage {
+  background: azure;
+  background-image: url(https://wallpaper.wiki/wp-content/uploads/2017/06/Wallpaper-Dark-Blue-Pattern-1920x1080.jpg);
+  width: 100%;
+}
+
+.content-wrapper {
+  padding: 0;
+}
+
+.limessage1 {
+  float: right;
+  list-style: none;
+  background: #00edcf;
+  border-radius: 50px 50px 50px 50px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 65%;
+  margin-right: 20px;
+}
+.spanmessage1 {
+  float: right;
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 100px;
+  background: #fff;
+}
+
+li.limessage1:after {
+  content: " ";
+  position: absolute;
+  width: 2;
+  height: 0;
+  left: 95%;
+  right: auto;
+  top: 15px;
+  bottom: auto;
+  border: 12px solid;
+  border-color: #00eecf #00eecf transparent transparent;
+  ms-transform: skewY(30deg);
+  -webkit-transform: skewY(30deg);
+  transform: skewY(30deg);
+  transform: scale(-1, 1);
+}
+.divuser {
+  margin-right: 20px;
+}

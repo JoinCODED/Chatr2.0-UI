@@ -38,15 +38,23 @@ class Messages extends Component {
     if (this.props.channel.length !== 0) {
       let messeges = this.props.channel
         .filter(msg => msg.username)
-        .map(message => (
-          <p>
-            {message.username}: {message.message}
-          </p>
-        ));
+        .map(message =>
+          this.props.user.username === message.username ? (
+            <div className="divuser col-12">
+              <span className="  spanmessage1">{message.username}</span>
+              <li className=" col-3 limessage1">{message.message}</li>
+            </div>
+          ) : (
+            <div>
+              <span className="spanmessage">{message.username}</span>
+              <li className="limessage col-3">{message.message}</li>
+            </div>
+          )
+        );
       return (
         <div className="channel">
-          <div>
-            <ul>{messeges}</ul>
+          <div className="divulmessage">
+            <ul className="ulmessage">{messeges}</ul>
             <SendMessageForm channelID={this.props.match.params.channelID} />
           </div>
           {/* <ChannelNavLink /> */}
@@ -60,7 +68,8 @@ class Messages extends Component {
 
 const mapStateToProps = state => {
   return {
-    channel: state.channel.messages
+    channel: state.channel.messages,
+    user: state.auth.user
   };
 };
 const mapDispatchToProps = dispatch => {

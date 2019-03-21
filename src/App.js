@@ -3,9 +3,9 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
 
-
 // Scripts
 import main from "./assets/js/main";
+import "./assets/css/custom.css";
 
 // Components
 import NavBar from "./components/Navigation/NavBar";
@@ -44,7 +44,7 @@ class App extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken()),
+    checkForExpiredToken: () => dispatch(actionCreators.checkForExpiredToken())
   };
 };
 
@@ -54,4 +54,3 @@ export default withRouter(
     mapDispatchToProps
   )(App)
 );
-
