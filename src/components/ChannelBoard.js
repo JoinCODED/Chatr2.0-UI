@@ -51,7 +51,7 @@ const formatTimeS = ts => {
 class ChannelBoard extends Component {
 	state = {
 		message: "",
-		played: false
+		played: false,
 	};
 
 	async componentDidMount() {
@@ -92,19 +92,22 @@ class ChannelBoard extends Component {
 
 		// when tapping to different channels
 		if (prevProps.match.params.channelID !== currentChID) {
+			console.log("prevProps.match.params.channelID !== currentChID")
 			this.props.setMsgLoading();
-
+			console.log("this.checkForMsgsInterval: ", this.checkForMsgsInterval)
 			clearInterval(this.checkForMsgsInterval);
-
+			console.log("this.checkForMsgsInterval: ", this.checkForMsgsInterval)
 			await this.props.getChannelMsgs(currentChID);
 
 			this.checkForMsgsInterval = setInterval(
-				() =>
+				() => {
+					let msgs = this.props.chObjMsgs;
+					let lastMsg = msgs[msgs.length - 1];
 					this.props.getChannelMsgs(
 						currentChID,
-						this.props.chObjMsgs[this.props.chObjMsgs.length - 1]
-							.timestamp
-					),
+						lastMsg.timestamp
+					)
+				},
 				3000
 			);
 
@@ -115,7 +118,8 @@ class ChannelBoard extends Component {
 		}	
 	}
 
-	componentWillMount() {
+	componentWillUnmount() {
+		console.log("componentWillUnmount")
 		clearInterval(this.checkForMsgsInterval);
 	}
 
