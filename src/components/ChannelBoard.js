@@ -60,19 +60,37 @@ class ChannelBoard extends Component {
 
 		await this.props.getChannelMsgs(currentChID);
 
-		this.checkForMsgsInterval = setInterval(() => {
+		// when creating a new channel 
+		// this condiotion will prevent undfined behavior 
+		if (this.props.chObjMsgs.length > 0) {
+			this.checkForMsgsInterval = setInterval(() => {
 			let msgs = this.props.chObjMsgs;
 			let lastMsg = msgs[msgs.length - 1];
 			this.props.getChannelMsgs(currentChID, lastMsg.timestamp);
-		}, 3000);
+			},
+			3000);	
+		}
+		
 
 		this.props.getChannelInfo(currentChID);
+
+		if (!this.props.loading) {
+			let elm = document.getElementById("prescroll")
+			elm.scrollIntoView({behavior: "auto"})
+		}
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	async componentDidUpdate(prevProps, prevState) {
 		let currentChID = this.props.match.params.channelID;
 
 		console.log("componentDidUpdate => ChannelBoard");
+
+		// Sound related
+		if (prevProps.chObjMsgs && this.props.chObjMsgs) {
+			if (prevProps.chObjMsgs.length !== this.props.chObjMsgs.length) {
+				this.setState({ played: true });
+			}
+		}
 
 		// when tapping to different channels
 		if (prevProps.match.params.channelID !== currentChID) {
@@ -80,7 +98,7 @@ class ChannelBoard extends Component {
 
 			clearInterval(this.checkForMsgsInterval);
 
-			this.props.getChannelMsgs(currentChID);
+			await this.props.getChannelMsgs(currentChID);
 
 			this.checkForMsgsInterval = setInterval(
 				() =>
@@ -94,14 +112,12 @@ class ChannelBoard extends Component {
 
 			this.props.getChannelInfo(currentChID);
 			this.props.restQuery();
-		}
-
-		// Sound related
-		if (prevProps.chObjMsgs && this.props.chObjMsgs) {
-			if (prevProps.chObjMsgs.length !== this.props.chObjMsgs.length) {
-				this.setState({ played: true });
+			
+			if (!this.props.loading) {
+				let elm = document.getElementById("prescroll")
+				elm.scrollIntoView({behavior: "auto"})
 			}
-		}
+		}	
 	}
 
 	componentWillMount() {
@@ -112,13 +128,18 @@ class ChannelBoard extends Component {
 		this.setState({ message: event.target.value });
 	};
 
+	scroll = () => {
+		let elm = document.getElementById("prescroll")
+		console.log("document => prescroll")
+		elm.scrollIntoView({behavior: "smooth"})
+	}
 	submitMsg = event => {
 		let currentChID = this.props.match.params.channelID;
 		event.preventDefault();
 		console.log("zerodebug => submitMsg: ", this.state.message);
 		console.log("zerodebug => this.currentChID: ", this.currentChID);
 		let msgObj = { message: this.state.message };
-		this.props.postMsg(msgObj, currentChID);
+		this.props.postMsg(msgObj, currentChID, this.scroll);
 		this.setState({ message: "" });
 	};
 
@@ -314,6 +335,7 @@ class ChannelBoard extends Component {
 						style={{ height: "445px", maxHeight: "445px" }}
 					>
 						{msgs}
+						<div id="prescroll"> </div>
 					</div>
 				</div>
 				<div className="col-12">
@@ -363,7 +385,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		getChannelMsgs: (chID, time) =>
 			dispatch(actionCreators.getChannelMsgs(chID, time)),
-		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
+		postMsg: (msg, chID, func) => dispatch(actionCreators.postMsg(msg, chID, func)),
 		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
 		filterMsgs: q => dispatch(actionCreators.filterMsgs(q)),
 		restQuery: () => dispatch(actionCreators.restQuery()),
