@@ -73,6 +73,10 @@ export const postChannel = (newCh, history) => {
         type: actionTypes.POST_CHANNEL,
         payload: newChObj
       });
+      dispatch({
+        type: actionTypes.SET_ERRORS,
+        payload: {}
+      });
 
       // To move to channel board directly after created it
       let postedChID = newChObj.id;

@@ -21,7 +21,6 @@ class ChannelForm extends Component {
   };
 
   render() {
-    console.log("Error =>", this.props.errors);
     const errors = this.props.errors;
     return (
       <div className="row my-4">
