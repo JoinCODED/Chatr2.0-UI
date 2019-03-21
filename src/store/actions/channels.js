@@ -104,7 +104,7 @@ export const postMsg = (msg, chID) => {
         payload: newMsg
       });
 
-      dispatch(getChannelMsgs(chID));
+      
     } catch (error) {
       dispatch(setErrors(error));
       console.error(error.response.data);
