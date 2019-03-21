@@ -85,7 +85,7 @@ export const postChannel = (newCh, history) => {
   };
 };
 
-export const postMsg = (msg, chID, func) => {
+export const postMsg = (msg, chID) => {
   console.log(msg);
   return async dispatch => {
     try {
@@ -101,8 +101,7 @@ export const postMsg = (msg, chID, func) => {
         payload: newMsg
       });
 
-      dispatch(func)
-      // dispatch(getChannelMsgs(chID));
+      
     } catch (error) {
       dispatch(setErrors(error));
       console.error(error.response.data);

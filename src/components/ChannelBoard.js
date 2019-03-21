@@ -74,10 +74,7 @@ class ChannelBoard extends Component {
 
 		this.props.getChannelInfo(currentChID);
 
-		if (!this.props.loading) {
-			let elm = document.getElementById("prescroll")
-			elm.scrollIntoView({behavior: "auto"})
-		}
+		if (!this.props.loading) this.scroll("auto")
 	}
 
 	async componentDidUpdate(prevProps, prevState) {
@@ -89,6 +86,7 @@ class ChannelBoard extends Component {
 		if (prevProps.chObjMsgs && this.props.chObjMsgs) {
 			if (prevProps.chObjMsgs.length !== this.props.chObjMsgs.length) {
 				this.setState({ played: true });
+				if (prevProps.chObjMsgs.length > 0) this.scroll("smooth")
 			}
 		}
 
@@ -113,10 +111,7 @@ class ChannelBoard extends Component {
 			this.props.getChannelInfo(currentChID);
 			this.props.restQuery();
 			
-			if (!this.props.loading) {
-				let elm = document.getElementById("prescroll")
-				elm.scrollIntoView({behavior: "auto"})
-			}
+			if (!this.props.loading) this.scroll("auto")
 		}	
 	}
 
@@ -128,10 +123,9 @@ class ChannelBoard extends Component {
 		this.setState({ message: event.target.value });
 	};
 
-	scroll = () => {
+	scroll = (behavior) => {
 		let elm = document.getElementById("prescroll")
-		console.log("document => prescroll")
-		elm.scrollIntoView({behavior: "smooth"})
+		elm.scrollIntoView({behavior: behavior})
 	}
 	submitMsg = event => {
 		let currentChID = this.props.match.params.channelID;
@@ -139,7 +133,7 @@ class ChannelBoard extends Component {
 		console.log("zerodebug => submitMsg: ", this.state.message);
 		console.log("zerodebug => this.currentChID: ", this.currentChID);
 		let msgObj = { message: this.state.message };
-		this.props.postMsg(msgObj, currentChID, this.scroll);
+		this.props.postMsg(msgObj, currentChID);
 		this.setState({ message: "" });
 	};
 
@@ -385,7 +379,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		getChannelMsgs: (chID, time) =>
 			dispatch(actionCreators.getChannelMsgs(chID, time)),
-		postMsg: (msg, chID, func) => dispatch(actionCreators.postMsg(msg, chID, func)),
+		postMsg: (msg, chID) => dispatch(actionCreators.postMsg(msg, chID)),
 		getChannelInfo: chID => dispatch(actionCreators.getChannelInfo(chID)),
 		filterMsgs: q => dispatch(actionCreators.filterMsgs(q)),
 		restQuery: () => dispatch(actionCreators.restQuery()),
