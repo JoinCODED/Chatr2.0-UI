@@ -23,7 +23,9 @@ class App extends Component {
     this.props.checkForExpiredToken();
     
   }
-
+  componentDidUpdate(prevProps, prevState) {
+    console.log("app => componentDidUpdate")
+  }
   render() {
     let user = this.props.user
     return (
