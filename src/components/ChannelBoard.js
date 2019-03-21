@@ -228,6 +228,8 @@ class ChannelBoard extends Component {
           className="col-5"
           style={{
             borderBottom: "1px solid #e7e7e7",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
             textOverflow: "ellipsis"
           }}
         >
