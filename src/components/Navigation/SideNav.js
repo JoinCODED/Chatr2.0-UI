@@ -45,9 +45,10 @@ class SideNav extends React.Component {
       <ChannelNavLink key={channel.name} channel={channel} />
     ));
 
-    if (!this.props.user) {
-      return null;
-    } else {
+    if (this.props.user) {
+
+
+
       return (
         <div>
           <ul
@@ -90,6 +91,10 @@ class SideNav extends React.Component {
           </ul>
         </div>
       );
+
+    } else {
+      return <div />;
+
     }
   }
 }

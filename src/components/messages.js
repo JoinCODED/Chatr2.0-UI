@@ -32,7 +32,7 @@ class Messages extends Component {
       await this.props.getMessages(this.props.match.params.channelID);
       this.timer = setInterval(
         () => this.props.getMessages(this.props.match.params.channelID),
-        3000
+        5000
       );
       let elm = document.getElementById("scrollDown");
       elm.scrollIntoView({
