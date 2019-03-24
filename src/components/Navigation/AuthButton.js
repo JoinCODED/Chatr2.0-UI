@@ -19,12 +19,16 @@ class AuthButton extends Component {
     let buttons = (
       <li className="nav-item">
         <span className="nav-link">
-          {this.props.user ? <button
-            className="faSignOutAlt"
-            onClick={() => this.props.logout()}>
-            Logout {this.props.user.username}
-          </button> : <div />}
-
+          {this.props.user ? (
+            <button
+              className="faSignOutAlt"
+              onClick={() => this.props.logout()}
+            >
+              Logout {this.props.user.username}
+            </button>
+          ) : (
+            <div />
+          )}
         </span>
       </li>
     );
@@ -59,7 +63,10 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   user: state.auth.user
 });
-export default connect(mapStateToProps, mapDispatchToProps)(AuthButton);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthButton);
 // const mapDispatchToProps = dispatch => ({
 //   logout: () => dispatch(actionCreators.logout())
 // });
