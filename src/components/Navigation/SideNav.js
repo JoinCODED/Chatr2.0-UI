@@ -40,10 +40,15 @@ class SideNav extends React.Component {
 
   render() {
     const { open } = this.state;
+    // const filteredChannels = this.props;
     const channelLinks = this.props.channels.map(channel => (
       <ChannelNavLink key={channel.name} channel={channel} />
     ));
+
     if (this.props.user) {
+
+
+
       return (
         <div>
           <ul
@@ -86,8 +91,10 @@ class SideNav extends React.Component {
           </ul>
         </div>
       );
+
     } else {
       return <div />;
+
     }
   }
 }
@@ -95,7 +102,8 @@ class SideNav extends React.Component {
 const mapStateToProps = state => {
   return {
     channels: state.channels.channels,
-    user: state.auth.user
+    user: state.auth.user,
+    filteredChannels: state.channels.filteredChannels
   };
 };
 
