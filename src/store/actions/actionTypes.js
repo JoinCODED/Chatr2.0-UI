@@ -5,4 +5,5 @@ export const FETCH_ALL_MESSAGES = "FETCH_ALL_MESSAGES";
 export const POST_CHANNEL = "POST_CHANNEL";
 export const POST_MESSAGE = "POST_MESSAGE";
 export const RESET_CHANNEL = "RESET_CHANNEL";
+export const FILTER_CHANNELS = "FILTER_CHANNELS";
 // export const TIMESTAMP = "TIMESTAMP";
