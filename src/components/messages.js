@@ -7,6 +7,7 @@ import SendMessageForm from "../components/SendMessageForm";
 import { connect } from "react-redux";
 
 import * as actionCreators from "../store/actions";
+import Loading from "../Loading";
 
 class Messages extends Component {
   timer = 0;
@@ -61,7 +62,14 @@ class Messages extends Component {
         </div>
       );
     } else {
-      return <h1> loading or no messages </h1>;
+      return (
+        <div class="lds-ring">
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      );
     }
   }
 }
