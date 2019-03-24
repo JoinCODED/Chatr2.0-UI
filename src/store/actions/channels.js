@@ -18,14 +18,12 @@ export const fetchChannels = () => {
   };
 };
 
-// export const filterChannels = query => {
-//     return {
-
-//         type: actionTypes.FETCH_CHANNELS,
-//         payload: query
-
-//     }
-// };
+export const filterChannels = query => {
+  return {
+    type: actionTypes.FETCH_CHANNELS,
+    payload: query
+  };
+};
 
 export const postChannel = (newChannel, closeModal) => {
   return async dispatch => {
