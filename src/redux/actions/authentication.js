@@ -1,16 +1,47 @@
-import jwt_decode from "jwt-decode";
+import decode from "jwt-decode";
 
 import instance from "./instance";
 
-import {} from "./actionTypes";
+import { SET_CURRENT_USER } from "./actionTypes";
 
 import { setErrors } from "./errors";
 
 export const checkForExpiredToken = () => {};
 
-export const login = userData => {};
+const setAuthHeader =token=>{
+    instance.defaults.headers.Authorization=`jwt ${token}`;
+}
 
-export const signup = userData => {};
+export const login = userData => {
+    try {
+        const response = await instance.post(`/login/`,userData);
+        const {token}=response.data;
+        setAuthHeader(token);
+        const user = decode(token)
+        dispatch({
+            type:SET_CURRENT_USER,
+            payload:user
+        })
+        
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const signup = userData => {
+     try {
+    const response = await instance.post(`/signup/`,userData);
+    const {token}=response.data;
+    setAuthHeader(token);
+    const user = decode(token)
+    dispatch({
+        type:SET_CURRENT_USER,
+        payload:user
+    })
+    
+} catch (error) {
+    console.error(error);
+}};
 
 export const logout = () => {};
 
