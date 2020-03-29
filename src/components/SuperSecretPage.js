@@ -6,15 +6,19 @@ const SuperSecretPage = ({ user }) => {
   if (!user) return <Redirect to="/login" />;
 
   return (
-    <div>
-      <h1>this page has all the secrets</h1>
-      <p>now that you're logged in you can see this page</p>
+    <div className="text-center ">
+      <h1
+        className="my-5 text-black"
+        style={{ fontFamily: "Comic Sans MS", fontSize: 100 }}
+      >
+        Welcome {user.username}!
+      </h1>
     </div>
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  user
+const mapStateToProps = state => ({
+  user: state.user.user
 });
 
 export default connect(mapStateToProps)(SuperSecretPage);

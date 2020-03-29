@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Welcome from "./components/Welcome";
 import RegistrationForm from "./components/RegistrationForm";
 import SuperSecretPage from "./components/SuperSecretPage";
+import LoginForm from "./components/LoginForm";
 
 class App extends Component {
   componentDidMount() {
@@ -22,7 +23,8 @@ class App extends Component {
         <NavBar />
         <Switch>
           <Route path="/welcome" component={Welcome} />
-          <Route path="/(login|signup)" component={RegistrationForm} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/signup" component={RegistrationForm} />
           <Route path="/private" component={SuperSecretPage} />
           <Redirect to="/welcome" />
         </Switch>

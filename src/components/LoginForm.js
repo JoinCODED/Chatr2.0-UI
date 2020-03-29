@@ -1,32 +1,33 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actionCreators from "../redux/actions";
-class RegistationForm extends Component {
+import * as actions from "../redux/actions";
+
+class Login extends Component {
   state = {
     username: "",
     password: ""
   };
 
-  changeHandler = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  handleChange = event =>
+    this.setState({ [event.target.name]: event.target.value });
 
-  submitHandler = e => {
-    e.preventDefault();
-    this.props.signup(this.state, this.props.history);
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.login(this.state, this.props.history);
   };
 
   render() {
     if (this.props.user) return <Redirect to="/private" />;
     const { username, password } = this.state;
+
     return (
       <div className="my-6">
         <div className="container-fluid jumbotron bg-transparent my-5 text-center align-ceneter">
           <div className=" col-6 mx-auto my-5">
             <div className="card my-5">
               <div className="card-body">
-                <form onSubmit={this.submitHandler}>
+                <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     <label htmlFor="username">Username</label>
                     <input
@@ -36,7 +37,7 @@ class RegistationForm extends Component {
                       value={username}
                       name="username"
                       placeholder="Username"
-                      onChange={this.changeHandler}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -48,19 +49,22 @@ class RegistationForm extends Component {
                       value={password}
                       name="password"
                       placeholder="Password"
-                      onChange={this.changeHandler}
+                      onChange={this.handleChange}
                     />
                     <p style={{ color: "red" }}>
-                      {this.props.errors ? this.props.errors.username : ""}
+                      {" "}
+                      {this.props.errors
+                        ? this.props.errors.non_field_errors
+                        : ""}
                     </p>
                   </div>
 
                   <button type="submit" className="btn btn-primary">
-                    Signup
+                    Login
                   </button>
                   <br />
-                  <Link to="/login" className="btn btn-link my-2 my-sm-0">
-                    Login With an Existing Account
+                  <Link to="/signup" className="btn btn-link my-2 my-sm-0">
+                    Signup for an account
                   </Link>
                 </form>
               </div>
@@ -81,8 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signup: (userData, history) =>
-      dispatch(actionCreators.signup(userData, history))
+    login: (userData, history) => dispatch(actions.login(userData, history))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(RegistationForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

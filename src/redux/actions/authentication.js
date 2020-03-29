@@ -1,17 +1,95 @@
+import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-import instance from "./instance";
+import { SET_CURRENT_USER, SET_ERRORS } from "./actionTypes";
 
-import {} from "./actionTypes";
+export const checkForExpiredToken = () => {
+  return dispatch => {
+    // Check for token expiration
+    const token = localStorage.getItem("token");
 
-import { setErrors } from "./errors";
+    if (token) {
+      const currentTimeInSeconds = Date.now() / 1000;
 
-export const checkForExpiredToken = () => {};
+      // Decode token and get user info
+      const user = jwt_decode(token);
 
-export const login = userData => {};
+      // Check token expiration
+      if (user.exp >= currentTimeInSeconds) {
+        // Set user
+        dispatch(setCurrentUser(token));
+      } else {
+        return logout();
+      }
+    }
+  };
+};
 
-export const signup = userData => {};
+export const login = (userData, history) => {
+  return async dispatch => {
+    try {
+      const res = await axios.post(
+        "https://api-chatr.herokuapp.com/login/",
+        userData
+      );
+      const user = res.data;
+      dispatch(setCurrentUser(user.token));
+      history.replace("/private");
+    } catch (err) {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      });
+    }
+  };
+};
 
-export const logout = () => {};
+export const signup = (userData, history) => {
+  return async dispatch => {
+    try {
+      const res = await axios.post(
+        "https://api-chatr.herokuapp.com/signup/",
+        userData
+      );
+      const user = res.data;
+      dispatch(setCurrentUser(user.token));
+      history.replace("/private");
+      dispatch({
+        type: SET_ERRORS,
+        payload: null
+      });
+    } catch (err) {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      });
+    }
+  };
+};
 
-const setCurrentUser = token => {};
+const setCurrentUser = token => {
+  return async dispatch => {
+    let user = null;
+    if (token) {
+      localStorage.setItem("token", token);
+      axios.defaults.headers.common.Authorization = `jwt ${token}`;
+      user = jwt_decode(token);
+      //dispatch(fetchAllChannels());
+    } else {
+      localStorage.removeItem("token");
+      delete axios.defaults.headers.common.Authorization;
+    }
+    dispatch({
+      type: SET_CURRENT_USER,
+      payload: user
+    });
+    dispatch({
+      type: SET_ERRORS,
+      payload: null
+    });
+  };
+};
+
+export const logout = () => {
+  return setCurrentUser();
+};
