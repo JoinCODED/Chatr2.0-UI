@@ -15,7 +15,7 @@ class App extends Component {
   componentDidMount() {
     main();
   }
-
+  // commented by tala test1
   render() {
     return (
       <div className="content-wrapper">
