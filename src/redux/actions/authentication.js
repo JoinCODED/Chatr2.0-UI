@@ -41,7 +41,10 @@ export const signup = userData => async dispatch => {
   }
 };
 
-export const logout = () => setCurrentUser();
+export const logout = () => ({
+  type: SET_CURRENT_USER,
+  payload: null
+});
 
 const setCurrentUser = token => ({
   type: SET_CURRENT_USER,
