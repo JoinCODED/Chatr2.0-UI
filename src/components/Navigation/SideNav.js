@@ -16,8 +16,8 @@ class SideNav extends React.Component {
   state = { collapsed: false };
 
   render() {
-    const channelLinks = [{ name: "all" }].map(channel => (
-      <ChannelNavLink key={channel.name} channel={channel} />
+    const channelLinks = this.props.channel.map(channel => (
+      <ChannelNavLink key={channel.title} channel={channel.title} />
     ));
     return (
       <div>
@@ -57,8 +57,11 @@ class SideNav extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ user }) => ({
-  user
-});
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    channel: state.channel.listChannel
+  };
+};
 
 export default connect(mapStateToProps)(SideNav);
