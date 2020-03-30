@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { connect } from "react-redux";
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,15 +21,21 @@ class SideNav extends React.Component {
     ));
     return (
       <div>
-        <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
-          <li className="nav-item" data-toggle="tooltip" data-placement="right">
-            <Link className="nav-link heading" to="/createChannel">
-              <span className="nav-link-text mr-2">Channels</span>
-              <FontAwesomeIcon icon={faPlusCircle} />
-            </Link>
-          </li>
-          {channelLinks}
-        </ul>
+        {this.props.user && (
+          <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
+            <li
+              className="nav-item"
+              data-toggle="tooltip"
+              data-placement="right"
+            >
+              <Link className="nav-link heading" to="/createChannel">
+                <span className="nav-link-text mr-2">Channels</span>
+                <FontAwesomeIcon icon={faPlusCircle} />
+              </Link>
+            </li>
+            {channelLinks}
+          </ul>
+        )}
         <ul className="navbar-nav sidenav-toggler">
           <li className="nav-item">
             <span
@@ -51,5 +57,8 @@ class SideNav extends React.Component {
     );
   }
 }
+const mapStateToProps = ({ user }) => ({
+  user
+});
 
-export default SideNav;
+export default connect(mapStateToProps)(SideNav);

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { login, signup } from "../redux/actions";
 import { connect } from "react-redux";
+import SuperSecretPage from "./SuperSecretPage";
 class RegistationForm extends Component {
   state = {
     username: "",
@@ -21,6 +22,7 @@ class RegistationForm extends Component {
 
   render() {
     const type = this.props.match.url.substring(1);
+    if (this.props.user) return <SuperSecretPage />; // <Redirect to="/" />;  Redirect To User Page
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">
@@ -69,8 +71,9 @@ class RegistationForm extends Component {
     );
   }
 }
+const mapStateToProps = ({ user }) => ({ user });
 const mapDispatchToProps = dispatch => ({
   login: userData => dispatch(login(userData)),
   signup: userData => dispatch(signup(userData))
 });
-export default connect(null, mapDispatchToProps)(RegistationForm);
+export default connect(mapStateToProps, mapDispatchToProps)(RegistationForm);
