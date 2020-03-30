@@ -1,7 +1,10 @@
 import { ADD_CHANNEL } from "../actions/actionTypes";
 
 const initialState = {
-  listChannel: [{ title: "all" }, { title: "CODED" }]
+  listChannel: [
+    { title: "all", messages: ["message1", "msg2", "msg3"] },
+    { title: "CODED", messages: ["message1", "msg2", "msg3"] }
+  ]
 };
 
 const reducer = (state = initialState, action) => {
