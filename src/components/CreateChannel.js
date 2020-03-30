@@ -8,12 +8,15 @@ class CreateChannel extends Component {
   ChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
   submitChannel = event => {
     event.preventDefault();
-    this.props.addChannel(this.state);
+    if (this.state.title) {
+      this.props.addChannel(this.state.title);
+      this.setState({ title: "" });
+    }
   };
   //onSubmit={this.submitChannel}
   render() {
     return (
-      <div>
+      <div className="container">
         <form onSubmit={this.submitChannel}>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
@@ -26,9 +29,16 @@ class CreateChannel extends Component {
               onChange={this.ChangeHandler}
               value={this.state.title}
             />
-          </div>
 
-          <input type="submit" />
+            <button
+              className="btn btn-info"
+              type="button"
+              onClick={this.submitChannel}
+            >
+              + New Channel
+            </button>
+          </div>
+          {/* <input type="submit" onSubmit={this.submitChannel} /> */}
         </form>
       </div>
     );

@@ -10,11 +10,11 @@ const ChannelNavLink = ({ channel }) => (
     className="nav-item"
     data-toggle="tooltip"
     data-placement="right"
-    title={channel.name}
+    title={channel.title}
   >
-    <NavLink className="nav-link" to={`/channels/${channel.name}`}>
+    <NavLink className="nav-link" to={`/channels/${channel.title}`}>
       <FontAwesomeIcon icon={faHashtag} />
-      <span className="nav-link-text"> {channel.name}</span>
+      <span className="nav-link-text"> {channel.title}</span>
     </NavLink>
   </li>
 );

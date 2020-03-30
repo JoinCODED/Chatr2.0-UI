@@ -10,9 +10,10 @@ const reducer = (state = initialState, action) => {
       const newChannel = {
         title: action.payload
       };
+      //   console.log(this.state.listChannel);
       return {
         ...state,
-        list: [newChannel].concat(state.listChannel)
+        listChannel: [newChannel].concat(state.listChannel)
       };
 
     default:
