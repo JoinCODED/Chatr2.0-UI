@@ -15,6 +15,11 @@ class RegistationForm extends Component {
 
   submitHandler = e => {
     e.preventDefault();
+    /*
+     * This code can be simplified and shortened by combining
+     * the two actions into one.
+     * See the authentications.js action file for more details on this.
+     */
     if (this.props.match.url.substring(1) === "login")
       this.props.login(this.state);
     else this.props.signup(this.state);
