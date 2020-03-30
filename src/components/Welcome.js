@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Welcome = () => (
+  
   <header className="masthead d-flex">
     <div className="container text-center my-auto z-1">
       <h1 className="mb-1">WELCOME TO CHATR</h1>
