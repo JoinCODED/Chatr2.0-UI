@@ -37,6 +37,14 @@ const setAuthHeader = token => {
   else delete instance.defaults.headers.Authorization;
 };
 
+/*
+ *
+ * You can combine the login() and signup() actions into a single action
+ * that receives a type.
+ * This way you can avoid a lot of unnecessary logic and repetitive code.
+ *
+ */
+
 export const login = userData => async dispatch => {
   try {
     const response = await instance.post("login/", userData);

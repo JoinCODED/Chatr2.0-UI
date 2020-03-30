@@ -16,7 +16,7 @@ class SideNav extends React.Component {
   state = { collapsed: false };
 
   render() {
-    const channelLinks = this.props.channel.map(channel => (
+    const channelLinks = this.props.channels.map(channel => (
       <ChannelNavLink key={channel.title} channel={channel} />
     ));
     return (
@@ -60,7 +60,7 @@ class SideNav extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    channel: state.channel.listChannel
+    channels: state.channels.listChannel
   };
 };
 
