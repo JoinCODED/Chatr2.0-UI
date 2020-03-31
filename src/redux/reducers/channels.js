@@ -1,9 +1,9 @@
-import { CHANNELS } from "../actions/actionTypes";
+import { GET_CHANNELS } from "../actions/actionTypes";
 
 const initialState = { channels: [] };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHANNELS:
+    case GET_CHANNELS:
       const channels = action.payload;
       return { ...state, channels: channels };
     default:
