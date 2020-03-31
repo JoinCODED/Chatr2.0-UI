@@ -1,25 +1,42 @@
 import React, { Component } from "react";
-
+import { fetchChannelDetail } from "../redux/actions";
 // Components
-// import { getChannel } from "../redux/actions";
+
 import { connect } from "react-redux";
 
 class ChannelDetail extends Component {
+  componentDidMount() {
+    this.props.getChannel(this.props.match.params.channelID);
+  }
+
+  // state = {
+  //   message: ""
+  // };
+  // ChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
+
+  // submitMessage = event => {
+  //   event.preventDefault();
+  //   if (this.state.message) {
+  //     this.props.addMessage(this.state.message);
+  //     this.setState({ message: "" });
+  //   }
+  // };
   render() {
-    const title = this.props.match.params.channelTitle;
+    // const title = this.props.match.params.channelTitle;
     const { channel } = this.props;
-    const channelTitle = channel.filter(channel => channel.title === title);
-    const messages = channelTitle[0].messages.map(msg => (
-      <div className="card" key={msg}>
-        <div className="card-body">{msg}</div>
-      </div>
-    ));
-    //onSubmit={this.submitChannel}
+    console.log(channel);
+    // const channelTitle = channels.filter(channel => channel.title === title);
+    // const messages = channel.map(msg => (
+    //   <div className="card" key={msg.id}>
+    //     <div className="card-body">{msg.id}</div>
+    //   </div>
+    // ));
+    //onSubmit={this.submitMessage}
     return (
       <div className="channel">
         <div>
-          <h3>{channelTitle[0].title}</h3>
-          {messages}
+          {/* <h3>{channelTitle[0].title}</h3> */}
+          {/* {messages} */}
           <form>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
@@ -28,15 +45,15 @@ class ChannelDetail extends Component {
               <input
                 type="text"
                 className="form-control"
-                name="title"
+                name="message"
                 // onChange={this.ChangeHandler}
-                // value={this.state.title}
+                // value={this.state.message}
               />
 
               <button
                 className="btn btn-info"
                 type="button"
-                // onClick={this.submitChannel}
+                // onClick={this.submitMessage}
               >
                 Send
               </button>
@@ -51,16 +68,19 @@ class ChannelDetail extends Component {
 
 const mapStateToProps = state => {
   return {
-    channel: state.channel.listChannel
-
-    // loading: state.authorState.loading
+    channel: state.channelState.messages
   };
 };
 
 // const mapDispatchToProps = dispatch => {
 //   return {
-//     getChannel: channelTitle => dispatch(getChannel(channelTitle))
+//     addMessage: newMesssage => dispatch(addMessage(newMesssage))
 //   };
 // };
+const mapDispatchToProps = dispatch => {
+  return {
+    getChannel: channelID => dispatch(fetchChannelDetail(channelID))
+  };
+};
 // export default ChannelDetail;
-export default connect(mapStateToProps)(ChannelDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelDetail);

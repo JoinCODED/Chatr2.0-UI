@@ -1,45 +1,26 @@
-import { ADD_CHANNEL } from "../actions/actionTypes";
+import { SET_CHANNEL_DETAIL } from "../actions/actionTypes";
 
 const initialState = {
-<<<<<<< HEAD
-  listChannel: [
-    { title: "all", messages: ["message1", "msg2", "msg3"] },
-    { title: "CODED", messages: ["message1", "msg2", "msg3"] }
-  ]
-=======
-  /*
-   *
-   * I'd rename this property to channels.
-   *
-   */
-  listChannel: [{ title: "all" }, { title: "CODED" }]
->>>>>>> 6b0aa0eac71c8dbbbb02480b11c85870d21dfdd7
+  messages: null
 };
-
-/*
- *
- * You have to receives the list of channels from the backend API.
- * So the two cards you have for channels that are in the Done list
- * should be moved back to Doing or Backlog.
- * Look at the Project Description on Warehouse for details on this.
- *
- */
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_CHANNEL:
-      const newChannel = {
-        title: action.payload
-      };
-      /*
-       * Remove unnecessary commented code before merging to master.
-       */
-      //   console.log(this.state.listChannel);
+    case SET_CHANNEL_DETAIL:
       return {
         ...state,
-        listChannel: [newChannel].concat(state.listChannel)
+        messages: action.payload
       };
 
+    // case ADD_BOOK:
+    //   const book = action.payload;
+    //   return {
+    //     ...state,
+    //     author: {
+    //       ...state.author,
+    //       books: [...state.author.books, book]
+    //     }
+    //   };
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { addChannel } from "../redux/actions";
+import { createChannel, setErrors } from "../redux/actions";
 import { connect } from "react-redux";
 class CreateChannel extends Component {
   state = {
@@ -9,7 +9,7 @@ class CreateChannel extends Component {
   submitChannel = event => {
     event.preventDefault();
     if (this.state.title) {
-      this.props.addChannel(this.state.title);
+      this.props.createChannel(this.state.title);
       this.setState({ title: "" });
     }
   };
@@ -18,6 +18,13 @@ class CreateChannel extends Component {
     return (
       <div className="container">
         <form onSubmit={this.submitChannel}>
+          {/* {!!errors.length && (
+            <div className="alert alert-danger" role="alert">
+              {errors.map(error => (
+                <p key={error}>{error}</p>
+              ))}
+            </div>
+          )} */}
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text">Title</span>
@@ -44,9 +51,15 @@ class CreateChannel extends Component {
     );
   }
 }
+// const mapStateToProps = state => {
+//   return {
+//     errors: state.errors
+//   };
+// };
 const mapDispatchToProps = dispatch => {
   return {
-    addChannel: newChannel => dispatch(addChannel(newChannel))
+    createChannel: newChannel => dispatch(createChannel(newChannel)),
+    setErrors: () => dispatch(setErrors())
   };
 };
 

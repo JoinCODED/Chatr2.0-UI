@@ -17,8 +17,9 @@ class SideNav extends React.Component {
 
   render() {
     const channelLinks = this.props.channels.map(channel => (
-      <ChannelNavLink key={channel.title} channel={channel} />
+      <ChannelNavLink key={channel.name} channel={channel} />
     ));
+
     return (
       <div>
         {this.props.user && (
@@ -33,6 +34,7 @@ class SideNav extends React.Component {
                 <FontAwesomeIcon icon={faPlusCircle} />
               </Link>
             </li>
+
             {channelLinks}
           </ul>
         )}
@@ -60,7 +62,7 @@ class SideNav extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    channels: state.channels.listChannel
+    channels: state.channelsState.channels
   };
 };
 
