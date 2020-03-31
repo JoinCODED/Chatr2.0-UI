@@ -28,7 +28,7 @@ class SideNav extends React.Component {
             </Link>
           </li>
           {this.props.user ? (
-            <div style={{ width: "15rem" }}>{channelLinks}</div>
+            <div style={{ width: "240px" }}>{channelLinks}</div>
           ) : (
             ""
           )}
