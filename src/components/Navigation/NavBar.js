@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 // Components
 import SideNav from "./SideNav";
 import AuthButton from "./AuthButton";
@@ -13,6 +13,7 @@ const NavBar = () => (
     <Link className="navbar-brand" to="/welcome">
       Chatr2.0
     </Link>
+
     <button
       className="navbar-toggler navbar-toggler-right"
       type="button"

@@ -27,9 +27,10 @@ export const createChannel = newChannel => async dispatch => {
     });
     // closeModal();
   } catch (err) {
-    dispatch({
-      type: SET_ERRORS,
-      payload: err.response.data
-    });
+    // dispatch({
+    //   type: SET_ERRORS,
+    //   payload: err.response.data
+    // });
+    console.log(err);
   }
 };

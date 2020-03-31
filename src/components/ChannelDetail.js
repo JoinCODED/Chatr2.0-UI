@@ -19,7 +19,7 @@ class ChannelDetail extends Component {
   submitMessage = event => {
     event.preventDefault();
     if (this.state.message) {
-      this.props.sendMessage(this.state.message);
+      this.props.sendMessage(this.props.match.params.channelID, this.state);
       this.setState({ message: "" });
     }
   };
@@ -37,36 +37,32 @@ class ChannelDetail extends Component {
         </div>
       ));
     }
-    //onSubmit={this.submitMessage}
+
     return (
       <div className="channel">
-        <div>
-          {/* <h3>{channelTitle[0].title}</h3> */}
-          {messages}
-          <form onSubmit={this.submitMessage}>
-            <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                {/* <span className="input-group-text">Title</span> */}
-              </div>
-              <input
-                type="text"
-                className="form-control"
-                name="message"
-                onChange={this.ChangeHandler}
-                value={this.state.message}
-              />
-
-              <button
-                className="btn btn-info"
-                type="button"
-                onClick={this.submitMessage}
-              >
-                Send
-              </button>
-            </div>
-            <input type="submit" onSubmit={this.submitChannel} />
-          </form>
+        <div className="scrollbar square scrollbar-lady-lips thin">
+          <div className="force-overflow">{messages}</div>
         </div>
+        <form onSubmit={this.submitMessage}>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend"></div>
+            <input
+              type="text"
+              className="form-control"
+              name="message"
+              onChange={this.ChangeHandler}
+              value={this.state.message}
+            />
+
+            <button
+              className="btn btn-info"
+              type="button"
+              onClick={this.submitMessage}
+            >
+              Send
+            </button>
+          </div>
+        </form>
       </div>
     );
   }
@@ -81,7 +77,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getChannel: channelID => dispatch(fetchChannelDetail(channelID)),
-    sendMessage: (channelID, newMessage) => dispatch(sendMessage)
+    sendMessage: (channelID, newMessage) =>
+      dispatch(sendMessage(channelID, newMessage))
   };
 };
 

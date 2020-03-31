@@ -3,14 +3,14 @@ import { createChannel, setErrors } from "../redux/actions";
 import { connect } from "react-redux";
 class CreateChannel extends Component {
   state = {
-    title: ""
+    name: ""
   };
   ChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
   submitChannel = event => {
     event.preventDefault();
-    if (this.state.title) {
-      this.props.createChannel(this.state.title);
-      this.setState({ title: "" });
+    if (this.state.name) {
+      this.props.createChannel(this.state);
+      this.setState({ name: "" });
     }
   };
   //onSubmit={this.submitChannel}
@@ -18,23 +18,16 @@ class CreateChannel extends Component {
     return (
       <div className="container">
         <form onSubmit={this.submitChannel}>
-          {/* {!!errors.length && (
-            <div className="alert alert-danger" role="alert">
-              {errors.map(error => (
-                <p key={error}>{error}</p>
-              ))}
-            </div>
-          )} */}
           <div className="input-group mb-3">
             <div className="input-group-prepend">
-              <span className="input-group-text">Title</span>
+              <span className="input-group-text">Name</span>
             </div>
             <input
               type="text"
               className="form-control"
-              name="title"
+              name="name"
               onChange={this.ChangeHandler}
-              value={this.state.title}
+              value={this.state.name}
             />
 
             <button

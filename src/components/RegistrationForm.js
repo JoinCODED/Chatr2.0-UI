@@ -27,7 +27,7 @@ class RegistationForm extends Component {
 
   render() {
     const type = this.props.match.url.substring(1);
-    if (this.props.user) return <SuperSecretPage />; // <Redirect to="/" />;  Redirect To User Page
+    if (this.props.user) return <Redirect to="/private" />; // <Redirect to="/" />;  Redirect To User Page
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">

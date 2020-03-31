@@ -16,7 +16,7 @@ export const fetchChannelDetail = channelID => async dispatch => {
 
 export const sendMessage = (channelID, newMessage) => async dispatch => {
   try {
-    const res = await instance.post("channels/${channelID}/send/", newMessage);
+    const res = await instance.post(`channels/${channelID}/send/`, newMessage);
     const message = res.data;
     dispatch({
       type: SEND_MESSAGE,
