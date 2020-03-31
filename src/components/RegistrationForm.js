@@ -26,6 +26,7 @@ class RegistationForm extends Component {
   };
 
   render() {
+    const errors = this.props.errors;
     const type = this.props.match.url.substring(1);
     if (this.props.user) return <Redirect to="/private" />; // <Redirect to="/" />;  Redirect To User Page
     return (
@@ -36,24 +37,33 @@ class RegistationForm extends Component {
               ? "Login to send messages"
               : "Register an account"}
           </h5>
+          {/* {!!this.props.errors.length && (
+            <div className="alert alert-danger" role="alert">
+              {this.props.errors.map(error => (
+                <p key={error}>{error}</p>
+              ))}
+            </div>
+          )} */}
           <form onSubmit={this.submitHandler}>
-            <div className="form-group">
+            <div className="form-group ">
               <input
-                className="form-control"
+                className={`form-control ${errors.username && "is-invalid"}`}
                 type="text"
                 placeholder="Username"
                 name="username"
                 onChange={this.changeHandler}
               />
+              <div className="invalid-feedback">{errors.username}</div>
             </div>
             <div className="form-group">
               <input
-                className="form-control"
+                className={`form-control ${errors.password && "is-invalid"}`}
                 type="password"
                 placeholder="Password"
                 name="password"
                 onChange={this.changeHandler}
               />
+              <div className="invalid-feedback">{errors.password}</div>
             </div>
             <input
               className="btn btn-primary"
@@ -76,9 +86,11 @@ class RegistationForm extends Component {
     );
   }
 }
-const mapStateToProps = ({ user }) => ({ user });
+
+const mapStateToProps = ({ user, errors }) => ({ user, errors });
 const mapDispatchToProps = dispatch => ({
   login: userData => dispatch(login(userData)),
   signup: userData => dispatch(signup(userData))
+  // setErrors: () => dispatch(setErrors())
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RegistationForm);

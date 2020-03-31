@@ -9,9 +9,6 @@ class ChannelDetail extends Component {
     this.props.getChannel(this.props.match.params.channelID);
   }
   componentDidUpdate(preProps) {
-    //prvice props and state
-    // console.log(props);
-    // console.log(this.props);
     if (this.props.match.params.channelID !== preProps.match.params.channelID)
       this.props.getChannel(this.props.match.params.channelID);
   }
@@ -37,8 +34,8 @@ class ChannelDetail extends Component {
     if (channel) console.log(channel);
     if (channel) {
       messages = channel.map(msg => (
-        <div className="card" key={msg.id}>
-          <div className="card-body">
+        <div className="card">
+          <div className="card-body " key={msg.id}>
             {msg.username} : {msg.message}
           </div>
         </div>

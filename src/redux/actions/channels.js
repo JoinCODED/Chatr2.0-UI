@@ -6,7 +6,6 @@ export const fetchChannels = () => async dispatch => {
   try {
     const res = await instance.get("channels/");
     const channels = res.data;
-    // console.log(channels);
     dispatch({ type: SET_CHANNELS, payload: channels });
   } catch (err) {
     console.error(err);

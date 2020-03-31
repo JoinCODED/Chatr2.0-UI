@@ -58,9 +58,12 @@ export const login = userData => async dispatch => {
       type: SET_CURRENT_USER,
       payload: user
     });
+
     dispatch(fetchChannels());
   } catch (error) {
-    console.error(error.setErrors);
+    console.error("some thing is wrong!");
+    console.error(error.response.data);
+    dispatch(setErrors(error.response.data));
   }
 };
 
@@ -77,7 +80,9 @@ export const signup = userData => async dispatch => {
     });
     dispatch(fetchChannels());
   } catch (error) {
-    console.error(error.setErrors);
+    console.error("some thing is wrong!");
+    console.error(error.response.data);
+    dispatch(setErrors(error.response.data));
   }
 };
 
