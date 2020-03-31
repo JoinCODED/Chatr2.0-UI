@@ -11,9 +11,15 @@ import {
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
+import { getChannels } from "./../../redux/actions/channels";
 
 class SideNav extends React.Component {
   state = { collapsed: false };
+
+  componentDidMount() {
+    this.props.getChannels();
+  }
+
   render() {
     const channelLinks = this.props.channels.map(channel => (
       <ChannelNavLink key={channel.name} channel={channel} />
@@ -27,10 +33,8 @@ class SideNav extends React.Component {
               <FontAwesomeIcon icon={faPlusCircle} />
             </Link>
           </li>
-          {this.props.user ? (
+          {this.props.user && (
             <div style={{ width: "240px" }}>{channelLinks}</div>
-          ) : (
-            ""
           )}
         </ul>
         <ul className="navbar-nav sidenav-toggler">
@@ -55,10 +59,16 @@ class SideNav extends React.Component {
   }
 }
 
+const mapDispatxhToProps = dispatch => {
+  return {
+    getChannels: () => dispatch(getChannels())
+  };
+};
+
 const mapStateToProps = state => {
   return {
     user: state.user,
     channels: state.channelsReducer.channels
   };
 };
-export default connect(mapStateToProps, null)(SideNav);
+export default connect(mapStateToProps, mapDispatxhToProps)(SideNav);

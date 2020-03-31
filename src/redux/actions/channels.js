@@ -1,4 +1,4 @@
-import { CHANNELS } from "./actionTypes";
+import { GET_CHANNELS } from "./actionTypes";
 import instance from "./instance";
 
 export const getChannels = () => {
@@ -6,9 +6,8 @@ export const getChannels = () => {
     try {
       const response = await instance.get("channels/");
       const channels = response.data;
-      console.log(channels);
       dispatch({
-        type: CHANNELS,
+        type: GET_CHANNELS,
         payload: channels
       });
     } catch (error) {

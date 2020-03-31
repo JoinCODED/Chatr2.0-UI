@@ -11,33 +11,33 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const AuthButton = ({ user, logout }) => {
-  let buttons = [
-    <li key="loginButton" className="nav-item">
-      <Link to="/login" className="nav-link">
-        <FontAwesomeIcon icon={faSignInAlt} /> Login
-      </Link>
-    </li>,
-    <li key="signupButton" className="nav-item">
-      <Link to="/signup" className="nav-link">
-        <FontAwesomeIcon icon={faUserPlus} /> Signup
-      </Link>
-    </li>
-  ];
-
-  if (user) {
-    buttons = (
-      <>
-        <span className="navbar-text">{user.username}</span>
+  return user ? (
+    <React.Fragment>
+      <span className="navbar-text">{user.username}</span>
+      <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link to="/" className="nav-link" onClick={logout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Logout
           </Link>
         </li>
-      </>
-    );
-  }
-
-  return <ul className="navbar-nav ml-auto">{buttons}</ul>;
+      </ul>
+    </React.Fragment>
+  ) : (
+    <React.Fragment>
+      <ul className="navbar-nav ml-auto">
+        <li key="loginButton" className="nav-item">
+          <Link to="/login" className="nav-link">
+            <FontAwesomeIcon icon={faSignInAlt} /> Login
+          </Link>
+        </li>
+        <li key="signupButton" className="nav-item">
+          <Link to="/signup" className="nav-link">
+            <FontAwesomeIcon icon={faUserPlus} /> Signup
+          </Link>
+        </li>
+      </ul>
+    </React.Fragment>
+  );
 };
 
 const mapDispatchToProps = dispatch => ({

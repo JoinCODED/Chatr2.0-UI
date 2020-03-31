@@ -6,35 +6,30 @@ import { SET_CURRENT_USER, SET_ERRORS } from "./actionTypes";
 import { getChannels } from "./channels";
 
 export const checkForExpiredToken = () => {
-  return dispatch => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const currentTime = Date.now() / 1000;
-      const user = jwt_decode(token);
-      console.log((user.exp - currentTime) / 60);
-      if (user.exp >= currentTime) {
-        setAuthHeader(token);
-        dispatch(setCurrentUser(user));
-        dispatch(getChannels());
-      } else {
-        dispatch(logout());
-      }
-    }
-  };
+  const token = localStorage.getItem("token");
+  if (token) {
+    const user = jwt_decode(token);
+    if (user.exp >= Date.now() / 1000) return setCurrentUser(token);
+  }
+  return setCurrentUser();
 };
 
 export const setAuthHeader = token => {
-  instance.defaults.headers.Authorization = `jwt ${token}`;
+  if (token) {
+    localStorage.setItem("token", token);
+    instance.defaults.headers.Authorization = `jwt ${token}`;
+  } else {
+    delete instance.defaults.headers.Authorization;
+    localStorage.removeItem("token");
+  }
 };
 
 export const login = userData => async dispatch => {
   try {
     const response = await instance.post("login/", userData);
     const { token } = response.data;
-    const user = jwt_decode(token);
-    setAuthHeader(token);
+    dispatch(setCurrentUser(token));
     dispatch(getChannels());
-    dispatch(setCurrentUser(user));
   } catch (error) {
     dispatch({
       type: SET_ERRORS,
@@ -47,9 +42,7 @@ export const signup = userData => async dispatch => {
   try {
     const response = await instance.post("signup/", userData);
     const { token } = response.data;
-    const user = jwt_decode(token);
-    setAuthHeader(token);
-    dispatch(setCurrentUser(user));
+    dispatch(setCurrentUser(token));
   } catch (error) {
     dispatch({
       type: SET_ERRORS,
@@ -58,12 +51,10 @@ export const signup = userData => async dispatch => {
   }
 };
 
-export const logout = () => ({
-  type: SET_CURRENT_USER,
-  payload: null
-});
+export const logout = () => setCurrentUser();
 
-const setCurrentUser = token => ({
-  type: SET_CURRENT_USER,
-  payload: token
-});
+export const setCurrentUser = token => {
+  setAuthHeader(token);
+  const user = token ? jwt_decode(token) : null;
+  return { type: SET_CURRENT_USER, payload: user };
+};
