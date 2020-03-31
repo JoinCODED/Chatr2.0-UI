@@ -5,6 +5,7 @@ import instance from "./instance";
 import { SET_CURRENT_USER } from "./actionTypes";
 
 import { setErrors } from "./errors";
+import { fetchChannels } from "./channels";
 
 export const checkForExpiredToken = () => dispatch => {
   const token = localStorage.getItem("token");
@@ -21,6 +22,7 @@ export const checkForExpiredToken = () => dispatch => {
         type: SET_CURRENT_USER,
         payload: user
       });
+      dispatch(fetchChannels());
     } else {
       dispatch(logout());
     }
@@ -33,7 +35,7 @@ const setLocalToken = token => {
 };
 
 const setAuthHeader = token => {
-  if ({ token }) instance.defaults.headers.Authorization = `jwt ${token}`;
+  if (token) instance.defaults.headers.Authorization = `jwt ${token}`;
   else delete instance.defaults.headers.Authorization;
 };
 
@@ -56,8 +58,9 @@ export const login = userData => async dispatch => {
       type: SET_CURRENT_USER,
       payload: user
     });
+    dispatch(fetchChannels());
   } catch (error) {
-    console.error(error);
+    console.error(error.setErrors);
   }
 };
 
@@ -72,8 +75,9 @@ export const signup = userData => async dispatch => {
       type: SET_CURRENT_USER,
       payload: user
     });
+    dispatch(fetchChannels());
   } catch (error) {
-    console.error(error);
+    console.error(error.setErrors);
   }
 };
 

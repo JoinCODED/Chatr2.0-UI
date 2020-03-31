@@ -12,6 +12,6 @@ const store = createStore(
 );
 
 store.dispatch(checkForExpiredToken());
-store.dispatch(fetchChannels());
+// store.dispatch(fetchChannels());
 
 export default store;
