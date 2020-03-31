@@ -27,7 +27,11 @@ class SideNav extends React.Component {
               <FontAwesomeIcon icon={faPlusCircle} />
             </Link>
           </li>
-          {channelLinks}
+          {this.props.user ? (
+            <div style={{ width: "15rem" }}>{channelLinks}</div>
+          ) : (
+            ""
+          )}
         </ul>
         <ul className="navbar-nav sidenav-toggler">
           <li className="nav-item">
