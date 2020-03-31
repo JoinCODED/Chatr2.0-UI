@@ -14,19 +14,18 @@ export const fetchChannelDetail = channelID => async dispatch => {
   }
 };
 
-// export const sendMessage = (newbook) => async dispatch => {
-//   try {
-//     const res = await instance.post("/api/books/", newbook);
-//     const book = res.data;
-//     dispatch({
-//       type: ADD_BOOK,
-//       payload: book
-//     });
-//     closeModal();
-//   } catch (err) {
-//     dispatch({
-//       type: SET_ERRORS,
-//       payload: err.response.data
-//     });
-//   }
-// };
+export const sendMessage = (channelID, newMessage) => async dispatch => {
+  try {
+    const res = await instance.post("channels/${channelID}/send/", newMessage);
+    const message = res.data;
+    dispatch({
+      type: SEND_MESSAGE,
+      payload: message
+    });
+  } catch (err) {
+    dispatch({
+      type: SET_ERRORS,
+      payload: err.response.data
+    });
+  }
+};

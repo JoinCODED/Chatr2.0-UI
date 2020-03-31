@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchChannelDetail } from "../redux/actions";
+import { fetchChannelDetail, sendMessage } from "../redux/actions";
 // Components
 
 import { connect } from "react-redux";
@@ -9,35 +9,41 @@ class ChannelDetail extends Component {
     this.props.getChannel(this.props.match.params.channelID);
   }
 
-  // state = {
-  //   message: ""
-  // };
-  // ChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
+  state = {
+    username: "",
+    message: ""
+    // channel: [this.props.channel.id]
+  };
+  ChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
 
-  // submitMessage = event => {
-  //   event.preventDefault();
-  //   if (this.state.message) {
-  //     this.props.addMessage(this.state.message);
-  //     this.setState({ message: "" });
-  //   }
-  // };
+  submitMessage = event => {
+    event.preventDefault();
+    if (this.state.message) {
+      this.props.sendMessage(this.state.message);
+      this.setState({ message: "" });
+    }
+  };
   render() {
     // const title = this.props.match.params.channelTitle;
     const { channel } = this.props;
-    console.log(channel);
-    // const channelTitle = channels.filter(channel => channel.title === title);
-    // const messages = channel.map(msg => (
-    //   <div className="card" key={msg.id}>
-    //     <div className="card-body">{msg.id}</div>
-    //   </div>
-    // ));
+    let messages = "";
+    if (channel) console.log(channel);
+    if (channel) {
+      messages = channel.map(msg => (
+        <div className="card" key={msg.id}>
+          <div className="card-body">
+            {msg.username} : {msg.message}
+          </div>
+        </div>
+      ));
+    }
     //onSubmit={this.submitMessage}
     return (
       <div className="channel">
         <div>
           {/* <h3>{channelTitle[0].title}</h3> */}
-          {/* {messages} */}
-          <form>
+          {messages}
+          <form onSubmit={this.submitMessage}>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 {/* <span className="input-group-text">Title</span> */}
@@ -46,19 +52,19 @@ class ChannelDetail extends Component {
                 type="text"
                 className="form-control"
                 name="message"
-                // onChange={this.ChangeHandler}
-                // value={this.state.message}
+                onChange={this.ChangeHandler}
+                value={this.state.message}
               />
 
               <button
                 className="btn btn-info"
                 type="button"
-                // onClick={this.submitMessage}
+                onClick={this.submitMessage}
               >
                 Send
               </button>
             </div>
-            {/* <input type="submit" onSubmit={this.submitChannel} /> */}
+            <input type="submit" onSubmit={this.submitChannel} />
           </form>
         </div>
       </div>
@@ -68,19 +74,15 @@ class ChannelDetail extends Component {
 
 const mapStateToProps = state => {
   return {
-    channel: state.channelState.messages
+    channel: state.channelState.channel
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     addMessage: newMesssage => dispatch(addMessage(newMesssage))
-//   };
-// };
 const mapDispatchToProps = dispatch => {
   return {
-    getChannel: channelID => dispatch(fetchChannelDetail(channelID))
+    getChannel: channelID => dispatch(fetchChannelDetail(channelID)),
+    sendMessage: (channelID, newMessage) => dispatch(sendMessage)
   };
 };
-// export default ChannelDetail;
+
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelDetail);

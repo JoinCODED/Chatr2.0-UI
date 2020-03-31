@@ -1,7 +1,7 @@
-import { SET_CHANNEL_DETAIL } from "../actions/actionTypes";
+import { SET_CHANNEL_DETAIL, SEND_MESSAGE } from "../actions/actionTypes";
 
 const initialState = {
-  messages: null
+  channel: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -9,18 +9,16 @@ const reducer = (state = initialState, action) => {
     case SET_CHANNEL_DETAIL:
       return {
         ...state,
-        messages: action.payload
+        channel: action.payload
       };
 
-    // case ADD_BOOK:
-    //   const book = action.payload;
-    //   return {
-    //     ...state,
-    //     author: {
-    //       ...state.author,
-    //       books: [...state.author.books, book]
-    //     }
-    //   };
+    case SEND_MESSAGE:
+      const message = action.payload;
+      return {
+        ...state,
+        channel: [...state.channel, message]
+      };
+
     default:
       return state;
   }
