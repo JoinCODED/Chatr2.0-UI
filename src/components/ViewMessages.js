@@ -3,47 +3,59 @@ import { connect } from "react-redux";
 import { viewChannel } from "../redux/actions";
 import AddMessage from "./AddMessage";
 class ViewMessages extends Component {
+  state = {
+    channelID: this.props.match.params.channelID
+  };
   componentDidMount() {
-    this.props.viewChannel(this.props.match.params.channelID);
+    this.props.viewChannel(this.state.channelID);
+    this.interval = setInterval(
+      () => this.props.viewChannel(this.state.channelID),
+      5000
+    );
   }
 
-  componentDidUpdate(pastChannel) {
+  componentDidUpdate(prevProps) {
     const channelID = this.props.match.params.channelID;
-    if (pastChannel.match.params.channelID !== channelID) {
+    if (prevProps.match.params.channelID !== channelID) {
       this.props.viewChannel(channelID);
+      clearInterval(this.interval);
+      this.interval = setInterval(
+        () => this.props.viewChannel(channelID),
+        5000
+      );
     }
   }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
   render() {
-    if (this.props.currentChannel) {
-      return (
-        <div>
-          {" "}
-          {this.props.currentChannel.map(message => {
-            return (
-              <div style={{ marginLeft: "5%" }}>
-                <h5>{message.username}:</h5>
-                <p style={{ marginLeft: "10%" }}>{message.message}</p>
-                <br />
-              </div>
-            );
-          })}
-          ;
-          <AddMessage channelID={this.props.match.params.channelID} />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <h1 style={{ marginLeft: "10%" }}> Loading, please wait.</h1>,
-        </div>
-      );
-    }
+    return (
+      <div>
+        {" "}
+        {this.props.messages.map(message => {
+          return (
+            <div
+              class="message-body"
+              key={message}
+              style={{ marginLeft: "5%" }}
+            >
+              <h5>{message.username}:</h5>
+              <p style={{ marginLeft: "10%" }}>{message.message}</p>
+              <br />
+            </div>
+          );
+        })}
+        ;
+        <AddMessage channelID={this.props.match.params.channelID} />
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    currentChannel: state.channelViewReducer.currentChannel
+    messages: state.channelViewReducer
   };
 };
 
