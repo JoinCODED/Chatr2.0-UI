@@ -4,9 +4,11 @@ import { combineReducers } from "redux";
 import userReducer from "./user";
 import errorReducer from "./errors";
 import channelsReducer from "./channels";
+import channelViewReducer from "./viewChannel";
 
 export default combineReducers({
   user: userReducer,
   errors: errorReducer,
-  channelsReducer: channelsReducer
+  channelsReducer: channelsReducer,
+  channelViewReducer: channelViewReducer
 });
