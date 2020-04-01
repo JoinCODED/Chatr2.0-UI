@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import Welcome from "./components/Welcome";
 import RegistrationForm from "./components/RegistrationForm";
 import SuperSecretPage from "./components/SuperSecretPage";
-import viewChannel from "./components/viewChannel";
+import ViewMessages from "./components/ViewMessages";
 
 class App extends Component {
   componentDidMount() {
@@ -25,7 +25,7 @@ class App extends Component {
           <Route path="/welcome" component={Welcome} />
           <Route path="/(login|signup)" component={RegistrationForm} />
           <Route path="/private" component={SuperSecretPage} />
-          <Route path="/channel/:channelID" component={viewChannel} />
+          <Route path="/channel/:channelID" component={ViewMessages} />
           <Redirect to="/welcome" />
         </Switch>
         <Footer />

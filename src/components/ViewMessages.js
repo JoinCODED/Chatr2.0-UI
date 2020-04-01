@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { viewChannel } from "../redux/actions";
 
-class channelDetails extends Component {
+class ViewMessages extends Component {
   componentDidMount() {
     this.props.viewChannel(this.props.match.params.channelID);
     console.log("comp did mount");
@@ -49,4 +49,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(channelDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewMessages);
