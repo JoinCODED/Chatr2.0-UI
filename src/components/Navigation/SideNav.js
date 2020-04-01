@@ -56,7 +56,7 @@ class SideNav extends React.Component {
   }
 }
 
-const mapDispatxhToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     getChannels: () => dispatch(getChannels())
   };
@@ -68,4 +68,4 @@ const mapStateToProps = state => {
     channels: state.channelsReducer.channels
   };
 };
-export default connect(mapStateToProps, mapDispatxhToProps)(SideNav);
+export default connect(mapStateToProps, mapDispatchToProps)(SideNav);
