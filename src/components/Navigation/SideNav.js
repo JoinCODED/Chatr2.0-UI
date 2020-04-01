@@ -1,17 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faPlusCircle
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
 import { getChannels } from "./../../redux/actions/channels";
+import AddChannel from "../AddChannel";
 
 class SideNav extends React.Component {
   state = { collapsed: false };
@@ -27,14 +23,15 @@ class SideNav extends React.Component {
     return (
       <div>
         <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
-          <li className="nav-item" data-toggle="tooltip" data-placement="right">
+          {/* <li className="nav-item" data-toggle="tooltip" data-placement="right">
             <Link className="nav-link heading" to="/createChannel">
               <span className="nav-link-text mr-2">Channels</span>
               <FontAwesomeIcon icon={faPlusCircle} />
             </Link>
-          </li>
+          </li> */}
+          <AddChannel />
           {this.props.user && (
-            <div style={{ width: "240px" }}>{channelLinks}</div>
+            <div style={{ width: "250px" }}>{channelLinks}</div>
           )}
         </ul>
         <ul className="navbar-nav sidenav-toggler">
