@@ -7,6 +7,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case SET_ERRORS:
       const errors = payload;
       return errors;
+      
     default:
       return state;
   }

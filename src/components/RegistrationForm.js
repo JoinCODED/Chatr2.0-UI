@@ -1,10 +1,24 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { registerForm } from "../redux/actions/authentication";
+import { connect } from "react-redux";
+import { resetErrors } from "../redux/actions/errors";
 
 class RegistationForm extends Component {
   state = {
     username: "",
     password: ""
+  };
+
+  componentWillUnmount = () => {
+    this.props.resetErrors();
+  };
+
+  componentDidUpdate = previousProps => {
+    if (
+      this.props.match.url.substring(1) !== previousProps.match.url.substring(1)
+    )
+      this.props.resetErrors();
   };
 
   changeHandler = e => {
@@ -13,11 +27,15 @@ class RegistationForm extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    alert("I don't work yet");
+    const type = this.props.match.url.substring(1);
+
+    this.props.registerForm(this.state, this.props.history, type);
   };
 
   render() {
     const type = this.props.match.url.substring(1);
+    const errors = this.props.errors;
+    console.log(errors);
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">
@@ -29,21 +47,26 @@ class RegistationForm extends Component {
           <form onSubmit={this.submitHandler}>
             <div className="form-group">
               <input
-                className="form-control"
+                className={`form-control ${errors.username && "is-invalid"}`}
                 type="text"
                 placeholder="Username"
                 name="username"
+                value={this.state.username}
                 onChange={this.changeHandler}
               />
+              <div className="invalid-feedback">{errors.username}</div>
             </div>
             <div className="form-group">
               <input
-                className="form-control"
+                className={`form-control ${errors.non_field_errors &&
+                  errors.non_field_errors &&
+                  "is-invalid"}`}
                 type="password"
                 placeholder="Password"
                 name="password"
                 onChange={this.changeHandler}
               />
+              <div className="invalid-feedback">{errors.non_field_errors}</div>
             </div>
             <input
               className="btn btn-primary"
@@ -67,4 +90,17 @@ class RegistationForm extends Component {
   }
 }
 
-export default RegistationForm;
+const mapStateToProps = state => {
+  return {
+    errors: state.errors
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    registerForm: (userData, history, type) =>
+      dispatch(registerForm(userData, history, type)),
+    resetErrors: () => dispatch(resetErrors())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistationForm);
