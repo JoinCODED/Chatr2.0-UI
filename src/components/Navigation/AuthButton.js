@@ -13,7 +13,9 @@ import {
 const AuthButton = ({ user, logout }) => {
   return user ? (
     <React.Fragment>
-      <span className="navbar-text">{user.username}</span>
+      <span className="navbar-text text-capitalize">
+        Welcome, {user.username} !
+      </span>
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link to="/" className="nav-link" onClick={logout}>

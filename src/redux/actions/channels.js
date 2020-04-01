@@ -1,4 +1,4 @@
-import { GET_CHANNELS } from "./actionTypes";
+import { GET_CHANNELS, ADD_CHANNEL } from "./actionTypes";
 import instance from "./instance";
 
 export const getChannels = () => {
@@ -12,6 +12,23 @@ export const getChannels = () => {
       });
     } catch (error) {
       console.error(error);
+    }
+  };
+};
+
+export const addChannel = name => {
+  return async dispatch => {
+    try {
+      const res = await instance.post("channels/create/", name);
+      const newChannel = res.data;
+
+      dispatch({
+        type: ADD_CHANNEL,
+        payload: newChannel
+      });
+    } catch (error) {
+      console.error(error);
+      console.error(error.response.data);
     }
   };
 };
