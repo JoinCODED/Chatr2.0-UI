@@ -7,8 +7,10 @@ const SuperSecretPage = ({ user }) => {
 
   return (
     <div>
-      <h1>this page has all the secrets</h1>
-      <p>now that you're logged in you can see this page</p>
+      <div className="container text-center my-auto z-1">
+        <h1>this page has all the secrets</h1>
+        <p>now that you're logged in you can see this page</p>
+      </div>
     </div>
   );
 };

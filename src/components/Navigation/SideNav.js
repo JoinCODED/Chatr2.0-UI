@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,13 +12,14 @@ import {
 
 // Components
 import ChannelNavLink from "./ChannelNavLink";
+import Loading from "../Loading";
 
 class SideNav extends React.Component {
   state = { collapsed: false };
 
   render() {
-    const channelLinks = [{ name: "all" }].map(channel => (
-      <ChannelNavLink key={channel.name} channel={channel} />
+    const channelLinks = this.props.channels.map(channel => (
+      <ChannelNavLink key={channel.id} channel={channel} />
     ));
     return (
       <div>
@@ -28,7 +30,9 @@ class SideNav extends React.Component {
               <FontAwesomeIcon icon={faPlusCircle} />
             </Link>
           </li>
-          {channelLinks}
+          <div className="overflow-auto">
+            {this.props.loading ? <Loading /> : channelLinks}
+          </div>
         </ul>
         <ul className="navbar-nav sidenav-toggler">
           <li className="nav-item">
@@ -52,4 +56,9 @@ class SideNav extends React.Component {
   }
 }
 
-export default SideNav;
+const mapStateToProps = ({ channels }) => ({
+  channels,
+  loading: !channels.length
+});
+
+export default connect(mapStateToProps)(SideNav);
