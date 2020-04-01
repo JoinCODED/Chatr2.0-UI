@@ -26,6 +26,8 @@ class RegistationForm extends Component {
   };
 
   render() {
+    // Feel free to remove the commented block of code for displaying the errors
+    // if the way you're doing it now works
     const errors = this.props.errors;
     const type = this.props.match.url.substring(1);
     if (this.props.user) return <Redirect to="/private" />; // <Redirect to="/" />;  Redirect To User Page

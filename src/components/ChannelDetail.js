@@ -33,6 +33,7 @@ class ChannelDetail extends Component {
     let messages = "";
     if (channel) console.log(channel);
     if (channel) {
+      // The key should be on the card div, not the card-body div.
       messages = channel.map(msg => (
         <div className="card">
           <div className="card-body " key={msg.id}>
