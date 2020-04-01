@@ -12,9 +12,11 @@ class AddMessage extends Component {
   };
   onSubmit = event => {
     event.preventDefault();
+    this.setState({ message: "OMMO" });
     this.props.addMessage(this.props.channelID, this.state);
+    this.setState({ message: "" });
   };
-
+  //`<p class='hamada'> ${this.state.message}</p>`
   render() {
     return (
       <div style={{ textAlign: "center", position: "relative" }}>
@@ -32,7 +34,7 @@ class AddMessage extends Component {
                   borderColor: "#e30090",
                   borderWidth: "2px",
                   hight: "100px",
-                  width: "65rem",
+                  width: "30rem",
                   marginLeft: "1%",
                   selfAlign: "center"
                 }}
@@ -51,6 +53,8 @@ class AddMessage extends Component {
             >
               <FontAwesomeIcon icon={faPaperPlane} />
             </button>
+            <br></br>
+            <br></br>
           </div>
         </form>
       </div>
