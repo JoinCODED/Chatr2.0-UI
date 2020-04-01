@@ -1,7 +1,8 @@
-import { VIEW_CHANNEL } from "../actions/actionTypes";
+import { VIEW_CHANNEL, ADD_MESSAGE } from "../actions/actionTypes";
 
 const initialState = {
-  currentChannel: null
+  currentChannel: null,
+  messages: []
 };
 
 const channelViewReducer = (state = initialState, action) => {
@@ -11,6 +12,11 @@ const channelViewReducer = (state = initialState, action) => {
       return {
         ...state,
         currentChannel: channel
+      };
+    case ADD_MESSAGE:
+      return {
+        ...state,
+        messages: state.messages.concat(action.payload)
       };
     default:
       return state;
