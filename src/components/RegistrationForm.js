@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { signup, login } from "../redux/actions";
+import signupPic from "../assets/images/signup.png"
+import loginPic from "../assets/images/login.png"
 class RegistationForm extends Component {
   state = {
     username: "",
@@ -12,14 +15,27 @@ class RegistationForm extends Component {
   };
 
   submitHandler = e => {
+    const type = this.props.match.url.substring(1);
     e.preventDefault();
-    alert("I don't work yet");
+
+    if (type === "login") {
+      this.props.login(this.state, this.props.history);
+    } else {
+      this.props.signup(this.state, this.props.history);
+    }
   };
 
   render() {
     const type = this.props.match.url.substring(1);
+
+    if (this.props.user) return <Redirect to="/" />;
+    const errors = this.props.errors;
+
     return (
-      <div className="card col-6 mx-auto p-0 mt-5">
+      <div className="card col-6 mx-auto p-0 mt-5"
+        style={{
+          background: "rgba(255, 255, 255, 0.71)",
+        }}>
         <div className="card-body">
           <h5 className="card-title mb-4">
             {type === "login"
@@ -27,6 +43,13 @@ class RegistationForm extends Component {
               : "Register an account"}
           </h5>
           <form onSubmit={this.submitHandler}>
+            {!!errors.length && (
+              <div className="alert alert-danger" role="alert">
+                {errors.map(error => (
+                  <p key={error}>{error}</p>
+                ))}
+              </div>
+            )}
             <div className="form-group">
               <input
                 className="form-control"
@@ -45,11 +68,13 @@ class RegistationForm extends Component {
                 onChange={this.changeHandler}
               />
             </div>
-            <input
-              className="btn btn-primary"
+            <button id="btnlog"
               type="submit"
-              value={type.replace(/^\w/, c => c.toUpperCase())}
-            />
+              className=" btn "
+              style={{ width: "30%", height: "30%" }}>
+              {type === "login" ? <img type="submit" src={loginPic} style={{ width: "100%", height: "100%" }} />
+                : <img src={signupPic} style={{ width: "100%", height: "100%" }} />}
+            </button>
           </form>
         </div>
         <div className="card-footer">
@@ -67,4 +92,18 @@ class RegistationForm extends Component {
   }
 }
 
-export default RegistationForm;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    errors: state.errors.errors
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    signup: (userData, history) => dispatch(signup(userData, history)),
+    login: (userData, history) => dispatch(login(userData, history))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistationForm);
