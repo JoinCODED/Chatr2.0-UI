@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+
+import { connect } from "react-redux";
+import { login, signup, setErrors } from "../redux/actions";
 
 class RegistationForm extends Component {
   state = {
     username: "",
     password: ""
+  };
+
+  componentWillUnmount = () => {
+    if (this.props.errors.length) this.props.setErrors();
   };
 
   changeHandler = e => {
@@ -13,13 +20,18 @@ class RegistationForm extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    alert("I don't work yet");
+    const type = this.props.match.url.substring(1);
+    type === "signup"
+      ? this.props.signup(this.state)
+      : this.props.login(this.state);
   };
 
   render() {
     const type = this.props.match.url.substring(1);
+    const { errors } = this.props;
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
+        {this.props.user ? <Redirect to="/secret" /> : <></>}
         <div className="card-body">
           <h5 className="card-title mb-4">
             {type === "login"
@@ -27,6 +39,13 @@ class RegistationForm extends Component {
               : "Register an account"}
           </h5>
           <form onSubmit={this.submitHandler}>
+            {!!errors.length && (
+              <div className="alert alert-danger" role="alert">
+                {errors.map(error => (
+                  <p key={error}>{error}</p>
+                ))}
+              </div>
+            )}
             <div className="form-group">
               <input
                 className="form-control"
@@ -67,4 +86,19 @@ class RegistationForm extends Component {
   }
 }
 
-export default RegistationForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    login: userData => dispatch(login(userData)),
+    signup: userData => dispatch(signup(userData)),
+    setErrors: () => dispatch(setErrors())
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    errors: state.errors.errors,
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistationForm);
